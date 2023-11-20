@@ -10,8 +10,10 @@
 /.idea/gradle.xml
 /.idea/misc.xml
 /.idea/vcs.xml
-.DS_Store
+/.idea/render.experimental.xml
+app/build
 /build
+.DS_Store
 /captures
 .externalNativeBuild
 .cxx
