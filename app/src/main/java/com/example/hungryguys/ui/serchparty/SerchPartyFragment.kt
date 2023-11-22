@@ -13,6 +13,7 @@ class SerchPartyFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val binding = FragmentSerchPartyBinding.inflate(inflater, container, false)
+        binding.partyrecycler.adapter = SerchPartyAdapter()
 
         return binding.root
     }
