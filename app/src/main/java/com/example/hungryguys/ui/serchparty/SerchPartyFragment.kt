@@ -13,7 +13,16 @@ class SerchPartyFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val binding = FragmentSerchPartyBinding.inflate(inflater, container, false)
-        binding.partyrecycler.adapter = SerchPartyAdapter()
+        val dbdata: MutableList<MutableMap<String, String>> = mutableListOf()
+        val data1 = mutableMapOf<String, String>()
+        data1["text"] = "테스트1"
+        dbdata.add(data1)
+
+        val data2 = mutableMapOf<String, String>()
+        data2["text"] = "테스트2"
+        dbdata.add(data2)
+
+        binding.partyrecycler.adapter = SerchPartyAdapter(dbdata)
 
         return binding.root
     }

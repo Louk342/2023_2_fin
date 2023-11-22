@@ -1,26 +1,32 @@
 package com.example.hungryguys.ui.serchparty
 
-import android.view.View
+import android.view.LayoutInflater
+
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.hungryguys.databinding.SerchPartyItemBinding
 
-class SerchPartyAdapter: RecyclerView.Adapter<SerchPartyAdapter.SerchPartyHolder>() {
+class SerchPartyAdapter(private val data: MutableList<MutableMap<String, String>>) :
+    RecyclerView.Adapter<SerchPartyAdapter.SerchPartyHolder>() {
 
-    class SerchPartyHolder(view: View): RecyclerView.ViewHolder(view) {
-
+    class SerchPartyHolder(val binding: SerchPartyItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        // 여기에는 이벤트 처리 들어갈꺼
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SerchPartyHolder {
-        TODO("Not yet implemented")
+        val binding =
+            SerchPartyItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return SerchPartyHolder(binding)
     }
 
     override fun getItemCount(): Int {
-        TODO("Not yet implemented")
+        return data.size
     }
 
     override fun onBindViewHolder(holder: SerchPartyHolder, position: Int) {
-        TODO("Not yet implemented")
+        val text = data[position]["text"]!!
+
+        holder.binding.partyname.text = text
     }
-
-
 }
