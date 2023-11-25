@@ -8,6 +8,6 @@
     <string name="action_settings">Settings</string>
 
     <string name="menu_home">홈 화면</string>
-    <string name="menu_searchparty">파티 찾기</string>
+    <string name="menu_searchparty">밥 친구 구하는 중</string>
     <string name="search_hint">맛집을 검색하세요!</string>
 </resources>

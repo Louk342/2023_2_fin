@@ -23,6 +23,7 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:editTextColor">@color/black</item>
+        <item name="android:textColor">@color/black</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
         <!-- 드로어 레이아웃 펼치기 버튼 색상 변경-->
     </style>

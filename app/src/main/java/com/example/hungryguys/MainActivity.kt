@@ -1,21 +1,22 @@
 package com.example.hungryguys
 
 import android.os.Bundle
+import android.view.View
 import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.NavController
 import com.example.hungryguys.databinding.ActivityMainBinding
+import com.example.hungryguys.databinding.NavHeaderMainBinding
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
-    lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,13 +25,17 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setSupportActionBar(binding.appBarMain.toolbar)
+        val actionbar = supportActionBar
+        actionbar?.setDisplayShowTitleEnabled(false)
 
         binding.appBarMain.fab.setOnClickListener { view ->
             //리뷰추가 엑티비티 생성 후 연동 필요
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show()
         }
-        val drawerLayout: DrawerLayout = binding.drawerLayout
-        val navView: NavigationView = binding.navView
+        val drawerLayout = binding.drawerLayout
+        val navView = binding.navView
+        // 내비게이션 해더부분 바인딩
+        val navHeaderBinding = NavHeaderMainBinding.bind(navView.getHeaderView(0))
 
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         appBarConfiguration = AppBarConfiguration(
@@ -38,9 +43,26 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_home, R.id.nav_searchparty
             ), drawerLayout
         )
+
+        navController.addOnDestinationChangedListener(navControllerEvent)
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
     }
+
+
+    // 네비게이션뷰 화면전환 이벤트
+    private val navControllerEvent = NavController.OnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.nav_home -> {
+                    binding.appBarMain.serchViewLayout.visibility = View.VISIBLE
+                    binding.appBarMain.actionBarTitle.visibility = View.GONE
+                }
+                R.id.nav_searchparty -> {
+                    binding.appBarMain.serchViewLayout.visibility = View.GONE
+                    binding.appBarMain.actionBarTitle.visibility = View.VISIBLE
+                }
+            }
+        }
 
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
