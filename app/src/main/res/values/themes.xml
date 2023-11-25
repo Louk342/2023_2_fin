@@ -22,6 +22,9 @@
     <style name="Theme.HungryGuys.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:editTextColor">@color/black</item>
+        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+        <!-- 드로어 레이아웃 펼치기 버튼 색상 변경-->
     </style>
 
     <style name="Theme.HungryGuys.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
@@ -31,5 +34,9 @@
     <style name="ThemeOverlay.HungryGuys.FullscreenContainer" parent="">
         <item name="fullscreenBackgroundColor">@color/light_blue_600</item>
         <item name="fullscreenTextColor">@color/light_blue_A200</item>
+    </style>
+
+    <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="color">@color/black</item>
     </style>
 </resources>

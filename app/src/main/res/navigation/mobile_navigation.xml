@@ -8,11 +8,9 @@
     <fragment
         android:id="@+id/nav_home"
         android:name="com.example.hungryguys.ui.home.HomeFragment"
-        android:label="@string/menu_home"
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/nav_searchparty"
         android:name="com.example.hungryguys.ui.serchparty.SerchPartyFragment"
-        android:label="@string/menu_searchparty"
         tools:layout="@layout/fragment_serch_party" />
 </navigation>

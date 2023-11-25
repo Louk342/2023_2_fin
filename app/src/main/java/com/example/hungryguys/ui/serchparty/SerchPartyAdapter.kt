@@ -15,8 +15,7 @@ class SerchPartyAdapter(private val data: MutableList<MutableMap<String, String>
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SerchPartyHolder {
-        val binding =
-            SerchPartyItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = SerchPartyItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return SerchPartyHolder(binding)
     }
 
