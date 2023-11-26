@@ -6,19 +6,18 @@
         <item name="colorPrimaryVariant">@color/purple_700</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary 컬러 -->
-        <item name="colorSecondary">@color/teal_200</item>
+        <item name="colorSecondary">@color/light_pink</item>
         <item name="colorSecondaryVariant">@color/teal_700</item>
         <item name="colorOnSecondary">@color/black</item>
-        <!-- 상태바 색상 -->
+        <!-- 상태바 색상(글로벌) -->
         <item name="android:statusBarColor">@color/white</item>
         <item name="android:windowLightStatusBar">true</item>
+        <!--하단 내비게이션바(글로벌) -->
+        <item name="android:navigationBarColor">@color/white</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="q">true</item>
     </style>
 
-    <style name="Splash" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
-
+    <!--거의 기본으로 가져갈 테마-->
     <style name="Theme.HungryGuys.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -26,6 +25,16 @@
         <item name="android:textColor">@color/black</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
         <!-- 드로어 레이아웃 펼치기 버튼 색상 변경-->
+
+        <!--상단 상태바 투명하단바 투명화 옵션-->
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">true</item>
+
+        <!--하단 내비게이션바 투명화 옵션-->
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="q">true</item>
+        <item name="android:enforceNavigationBarContrast" tools:targetApi="q">false</item>
+        <item name="android:enforceStatusBarContrast" tools:targetApi="q">false</item>
     </style>
 
     <style name="Theme.HungryGuys.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.example.hungryguys.R
 import com.example.hungryguys.databinding.ActivityTutorialBinding
+import com.example.hungryguys.utills.ActivityUtills
 
 class TutorialActivity : AppCompatActivity() {
 
@@ -18,6 +19,12 @@ class TutorialActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityTutorialBinding.inflate(layoutInflater)
+
+        // 상단 상테바, 하단 내비게이션 투명화
+        val activityUtills = ActivityUtills(this)
+        activityUtills.setStatusBarTransparent(binding.layoutDotsView)
+
+        binding.layoutDots
 
         layouts = arrayOf(
             R.layout.tutorial_page1,
