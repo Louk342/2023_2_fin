@@ -23,7 +23,6 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         setSupportActionBar(binding.appBarMain.toolbar)
         val actionbar = supportActionBar
         actionbar?.setDisplayShowTitleEnabled(false)
@@ -40,7 +39,7 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_home, R.id.nav_searchparty
+                R.id.nav_home, R.id.nav_searchparty, R.id.nav_searchrestaurant
             ), drawerLayout
         )
 
@@ -49,15 +48,15 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
     }
 
-
     // 네비게이션뷰 화면전환 이벤트
     private val navControllerEvent = NavController.OnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.nav_home -> {
+                R.id.nav_home, R.id.nav_searchrestaurant -> {
                     binding.appBarMain.serchViewLayout.visibility = View.VISIBLE
                     binding.appBarMain.actionBarTitle.visibility = View.GONE
                 }
                 R.id.nav_searchparty -> {
+                    binding.appBarMain.actionBarTitle.text = getString(R.string.menu_searchparty)
                     binding.appBarMain.serchViewLayout.visibility = View.GONE
                     binding.appBarMain.actionBarTitle.visibility = View.VISIBLE
                 }

@@ -11,6 +11,11 @@
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/nav_searchparty"
-        android:name="com.example.hungryguys.ui.serchparty.SerchPartyFragment"
-        tools:layout="@layout/fragment_serch_party" />
+        android:name="com.example.hungryguys.ui.searchparty.SearchPartyFragment"
+        tools:layout="@layout/fragment_search_party" />
+    <fragment
+        android:id="@+id/nav_searchrestaurant"
+        android:name="com.example.hungryguys.ui.searchrestaurant.SearchRestaurantFragment"
+        android:label="fragment_search_restaurant"
+        tools:layout="@layout/fragment_search_restaurant" />
 </navigation>

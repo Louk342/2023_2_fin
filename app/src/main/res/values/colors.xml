@@ -4,11 +4,13 @@
     <!-- 추후 배경 나오면 변경해야함 -->
     <color name="purple_200">#FFBB86FC</color>
     <color name="pink">#FFB2B2</color>
+    <color name="light_pink">#FFC1C1</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
+    <color name="white_black">#868686</color>
     <color name="hint_color">#A9A9A9</color>
     <color name="white">#FFFFFFFF</color>
     <color name="light_blue_600">#FF039BE5</color>
