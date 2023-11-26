@@ -24,9 +24,10 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // 상단 상테바, 하단 내비게이션 투명화
+        // 상단 상테바, 하단 내비게이션 투명화 및 보정
         val activityUtills = ActivityUtills(this)
-        activityUtills.setStatusBarTransparent(binding.appBarMain.root)
+        activityUtills.setStatusBarTransparent()
+        activityUtills.setStatusBarPadding(binding.appBarMain.root)
 
         setSupportActionBar(binding.appBarMain.toolbar)
         val actionbar = supportActionBar

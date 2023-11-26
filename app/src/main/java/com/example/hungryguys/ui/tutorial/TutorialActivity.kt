@@ -22,7 +22,8 @@ class TutorialActivity : AppCompatActivity() {
 
         // 상단 상테바, 하단 내비게이션 투명화
         val activityUtills = ActivityUtills(this)
-        activityUtills.setStatusBarTransparent(binding.layoutDotsView)
+        activityUtills.setStatusBarTransparent()
+        activityUtills.setStatusBarPadding(binding.layoutDotsView)
 
         binding.layoutDots
 

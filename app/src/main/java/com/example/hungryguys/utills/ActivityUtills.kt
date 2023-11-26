@@ -11,8 +11,7 @@ import androidx.core.view.WindowCompat
 class ActivityUtills(val activity: Activity) {
 
     // 상태바 투명하게 하는 함수
-    @SuppressLint("InternalInsetResource", "DiscouragedApi")
-    fun setStatusBarTransparent(viewGroup: ViewGroup) {
+    fun setStatusBarTransparent() {
         activity.apply {
             window.setFlags(
                 WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
@@ -22,7 +21,13 @@ class ActivityUtills(val activity: Activity) {
             if(Build.VERSION.SDK_INT >= 30) {
                 WindowCompat.setDecorFitsSystemWindows(window, false)
             }
+        }
+    }
 
+    // 상태바 투명화 Padding 보정 함수
+    @SuppressLint("InternalInsetResource", "DiscouragedApi")
+    fun setStatusBarPadding(viewGroup: ViewGroup) {
+        activity.apply {
             val statusbarId = resources.getIdentifier("status_bar_height", "dimen", "android")
             val statusBarHeight = resources.getDimensionPixelSize(statusbarId)
 
