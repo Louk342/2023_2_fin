@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1091979843965",
+    "project_id": "fin-568e9",
+    "storage_bucket": "fin-568e9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1091979843965:android:79da3dc5fdbf0fc6189414",
+        "android_client_info": {
+          "package_name": "com.example.hungryguys"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0AIayrb5zhnBWUMgOcJ9A3nXGyNCXdEs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
