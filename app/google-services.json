@@ -12,7 +12,20 @@
           "package_name": "com.example.hungryguys"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "1091979843965-ruvfc3i3mfqsn8sdufn68h8oog8u7nvf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.hungryguys",
+            "certificate_hash": "22985ca88ec238c41913e446f2e77d6eab67c7c3"
+          }
+        },
+        {
+          "client_id": "1091979843965-iqc97q7hbi3g08uhngtou08v7d0ke4oc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyA0AIayrb5zhnBWUMgOcJ9A3nXGyNCXdEs"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1091979843965-iqc97q7hbi3g08uhngtou08v7d0ke4oc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

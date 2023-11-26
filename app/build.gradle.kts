@@ -8,7 +8,7 @@ plugins {
 android {
     namespace = "com.example.hungryguys"
     compileSdk = 34
-
+    buildFeatures { viewBinding = true }
     defaultConfig {
         applicationId = "com.example.hungryguys"
         minSdk = 24
