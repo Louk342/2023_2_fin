@@ -11,6 +11,7 @@
 /.idea/misc.xml
 /.idea/vcs.xml
 /.idea/render.experimental.xml
+/.idea/deploymentTargetDropDown.xml
 app/build
 /build
 .DS_Store
