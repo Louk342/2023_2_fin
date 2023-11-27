@@ -14,7 +14,7 @@ enum class SettingsList {
 
 class SettingsFragment : PreferenceFragmentCompat() {
 
-    lateinit var activityUtills: ActivityUtills
+    private lateinit var activityUtills: ActivityUtills
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.root_preferences, rootKey)
@@ -25,7 +25,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
     }
 
     // 설정에 대한 처리는 ActivityUtills에서
-    val settingChangeEvent = SharedPreferences.OnSharedPreferenceChangeListener { sharedPreferences, key ->
+    private val settingChangeEvent = SharedPreferences.OnSharedPreferenceChangeListener { sharedPreferences, key ->
         when (key!!) {
             SettingsList.notification.name ->  activityUtills.setNotification(sharedPreferences.getBoolean(key, false))
             SettingsList.darkmode.name -> activityUtills.setDarkmode(sharedPreferences.getBoolean(key, false))
