@@ -3,8 +3,10 @@ package com.example.hungryguys.utills
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.os.Build
+import android.util.Log
 import android.view.ViewGroup
 import android.view.WindowManager
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.WindowCompat
 
 // Activity와 종속적인 것들
@@ -35,6 +37,26 @@ class ActivityUtills(private val activity: Activity) {
             val navigationHeight = resources.getDimensionPixelSize(navigationbarId)
 
             viewGroup.setPadding(0, statusBarHeight, 0, navigationHeight)
+        }
+    }
+
+    // 알림 설정 함수
+    fun setNotification(value: Boolean) {
+        if (value) {
+            Log.d("설정", "알림 활성화")
+        } else {
+            Log.d("설정", "알림 비활성화")
+        }
+    }
+
+    // 다크모드 설정 함수
+    fun setDarkmode(value: Boolean) {
+        activity.apply {
+            if (value) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            }
         }
     }
 }

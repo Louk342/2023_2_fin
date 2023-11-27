@@ -1,7 +1,6 @@
 package com.example.hungryguys
 
 import android.os.Bundle
-import android.view.Gravity
 import android.view.View
 import com.google.android.material.snackbar.Snackbar
 import androidx.navigation.findNavController
@@ -10,10 +9,12 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.WindowDecorActionBar
 import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
-import androidx.navigation.NavOptions
 import com.example.hungryguys.databinding.ActivityMainBinding
+import com.example.hungryguys.databinding.AppBarMainBinding
 import com.example.hungryguys.databinding.NavHeaderMainBinding
 import com.example.hungryguys.utills.ActivityUtills
 
@@ -21,28 +22,37 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
+    lateinit var actionbarView: AppBarMainBinding
+    lateinit var navController: NavController
+    lateinit var drawerLayout: DrawerLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
+        actionbarView = binding.appBarMain
         setContentView(binding.root)
 
         // 상단 상테바, 하단 내비게이션 투명화 및 보정
         val activityUtills = ActivityUtills(this)
         activityUtills.setStatusBarTransparent()
-        activityUtills.setStatusBarPadding(binding.appBarMain.root)
+        activityUtills.setStatusBarPadding(actionbarView.root)
 
-        setSupportActionBar(binding.appBarMain.toolbar)
+        setSupportActionBar(actionbarView.toolbar)
         val actionbar = supportActionBar
         actionbar?.setDisplayShowTitleEnabled(false)
 
-        binding.appBarMain.fab.setOnClickListener { view ->
+        actionbarView.fab.setOnClickListener { view ->
             //리뷰추가 엑티비티 생성 후 연동 필요
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show()
+            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show()
         }
-        val drawerLayout = binding.drawerLayout
+
         val navView = binding.navView
-        val navController = findNavController(R.id.nav_host_fragment_content_main)
+        drawerLayout = binding.drawerLayout
+
+        // 모든 프래그먼트는 이 navController가 담당전환하고 싶은프래그먼트는 mobile_navigation에 등록하고
+        // navController.navigate(mobile_navigation 등록해놓은 프래그먼트id) 로 프래그먼트 이동
+        navController = findNavController(R.id.nav_host_fragment_content_main)
 
         // 내비게이션 해더부분 바인딩
         val navHeaderBinding = NavHeaderMainBinding.bind(navView.getHeaderView(0))
@@ -64,25 +74,41 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
     }
 
-    // 네비게이션뷰 화면전환 이벤트
-    private val navControllerEvent = NavController.OnDestinationChangedListener { _, destination, _ ->
+    // 프래그먼트 변화시 발생하는 이벤트, 액션바 화면조정때문에 쓰임
+    private val navControllerEvent =
+        NavController.OnDestinationChangedListener { _, destination, _ ->
+            // 액션바 전체요소
+            actionbarView.fab.visibility = View.GONE //플로팅 버튼
+            actionbarView.serchViewLayout.visibility = View.GONE //검색창
+            actionbarView.actionBarTitle.visibility = View.GONE //액션바 타이틀
+            actionbarView.settingButton.visibility = View.GONE // 설정 버튼 아이콘
+
+            // 여기에 활성화 하고싶은 요소만 View.VISIBLE 로
             when (destination.id) {
-                R.id.nav_home, R.id.nav_searchrestaurant -> {
-                    binding.appBarMain.fab.visibility = View.VISIBLE
-                    binding.appBarMain.serchViewLayout.visibility = View.VISIBLE
-                    binding.appBarMain.actionBarTitle.visibility = View.GONE
+                // 홈 프래그먼트
+                R.id.nav_home -> {
+                    actionbarView.fab.visibility = View.VISIBLE
+                    actionbarView.serchViewLayout.visibility = View.VISIBLE
                 }
+                // 식당찾기 프래그먼트
+                R.id.nav_searchrestaurant -> {
+                    actionbarView.serchViewLayout.visibility = View.VISIBLE
+                }
+                // 파티찾기 프래그먼트
                 R.id.nav_searchparty -> {
-                    binding.appBarMain.fab.visibility = View.GONE
-                    binding.appBarMain.actionBarTitle.text = getString(R.string.menu_searchparty)
-                    binding.appBarMain.serchViewLayout.visibility = View.GONE
-                    binding.appBarMain.actionBarTitle.visibility = View.VISIBLE
+                    actionbarView.actionBarTitle.text = getString(R.string.menu_searchparty)
+                    actionbarView.actionBarTitle.visibility = View.VISIBLE
                 }
+                // 마이페이지 프래그먼트
                 R.id.nav_mypage -> {
-                    binding.appBarMain.fab.visibility = View.GONE
-                    binding.appBarMain.actionBarTitle.text = getString(R.string.menu_mypage)
-                    binding.appBarMain.serchViewLayout.visibility = View.GONE
-                    binding.appBarMain.actionBarTitle.visibility = View.VISIBLE
+                    actionbarView.actionBarTitle.text = getString(R.string.menu_mypage)
+                    actionbarView.settingButton.visibility = View.VISIBLE
+                    actionbarView.actionBarTitle.visibility = View.VISIBLE
+                }
+                //설정페이지 프래그먼트
+                R.id.nav_settings -> {
+                    actionbarView.actionBarTitle.text = getString(R.string.menu_settings)
+                    actionbarView.actionBarTitle.visibility = View.VISIBLE
                 }
             }
         }

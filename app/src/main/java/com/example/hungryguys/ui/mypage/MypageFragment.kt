@@ -6,6 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.GravityCompat
+import com.example.hungryguys.MainActivity
+import com.example.hungryguys.R
 import com.example.hungryguys.databinding.FragmentMypageBinding
 
 class MypageFragment : Fragment() {
@@ -22,6 +25,14 @@ class MypageFragment : Fragment() {
 
         binding.cancelButton.setOnClickListener {
             Toast.makeText(requireContext(), "탈퇴", Toast.LENGTH_SHORT).show()
+        }
+
+        (activity as MainActivity).apply {
+            // 설정 이미지 클릭하면 settingsFragment 로 이동
+            actionbarView.settingButton.setOnClickListener {
+                navController.navigate(R.id.nav_settings)
+                drawerLayout.closeDrawer(GravityCompat.START)
+            }
         }
 
         val dbdata: MutableList<MutableMap<String, String>> = mutableListOf()

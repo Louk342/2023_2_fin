@@ -1,0 +1,12 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+    <SwitchPreferenceCompat
+        app:key="notification"
+        app:summaryOff="@string/settings_notification_off"
+        app:summaryOn="@string/settings_notification_on"
+        app:title="@string/settings_notification" />
+    <SwitchPreferenceCompat
+        app:key="darkmode"
+        app:summaryOff="@string/settings_darkmode_off"
+        app:summaryOn="@string/settings_darkmode_on"
+        app:title="@string/settings_darkmode" />
+</PreferenceScreen>

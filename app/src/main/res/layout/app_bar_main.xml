@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#00FFFFFF"
+        android:paddingEnd="15dp"
         android:theme="@style/Theme.HungryGuys.AppBarOverlay"
         app:elevation="0dp">
 
@@ -51,12 +52,12 @@
                     android:autofillHints="name"
                     android:background="@null"
                     android:ems="10"
-                    android:hint="@string/search_hint"
+                    android:hint="@string/home_search_hint"
                     android:inputType="text"
                     android:textColorHint="@color/hint_color" />
 
                 <ImageView
-                    android:id="@+id/imageView2"
+                    android:id="@+id/search_icon"
                     android:layout_width="0dp"
                     android:layout_height="20dp"
                     android:layout_gravity="center"
@@ -65,10 +66,15 @@
                     android:src="@drawable/search_icon" />
             </LinearLayout>
 
+            <ImageView
+                android:id="@+id/setting_button"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:visibility="gone"
+                android:layout_gravity="end"
+                android:src="@drawable/settings_icon" />
 
         </androidx.appcompat.widget.Toolbar>
-
-
     </com.google.android.material.appbar.AppBarLayout>
 
     <include layout="@layout/content_main" />
