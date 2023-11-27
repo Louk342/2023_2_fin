@@ -13,14 +13,14 @@ class SearchPartyAdapter(val data: MutableList<MutableMap<String, String>>) :
     RecyclerView.Adapter<SearchPartyAdapter.SerchPartyHolder>() {
 
     class SerchPartyHolder(val binding: SearchPartyItemBinding, private val context: Context) : RecyclerView.ViewHolder(binding.root) {
-        // 이벤트 처리
+        // 리사이클러뷰 이벤트 처리
         fun recyclerevent(position: Int) {
             val partyclickEV = View.OnClickListener {
                 // 채팅창으로 이동되게
                 Toast.makeText(context, "$position 선택", Toast.LENGTH_SHORT).show()
             }
 
-            binding.partyLayout.setOnClickListener(partyclickEV)
+            binding.root.setOnClickListener(partyclickEV)
             binding.partyJoinBt.setOnClickListener(partyclickEV)
         }
     }

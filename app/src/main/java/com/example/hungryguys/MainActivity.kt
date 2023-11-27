@@ -1,6 +1,7 @@
 package com.example.hungryguys
 
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
 import com.google.android.material.snackbar.Snackbar
 import androidx.navigation.findNavController
@@ -9,7 +10,9 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
 import androidx.navigation.NavController
+import androidx.navigation.NavOptions
 import com.example.hungryguys.databinding.ActivityMainBinding
 import com.example.hungryguys.databinding.NavHeaderMainBinding
 import com.example.hungryguys.utills.ActivityUtills
@@ -39,10 +42,17 @@ class MainActivity : AppCompatActivity() {
         }
         val drawerLayout = binding.drawerLayout
         val navView = binding.navView
+        val navController = findNavController(R.id.nav_host_fragment_content_main)
+
         // 내비게이션 해더부분 바인딩
         val navHeaderBinding = NavHeaderMainBinding.bind(navView.getHeaderView(0))
 
-        val navController = findNavController(R.id.nav_host_fragment_content_main)
+        // 프사 클릭하면 마이페이지로
+        navHeaderBinding.imageView.setOnClickListener {
+            navController.navigate(R.id.nav_mypage)
+            drawerLayout.closeDrawer(GravityCompat.START)
+        }
+
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.nav_home, R.id.nav_searchparty, R.id.nav_searchrestaurant
@@ -58,11 +68,19 @@ class MainActivity : AppCompatActivity() {
     private val navControllerEvent = NavController.OnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.nav_home, R.id.nav_searchrestaurant -> {
+                    binding.appBarMain.fab.visibility = View.VISIBLE
                     binding.appBarMain.serchViewLayout.visibility = View.VISIBLE
                     binding.appBarMain.actionBarTitle.visibility = View.GONE
                 }
                 R.id.nav_searchparty -> {
+                    binding.appBarMain.fab.visibility = View.GONE
                     binding.appBarMain.actionBarTitle.text = getString(R.string.menu_searchparty)
+                    binding.appBarMain.serchViewLayout.visibility = View.GONE
+                    binding.appBarMain.actionBarTitle.visibility = View.VISIBLE
+                }
+                R.id.nav_mypage -> {
+                    binding.appBarMain.fab.visibility = View.GONE
+                    binding.appBarMain.actionBarTitle.text = getString(R.string.menu_mypage)
                     binding.appBarMain.serchViewLayout.visibility = View.GONE
                     binding.appBarMain.actionBarTitle.visibility = View.VISIBLE
                 }

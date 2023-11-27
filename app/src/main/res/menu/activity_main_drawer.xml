@@ -16,5 +16,9 @@
             android:id="@+id/nav_searchrestaurant"
             android:icon="@drawable/restaurant_icon"
             android:title="@string/menu_searchrestaurant" />
+        <item
+            android:id="@+id/nav_mypage"
+            android:icon="@drawable/user_icon"
+            android:title="@string/menu_mypage" />
     </group>
 </menu>

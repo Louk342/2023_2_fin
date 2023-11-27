@@ -8,7 +8,7 @@ import android.view.WindowManager
 import androidx.core.view.WindowCompat
 
 // Activity와 종속적인 것들
-class ActivityUtills(val activity: Activity) {
+class ActivityUtills(private val activity: Activity) {
 
     // 상태바 투명하게 하는 함수
     fun setStatusBarTransparent() {

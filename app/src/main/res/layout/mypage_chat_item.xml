@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:theme="@style/Theme.HungryGuys.NoActionBar"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="5dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/room_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="제목" />
+
+        <TextView
+            android:id="@+id/last_chat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="마지막 채팅"
+            android:textColor="@color/hint_color" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/connect_people"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="접속인원"
+            android:textColor="@color/hint_color" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center|end"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/last_chat_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="올라온 시간"
+            android:textColor="@color/hint_color" />
+    </LinearLayout>
+</LinearLayout>
