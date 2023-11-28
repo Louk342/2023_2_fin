@@ -38,10 +38,10 @@ class MypageAdapter(
     }
 
     override fun onBindViewHolder(holder: MypageHolder, position: Int) {
-        val roomtitle = data[position]["room_title"]!!  //채팅방 이름
-        val lastchat = data[position]["last_chat"]!!    //마지막 채팅
-        val connectpeople = data[position]["connect_people"]!!  //접속자 수
-        val lastchattime = data[position]["last_chat_time"]!!   //마지막 채팅 시간
+        val roomtitle = data[position][MypageChatItemId.room_title.name]!!
+        val lastchat = data[position][MypageChatItemId.last_chat.name]!!
+        val connectpeople = data[position][MypageChatItemId.connect_people.name]!!
+        val lastchattime = data[position][MypageChatItemId.last_chat_time.name]!!
 
         holder.binding.apply {
             roomTitle.text = roomtitle

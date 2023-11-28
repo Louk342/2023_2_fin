@@ -10,9 +10,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.hungryguys.databinding.SearchPartyItemBinding
 
 class SearchPartyAdapter(val data: MutableList<MutableMap<String, String>>) :
-    RecyclerView.Adapter<SearchPartyAdapter.SerchPartyHolder>() {
+    RecyclerView.Adapter<SearchPartyAdapter.SearchPartyHolder>() {
 
-    class SerchPartyHolder(val binding: SearchPartyItemBinding, private val context: Context) : RecyclerView.ViewHolder(binding.root) {
+    class SearchPartyHolder(val binding: SearchPartyItemBinding, private val context: Context) : RecyclerView.ViewHolder(binding.root) {
         // 리사이클러뷰 이벤트 처리
         fun recyclerevent(position: Int) {
             val partyclickEV = View.OnClickListener {
@@ -25,24 +25,24 @@ class SearchPartyAdapter(val data: MutableList<MutableMap<String, String>>) :
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SerchPartyHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchPartyHolder {
         val binding = SearchPartyItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return SerchPartyHolder(binding, parent.context)
+        return SearchPartyHolder(binding, parent.context)
     }
 
     override fun getItemCount(): Int {
         return data.size
     }
 
-    override fun onBindViewHolder(holder: SerchPartyHolder, position: Int) {
-        val partyname = data[position]["party_name"]!!  //파티이름
-        val partylocation = data[position]["party_location"]!!  //주소
-        val partyperson = "${data[position]["party_person"]!!}명 참여중"    //접속인원
+    override fun onBindViewHolder(holder: SearchPartyHolder, position: Int) {
+        val partyname = data[position][SearchPartyItemId.party_name.name]!!
+        val partylocation = data[position][SearchPartyItemId.party_location.name]!!
+        val partyperson = "${data[position][SearchPartyItemId.party_person.name]!!}명 참여중"
 
         holder.binding.apply {
-            holder.binding.partyName.text = partyname
-            holder.binding.partyLocation.text = partylocation
-            holder.binding.partyPerson.text = partyperson
+            partyName.text = partyname
+            partyLocation.text = partylocation
+            partyPerson.text = partyperson
         }
 
         holder.recyclerevent(position)

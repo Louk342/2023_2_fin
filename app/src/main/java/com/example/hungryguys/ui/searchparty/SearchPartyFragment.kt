@@ -7,6 +7,16 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.hungryguys.databinding.FragmentSearchPartyBinding
 
+// 리사이클러 뷰에 전달되야 되는 키 값이 더있으면 여기다 추가
+enum class SearchPartyItemId {
+    /** 파티이름 */
+    party_name, //파티이름
+    /** 파티장소 */
+    party_location,
+    /** 접속인원 */
+    party_person,
+}
+
 class SearchPartyFragment : Fragment() {
     lateinit var recyclerAdapter: SearchPartyAdapter
 
@@ -16,16 +26,18 @@ class SearchPartyFragment : Fragment() {
     ): View {
         val binding = FragmentSearchPartyBinding.inflate(inflater, container, false)
         val dbdata: MutableList<MutableMap<String, String>> = mutableListOf()
-        val data1 = mutableMapOf<String, String>()
-        data1["party_name"] = "파티1"
-        data1["party_location"] = "고척"
-        data1["party_person"] = "10"
-        dbdata.add(data1)
 
-        val data2 = mutableMapOf<String, String>()
-        data2["party_name"] = "파티2"
-        data2["party_location"] = "고척"
-        data2["party_person"] = "20"
+        val data1 = mutableMapOf(
+            SearchPartyItemId.party_name.name to "파티1",
+            SearchPartyItemId.party_location.name to "고척",
+            SearchPartyItemId.party_person.name to "10"
+        )
+        val data2 = mutableMapOf(
+            SearchPartyItemId.party_name.name to "파티2",
+            SearchPartyItemId.party_location.name to "고척",
+            SearchPartyItemId.party_person.name to "20"
+        )
+        dbdata.add(data1)
         dbdata.add(data2)
 
         recyclerAdapter = SearchPartyAdapter(dbdata)

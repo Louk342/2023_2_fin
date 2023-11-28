@@ -4,11 +4,13 @@
 
     <string name="home_search_hint">맛집을 검색하세요!</string>
 
-    <string name="menu_home">홈 화면</string>
-    <string name="menu_searchparty">밥 친구 구하는 중</string>
+    <string name="menu_home">홈</string>
+    <string name="menu_searchparty">파티 찾기</string>
+    <string name="title_searchparty">밥 친구 구하는 중</string>
     <string name="menu_searchrestaurant">식당 찾기</string>
     <string name="menu_mypage">마이</string>
     <string name="menu_settings">설정</string>
+
     <string name="mypage_user_name">닉네임</string>
     <string name="mypage_user_location">주소</string>
     <string name="mypage_chatlist_description">내 채팅방</string>

@@ -96,7 +96,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 // 파티찾기 프래그먼트
                 R.id.nav_searchparty -> {
-                    actionbarView.actionBarTitle.text = getString(R.string.menu_searchparty)
+                    actionbarView.actionBarTitle.text = getString(R.string.title_searchparty)
                     actionbarView.actionBarTitle.visibility = View.VISIBLE
                 }
                 // 마이페이지 프래그먼트
