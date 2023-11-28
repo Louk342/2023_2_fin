@@ -9,10 +9,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.hungryguys.databinding.FragmentMypageBinding
 import com.example.hungryguys.databinding.MypageChatItemBinding
 
-class MypageAdapter(val data: MutableList<MutableMap<String, String>>, val mainbinding: FragmentMypageBinding):
+class MypageAdapter(
+    val data: MutableList<MutableMap<String, String>>,
+    val mainbinding: FragmentMypageBinding
+) :
     RecyclerView.Adapter<MypageAdapter.MypageHolder>() {
 
-    class MypageHolder(val binding: MypageChatItemBinding, private val context: Context) : RecyclerView.ViewHolder(binding.root) {
+    class MypageHolder(val binding: MypageChatItemBinding, private val context: Context) :
+        RecyclerView.ViewHolder(binding.root) {
 
         // 리사이클러뷰 이벤트 처리
         fun recyclerevent(position: Int) {

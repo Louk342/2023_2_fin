@@ -39,9 +39,11 @@ class SearchPartyAdapter(val data: MutableList<MutableMap<String, String>>) :
         val partylocation = data[position]["party_location"]!!  //주소
         val partyperson = "${data[position]["party_person"]!!}명 참여중"    //접속인원
 
-        holder.binding.partyName.text = partyname
-        holder.binding.partyLocation.text = partylocation
-        holder.binding.partyPerson.text = partyperson
+        holder.binding.apply {
+            holder.binding.partyName.text = partyname
+            holder.binding.partyLocation.text = partylocation
+            holder.binding.partyPerson.text = partyperson
+        }
 
         holder.recyclerevent(position)
     }
