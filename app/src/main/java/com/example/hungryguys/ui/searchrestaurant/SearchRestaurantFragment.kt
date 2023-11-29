@@ -18,6 +18,8 @@ enum class RestaurantItemId {
     restaurant_category,
     /** 식당 별점 */
     restaurant_star,
+    /** 식당 리뷰 개수 */
+    restaurant_star_count,
     /** 식당 설명 */
     restaurant_description,
     /** 식당 위도값 */
