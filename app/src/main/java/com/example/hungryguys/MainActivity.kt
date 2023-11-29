@@ -38,8 +38,7 @@ class MainActivity : AppCompatActivity() {
         activityUtills.setStatusBarPadding(actionbarView.root)
 
         setSupportActionBar(actionbarView.toolbar)
-        val actionbar = supportActionBar
-        actionbar?.setDisplayShowTitleEnabled(false)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
 
         actionbarView.fab.setOnClickListener { view ->
             //리뷰추가 엑티비티 생성 후 연동 필요

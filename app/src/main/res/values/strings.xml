@@ -4,9 +4,11 @@
 
     <string name="home_search_hint">맛집을 검색하세요!</string>
 
+    <string name="title_searchparty">밥 친구 구하는 중</string>
+    <string name="title_info_restaurant">식당 정보</string>
+
     <string name="menu_home">홈</string>
     <string name="menu_searchparty">파티 찾기</string>
-    <string name="title_searchparty">밥 친구 구하는 중</string>
     <string name="menu_searchrestaurant">식당 찾기</string>
     <string name="menu_mypage">마이</string>
     <string name="menu_settings">설정</string>
@@ -25,4 +27,6 @@
     <string name="settings_darkmode">다크모드</string>
     <string name="settings_darkmode_off">다크모드를 활성화 합니다.</string>
     <string name="settings_darkmode_on">다크모드를 비활성화 합니다.</string>
+
+    <string name="info_restaurant_addparty">파티생성</string>
 </resources>

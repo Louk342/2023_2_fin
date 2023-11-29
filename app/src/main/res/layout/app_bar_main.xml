@@ -10,10 +10,11 @@
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#00FFFFFF"
-        android:theme="@style/Theme.HungryGuys.AppBarOverlay"
+        android:background="@android:color/transparent"
+        android:theme="@style/Theme.HungryGuys.NoActionBar"
         app:elevation="0dp">
 
+        <!--툴바에 표시되는 기본 아이템(햄버거 버튼 등)은 16dp margin 걸림-->
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
@@ -27,7 +28,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:theme="@style/Theme.HungryGuys.NoActionBar"
                 android:visibility="gone" />
 
             <LinearLayout
@@ -69,7 +69,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:visibility="gone"
-                android:layout_marginEnd="15dp"
+                android:layout_marginEnd="16dp"
                 android:layout_gravity="end"
                 android:src="@drawable/settings_icon" />
 
