@@ -30,6 +30,10 @@
             android:exported="false"
             android:theme="@style/Theme.HungryGuys.NoActionBar">
         </activity>
+        <activity
+            android:name=".ui.inforestaurant.InfoRestaurantActivity"
+            android:exported="false"
+            android:theme="@style/Theme.HungryGuys.NoActionBar"/>
     </application>
 
 </manifest>

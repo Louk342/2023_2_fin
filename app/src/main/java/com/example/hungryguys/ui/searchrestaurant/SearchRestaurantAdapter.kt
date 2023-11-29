@@ -1,13 +1,13 @@
 package com.example.hungryguys.ui.searchrestaurant
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.hungryguys.R
 import com.example.hungryguys.databinding.SearchRestaurantItemBinding
+import com.example.hungryguys.ui.inforestaurant.InfoRestaurantActivity
 
 class SearchRestaurantAdapter(
     val data: MutableList<MutableMap<String, String>>,
@@ -18,7 +18,11 @@ class SearchRestaurantAdapter(
     class SearchRestaurantHolder(val binding: SearchRestaurantItemBinding, private val context: Context) : RecyclerView.ViewHolder(binding.root) {
         // 리사이클러뷰 이벤트 처리
         fun recyclerevent(position: Int) {
-
+            binding.root.setOnClickListener {
+                val intent = Intent(context, InfoRestaurantActivity::class.java)
+                intent.putExtra("item_position", position)
+                context.startActivity(intent)
+            }
         }
     }
 
