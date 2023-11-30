@@ -29,6 +29,16 @@ class InfoRestaurantMenuAdapter(val data: MutableList<MutableMap<String, String>
     }
 
     override fun onBindViewHolder(holder: InfoRestaurantMenuHolder, position: Int) {
+        val foodname = data[position][InfoMenuItem.food_name.name]!!
+        val fooddescription = data[position][InfoMenuItem.food_description.name]!!
+        val foodprice = data[position][InfoMenuItem.food_price.name]!!
 
+        holder.binding.apply {
+            foodName.text = foodname
+            foodDescription.text = fooddescription
+            foodPrice.text = foodprice
+        }
+
+        holder.recyclerevent(position)
     }
 }

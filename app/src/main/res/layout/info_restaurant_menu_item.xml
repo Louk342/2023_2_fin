@@ -1,7 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="80dp"
+    android:theme="@style/Theme.HungryGuys.NoActionBar"
+    android:layout_marginTop="10dp"
+    android:orientation="horizontal">
 
+    <LinearLayout
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/item_restaurant_item_shape">
+
+        <TextView
+            android:id="@+id/food_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="음식\n사진" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/food_name"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:textSize="18sp"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:text="음식명" />
+
+        <TextView
+            android:id="@+id/food_description"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:textColor="@color/hint_color"
+            android:layout_weight="1"
+            android:text="설명" />
+
+        <TextView
+            android:id="@+id/food_price"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:text="가격" />
+    </LinearLayout>
 </LinearLayout>
