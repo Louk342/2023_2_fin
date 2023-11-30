@@ -2,14 +2,12 @@ package com.example.hungryguys
 
 import android.os.Bundle
 import android.view.View
-import com.google.android.material.snackbar.Snackbar
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.WindowDecorActionBar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
@@ -39,12 +37,6 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(actionbarView.toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
-
-        actionbarView.fab.setOnClickListener { view ->
-            //리뷰추가 엑티비티 생성 후 연동 필요
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }
 
         val navView = binding.navView
         drawerLayout = binding.drawerLayout
@@ -77,7 +69,6 @@ class MainActivity : AppCompatActivity() {
     private val navControllerEvent =
         NavController.OnDestinationChangedListener { _, destination, _ ->
             // 액션바 전체요소
-            actionbarView.fab.visibility = View.GONE //플로팅 버튼
             actionbarView.serchViewLayout.visibility = View.GONE //검색창
             actionbarView.actionBarTitle.visibility = View.GONE //액션바 타이틀
             actionbarView.settingButton.visibility = View.GONE // 설정 버튼 아이콘
@@ -86,7 +77,6 @@ class MainActivity : AppCompatActivity() {
             when (destination.id) {
                 // 홈 프래그먼트
                 R.id.nav_home -> {
-                    actionbarView.fab.visibility = View.VISIBLE
                     actionbarView.serchViewLayout.visibility = View.VISIBLE
                 }
                 // 식당찾기 프래그먼트
