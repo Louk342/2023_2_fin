@@ -121,11 +121,18 @@
 
         </LinearLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#DADADA" />
+
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/menu_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabRippleColor="@color/background"/>
+            android:theme="@style/tabStyle"
+            app:tabRippleColor="@android:color/transparent"
+            android:background="@color/background"/>
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/menu_pager"

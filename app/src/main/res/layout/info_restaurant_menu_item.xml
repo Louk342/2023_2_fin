@@ -12,7 +12,7 @@
         android:orientation="vertical"
         android:gravity="center"
         android:layout_marginEnd="10dp"
-        android:background="@drawable/item_restaurant_item_shape">
+        android:background="@drawable/item_restaurant_shape">
 
         <TextView
             android:id="@+id/food_text"
