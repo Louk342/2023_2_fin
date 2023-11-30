@@ -17,6 +17,7 @@
             android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/random_menu_layout"
                 android:layout_width="336dp"
                 android:layout_height="300dp"
                 android:layout_marginTop="10dp"
