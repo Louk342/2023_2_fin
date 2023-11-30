@@ -18,7 +18,7 @@
     <color name="light_blue_A200">#FF40C4FF</color>
     <color name="light_blue_A400">#FF00B0FF</color>
     <color name="black_overlay">#66000000</color>
-    <color name="image_color">#FF000000</color>
-    <color name="border_color">#FF000000</color>
-    <color name="background">#FFFFFFFF</color>
+    <color name="image_color">#FFFFFFFF</color>
+    <color name="border_color">#FFFFFFFF</color>
+    <color name="background">#FF35363A</color>
 </resources>

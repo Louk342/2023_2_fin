@@ -19,6 +19,7 @@
         android:contentDescription="@string/nav_header_desc"
         android:layout_marginBottom="10dp"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
+        android:background="@android:color/transparent"
         app:srcCompat="@drawable/user_icon" />
 
     <TextView
@@ -27,7 +28,8 @@
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:text="닉네임"
         android:textSize="16sp"
-        android:theme="@style/Theme.HungryGuys.NoActionBar"/>
+        android:textColor="@color/black"
+        android:background="@android:color/transparent" />
 
     <TextView
         android:id="@+id/textView"
@@ -35,5 +37,6 @@
         android:layout_height="wrap_content"
         android:text="주소"
         android:textSize="16sp"
-        android:theme="@style/Theme.HungryGuys.NoActionBar"/>
+        android:textColor="@color/black"
+        android:background="@android:color/transparent" />
 </LinearLayout>

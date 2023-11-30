@@ -61,7 +61,8 @@
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:contentDescription="검색 아이콘"
-                    android:src="@drawable/search_icon" />
+                    android:src="@drawable/search_icon"
+                    app:tint="@color/image_color" />
             </LinearLayout>
 
             <ImageView
@@ -71,7 +72,8 @@
                 android:visibility="gone"
                 android:layout_marginEnd="16dp"
                 android:layout_gravity="end"
-                android:src="@drawable/settings_icon" />
+                android:src="@drawable/settings_icon"
+                app:tint="@color/image_color" />
 
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
