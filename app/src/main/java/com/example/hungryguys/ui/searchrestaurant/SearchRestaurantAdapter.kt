@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hungryguys.databinding.SearchRestaurantItemBinding
 import com.example.hungryguys.ui.inforestaurant.InfoRestaurantActivity
-import java.sql.Types.NULL
 
 class SearchRestaurantAdapter(
     val data: MutableList<MutableMap<String, String>>,
@@ -69,7 +68,7 @@ class SearchRestaurantAdapter(
             binding.categoryText.visibility = View.VISIBLE
         } else {
             binding.categoryImage.setImageResource(imageid)
-            binding.categoryImageLayout.setBackgroundResource(NULL)
+            binding.categoryImageLayout.setBackgroundResource(0)
             binding.categoryImage.visibility = View.VISIBLE
         }
     }
