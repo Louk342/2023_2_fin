@@ -1,5 +1,6 @@
 package com.example.hungryguys.ui.inforestaurant
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
@@ -21,6 +22,7 @@ class InfoRestaurantActivity : AppCompatActivity() {
         activityUtills.setStatusBarTransparent()
         activityUtills.setStatusBarPadding(binding.root)
 
+        // 툴바 설정
         val toolbar = binding.toolbar
         toolbar.setContentInsetsRelative(0, 0)
         setSupportActionBar(binding.toolbar)
@@ -33,6 +35,10 @@ class InfoRestaurantActivity : AppCompatActivity() {
         val pagerAdapter = RestaurantMenuAdapter(this, binding)
         binding.menuPager.adapter = pagerAdapter
         pagerAdapter.setTabLayout()
+
+        binding.addPartyButton.setOnClickListener {
+            InfoRestaurantPartyDialog().show(supportFragmentManager, "파티 추가")
+        }
     }
 
     // 백버튼 클릭 이벤트

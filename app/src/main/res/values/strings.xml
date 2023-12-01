@@ -28,5 +28,8 @@
     <string name="settings_darkmode_off">다크모드를 활성화 합니다.</string>
     <string name="settings_darkmode_on">다크모드를 비활성화 합니다.</string>
 
-    <string name="info_restaurant_addparty">파티생성</string>
+    <string name="info_restaurant_addparty">파티 생성</string>
+    <string name="info_restaurant_addarty_info">파티 제목을 입력해주세요!</string>
+    <string name="info_restaurant_addarty_ok">생성</string>
+    <string name="info_restaurant_addarty_cencal">취소</string>
 </resources>
