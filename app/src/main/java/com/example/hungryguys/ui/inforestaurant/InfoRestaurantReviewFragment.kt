@@ -37,7 +37,7 @@ class InfoRestaurantReviewFragment : Fragment() {
         )
 
         binding.fab.setOnClickListener {
-            // 리뷰 추가 다이얼 로그 구현
+            InfoRestaurantReviewDialog().show(requireActivity().supportFragmentManager, "리뷰작성")
         }
 
         dbdata.add(data1)

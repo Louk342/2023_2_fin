@@ -3,11 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/item_dialog_shape"
-    android:padding="5dp"
+    android:padding="10dp"
     android:theme="@style/Theme.HungryGuys.NoActionBar">
 
     <LinearLayout
-        android:layout_width="300dp"
+        android:layout_width="310dp"
         android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="vertical">
@@ -16,45 +16,52 @@
             android:id="@+id/addparty_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
+            android:layout_marginBottom="10dp"
             android:text="@string/info_restaurant_addparty"
-            android:textSize="18sp" />
+            android:textSize="20sp" />
 
         <EditText
             android:id="@+id/input_addparty"
             android:layout_width="match_parent"
             android:layout_height="35dp"
-            android:layout_marginBottom="5dp"
-            android:background="@drawable/item_dialog_shape"
-            android:ems="10"
-            android:hint="@string/info_restaurant_addarty_info"
+            android:maxLength="10"
+            android:layout_marginBottom="10dp"
+            android:autofillHints="name"
+            android:background="@drawable/item_dialog_edittext_shape"
+            android:hint="@string/info_restaurant_addparty_info"
             android:inputType="text"
             android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-            android:textColor="@color/hint_color" />
+            android:paddingEnd="10dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/button_ok"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:layout_marginEnd="5dp"
                 android:layout_weight="1"
-                android:text="@string/info_restaurant_addarty_ok" />
+                android:background="@drawable/radius_button"
+                android:backgroundTint="@color/pink"
+                android:stateListAnimator="@null"
+                android:text="@string/info_restaurant_addparty_ok"
+                android:textColor="@color/background" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/button_cencel"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:layout_marginStart="5dp"
                 android:layout_weight="1"
-                android:text="@string/info_restaurant_addarty_cencal" />
+                android:background="@drawable/radius_button"
+                android:backgroundTint="@color/hint_color"
+                android:stateListAnimator="@null"
+                android:text="@string/info_restaurant_addparty_cencal"
+                android:textColor="@color/background" />
         </LinearLayout>
-        \
 
     </LinearLayout>
 </FrameLayout>

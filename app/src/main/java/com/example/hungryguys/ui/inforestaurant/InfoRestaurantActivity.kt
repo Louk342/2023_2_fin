@@ -36,8 +36,9 @@ class InfoRestaurantActivity : AppCompatActivity() {
         binding.menuPager.adapter = pagerAdapter
         pagerAdapter.setTabLayout()
 
+        // 파티생성 추가 텍스트 이벤트
         binding.addPartyButton.setOnClickListener {
-            InfoRestaurantPartyDialog().show(supportFragmentManager, "파티 추가")
+            InfoRestaurantPartyDialog().show(supportFragmentManager, "파티추가")
         }
     }
 
