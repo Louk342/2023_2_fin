@@ -13,8 +13,7 @@
         <item name="android:statusBarColor">@color/white</item>
         <item name="android:windowLightStatusBar">true</item>
         <!--하단 내비게이션바(글로벌) -->
-        <item name="android:navigationBarColor">@color/white</item>"
-        <item name="android:windowLightNavigationBar" tools:targetApi="q">true</item>
+        <item name="android:navigationBarColor">@color/white</item>
         <!-- 배경색 -->
         <item name="android:background">@color/background</item>
     </style>
@@ -34,7 +33,6 @@
 
         <!--하단 내비게이션바 투명화 옵션-->
         <item name="android:navigationBarColor">@android:color/transparent</item>
-        <item name="android:windowLightNavigationBar" tools:targetApi="q">true</item>
         <item name="android:enforceNavigationBarContrast" tools:targetApi="q">false</item>
         <item name="android:enforceStatusBarContrast" tools:targetApi="q">false</item>
     </style>
