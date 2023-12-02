@@ -7,7 +7,10 @@ import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hungryguys.databinding.InfoRestaurantReviewItemBinding
 
-class InfoRestaurantReviewAdapter(val data: MutableList<MutableMap<String, String>>, val activity: FragmentActivity) : RecyclerView.Adapter<InfoRestaurantReviewAdapter.InfoRestaurantReviewHolder>() {
+class InfoRestaurantReviewAdapter(
+    val data: MutableList<MutableMap<String, String>>,
+    val activity: FragmentActivity
+) : RecyclerView.Adapter<InfoRestaurantReviewAdapter.InfoRestaurantReviewHolder>() {
 
     class InfoRestaurantReviewHolder(
         val binding: InfoRestaurantReviewItemBinding,

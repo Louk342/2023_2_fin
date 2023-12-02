@@ -37,4 +37,7 @@
     <string name="info_restaurant_addreveiw_info">리뷰를 작성해주세요! (80자 이내)</string>
     <string name="info_restaurant_addreveiw_ok">작성</string>
     <string name="info_restaurant_addreveiw_cencal">취소</string>
+    <string name="chatting_push">채팅을 입력하세요!</string>
+
+
 </resources>
