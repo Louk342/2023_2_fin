@@ -1,5 +1,6 @@
 package com.example.hungryguys.ui.inforestaurant
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
@@ -8,14 +9,22 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.hungryguys.databinding.ActivityInfoRestaurantBinding
 import com.example.hungryguys.ui.searchrestaurant.RestaurantItemId
 import com.example.hungryguys.utills.ActivityUtills
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.CameraPosition
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.tabs.TabLayoutMediator
 
-class InfoRestaurantActivity : AppCompatActivity() {
+class InfoRestaurantActivity : AppCompatActivity(), OnMapReadyCallback {
 
     lateinit var binding: ActivityInfoRestaurantBinding
     lateinit var menuFragment: InfoRestaurantMenuFragment
     lateinit var reviewFragment: InfoRestaurantReviewFragment
     var restaurantid: Int = 0 //추후 DB 식별 값으로 변경
+    private var mMap: GoogleMap? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +61,33 @@ class InfoRestaurantActivity : AppCompatActivity() {
         binding.addPartyButton.setOnClickListener {
             InfoRestaurantPartyDialog().show(supportFragmentManager, "파티추가")
         }
+
+        doLocation()
+    }
+
+    fun doLocation() {
+        val mapFragment = supportFragmentManager.findFragmentById(com.example.hungryguys.R.id.mapView) as SupportMapFragment?
+        mapFragment!!.getMapAsync(this)
+    }
+
+    // NULL이 아닌 GoogleMap 객체를 파라미터로 제공해 줄 수 있을 때 호출
+    @SuppressLint("MissingPermission")
+    override fun onMapReady(googleMap: GoogleMap) {
+        mMap = googleMap
+        mMap?.mapType = GoogleMap.MAP_TYPE_NORMAL
+
+        val groupLatLng = LatLng(37.500049, 126.868003)
+        val position = CameraPosition.Builder()
+            .target(groupLatLng)
+            .zoom(16f)
+            .build()
+        googleMap?.moveCamera(CameraUpdateFactory.newCameraPosition(position))
+
+        val markerOptions = MarkerOptions().run {
+            position(groupLatLng)
+            title("동양미래대학교")
+        }
+        googleMap?.addMarker(markerOptions)
     }
 
     // 인텐트로 넘어온값 처리
