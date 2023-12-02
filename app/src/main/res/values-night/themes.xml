@@ -15,7 +15,7 @@
         <!--하단 내비게이션바(글로벌) -->
         <item name="android:navigationBarColor">@color/white</item>
         <!-- 배경색 -->
-        <item name="android:background">@color/background</item>
+        <item name="android:windowBackground">@color/background</item>
     </style>
 
     <!--거의 기본으로 가져갈 테마-->
