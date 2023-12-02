@@ -19,8 +19,8 @@ import com.example.hungryguys.databinding.DialogAddReviewBinding
 class InfoRestaurantReviewDialog : DialogFragment() {
 
     lateinit var binding: DialogAddReviewBinding
-    lateinit var stars: LinearLayout
-    var reviewStar = 1 //최초 별점
+    private lateinit var stars: LinearLayout
+    private var reviewStar = 1 //최초 별점
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -41,6 +41,22 @@ class InfoRestaurantReviewDialog : DialogFragment() {
             dismiss()
         }
 
+        // 리뷰 추가 이벤트
+        binding.buttonOk.setOnClickListener {
+            val id = (activity as InfoRestaurantActivity).restaurantid.toString() //DB 식별값
+            val reviewText = binding.inputAddreveiw.text.toString().trim()
+
+            val addReveiw =  mutableMapOf (
+                InfoReviewItem.inforestaurant_id.name  to id,
+                InfoReviewItem.review_text.name to reviewText,
+                InfoReviewItem.restaurant_star.name to "$reviewStar.0",
+                InfoReviewItem.user_name.name to "유저1"
+            )
+
+            (activity as InfoRestaurantActivity).addReview(addReveiw)
+            dismiss()
+        }
+
         return binding.root
     }
 
@@ -55,6 +71,7 @@ class InfoRestaurantReviewDialog : DialogFragment() {
             (stars[i] as ImageView).setImageResource(R.drawable.grade_star_icon)
             if (stars[i].id == thisview.id) {
                 Log.d("로그", "별점: ${i+1}")
+                reviewStar = i+1
                 return@OnClickListener
             }
         }

@@ -12,6 +12,8 @@ import com.example.hungryguys.databinding.FragmentSearchRestaurantBinding
 
 // 리사이클러 뷰에 전달되야 되는 키 값이 더있으면 여기다 추가
 enum class RestaurantItemId {
+    /** 식당 식별값 (DB 쪽에서 )*/
+    inforestaurant_id,
     /** 식당이름*/
     restaurant_name,
     /** 식당 카테고리 */
@@ -44,18 +46,20 @@ class SearchRestaurantFragment : Fragment() {
 
         val dbdata: MutableList<MutableMap<String, String>> = mutableListOf()
         val data1 = mutableMapOf(
-            RestaurantItemId.restaurant_name.name to "식당이름",
+            RestaurantItemId.restaurant_name.name to "청년다방",
             RestaurantItemId.restaurant_category.name to "떡볶이",
-            RestaurantItemId.restaurant_star.name to "평점",
-            RestaurantItemId.restaurant_description.name to "식당설명",
+            RestaurantItemId.restaurant_star.name to "4.1",
+            RestaurantItemId.restaurant_star_count.name to "120",
+            RestaurantItemId.restaurant_description.name to "떡복이가 참 긴",
             RestaurantItemId.restaurant_we.name to "200",
             RestaurantItemId.restaurant_ky.name to "100"
         )
         val data2 = mutableMapOf(
-            RestaurantItemId.restaurant_name.name to "식당이름",
+            RestaurantItemId.restaurant_name.name to "푸라닭",
             RestaurantItemId.restaurant_category.name to "치킨",
-            RestaurantItemId.restaurant_star.name to "평점",
-            RestaurantItemId.restaurant_description.name to "식당설명",
+            RestaurantItemId.restaurant_star.name to "4.0",
+            RestaurantItemId.restaurant_star_count.name to "200",
+            RestaurantItemId.restaurant_description.name to "맛있는 치킨집",
             RestaurantItemId.restaurant_we.name to "200",
             RestaurantItemId.restaurant_ky.name to "100"
         )

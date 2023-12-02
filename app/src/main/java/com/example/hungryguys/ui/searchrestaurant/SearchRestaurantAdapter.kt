@@ -15,12 +15,29 @@ class SearchRestaurantAdapter(
 ) :
     RecyclerView.Adapter<SearchRestaurantAdapter.SearchRestaurantHolder>() {
 
-    class SearchRestaurantHolder(val binding: SearchRestaurantItemBinding, private val context: Context) : RecyclerView.ViewHolder(binding.root) {
+    class SearchRestaurantHolder(
+        val binding: SearchRestaurantItemBinding,
+        private val context: Context,
+        private val data: MutableList<MutableMap<String, String>>
+    ) : RecyclerView.ViewHolder(binding.root) {
+
         // 리사이클러뷰 이벤트 처리
         fun recyclerevent(position: Int) {
             binding.root.setOnClickListener {
+                val restaurantname = data[position][RestaurantItemId.restaurant_name.name]
+                val restaurantstar = data[position][RestaurantItemId.restaurant_star.name]
+                val restaurantstarcount = data[position][RestaurantItemId.restaurant_star_count.name]
+                val restaurantwe = data[position][RestaurantItemId.restaurant_we.name]
+                val restaurantky = data[position][RestaurantItemId.restaurant_ky.name]
+
                 val intent = Intent(context, InfoRestaurantActivity::class.java)
-                intent.putExtra("item_position", position)
+                intent.putExtra(RestaurantItemId.inforestaurant_id.name, position)  //추후 DB 식별값으로 변경
+                intent.putExtra(RestaurantItemId.restaurant_name.name, restaurantname)
+                intent.putExtra(RestaurantItemId.restaurant_star.name, restaurantstar)
+                intent.putExtra(RestaurantItemId.restaurant_star_count.name, restaurantstarcount)
+                intent.putExtra(RestaurantItemId.restaurant_we.name, restaurantwe)
+                intent.putExtra(RestaurantItemId.restaurant_ky.name, restaurantky)
+
                 context.startActivity(intent)
             }
         }
@@ -29,7 +46,7 @@ class SearchRestaurantAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchRestaurantHolder {
         val binding =
             SearchRestaurantItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return SearchRestaurantHolder(binding, parent.context)
+        return SearchRestaurantHolder(binding, parent.context, data)
     }
 
     override fun getItemCount(): Int {
@@ -37,18 +54,18 @@ class SearchRestaurantAdapter(
     }
 
     override fun onBindViewHolder(holder: SearchRestaurantHolder, position: Int) {
-        val restaurantname = data[position][RestaurantItemId.restaurant_name.name]!!    //
-        val restaurantcategory =  data[position][RestaurantItemId.restaurant_category.name]!!
-        val restaurantdescription =  data[position][RestaurantItemId.restaurant_description.name]!!
-        val restaurantstar =  data[position][RestaurantItemId.restaurant_star.name]!!
+        val restaurantname = data[position][RestaurantItemId.restaurant_name.name]!!
+        val restaurantcategory = data[position][RestaurantItemId.restaurant_category.name]!!
+        val restaurantdescription = data[position][RestaurantItemId.restaurant_description.name]!!
+        val restaurantstar = data[position][RestaurantItemId.restaurant_star.name]!!
         val restaurantky = data[position][RestaurantItemId.restaurant_ky.name]!!
-        val restaurantwe =  data[position][RestaurantItemId.restaurant_we.name]!!
+        val restaurantwe = data[position][RestaurantItemId.restaurant_we.name]!!
 
         holder.binding.apply {
             restaurantName.text = restaurantname
             restaurantDescription.text = restaurantdescription
             restaurantStar.text = restaurantstar
-            restaurantDescription.text = setdescription(restaurantky.toInt(), restaurantwe.toInt())
+            restaurantDistance.text = setdescription(restaurantky.toInt(), restaurantwe.toInt())
             setCategoryImage(this, restaurantcategory)
         }
 
