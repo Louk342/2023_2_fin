@@ -43,11 +43,10 @@ class InfoRestaurantReviewDialog : DialogFragment() {
 
         // 리뷰 추가 이벤트
         binding.buttonOk.setOnClickListener {
-            val id = (activity as InfoRestaurantActivity).restaurantid.toString() //DB 식별값
+            val selectid =  (activity as InfoRestaurantActivity).restaurantid   //현재 선택된 아이템
             val reviewText = binding.inputAddreveiw.text.toString().trim()
 
             val addReveiw =  mutableMapOf (
-                InfoReviewItem.inforestaurant_id.name  to id,
                 InfoReviewItem.review_text.name to reviewText,
                 InfoReviewItem.restaurant_star.name to "$reviewStar.0",
                 InfoReviewItem.user_name.name to "유저1"

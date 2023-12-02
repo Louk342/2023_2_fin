@@ -34,16 +34,11 @@ class InfoRestaurantReviewAdapter(val data: MutableList<MutableMap<String, Strin
     }
 
     override fun onBindViewHolder(holder: InfoRestaurantReviewHolder, position: Int) {
-        val currid = (activity as InfoRestaurantActivity).restaurantid //현재 액티비티에 식당id
-        val saveid = data[position][InfoReviewItem.inforestaurant_id.name]?.toInt() //리스트에 저장된 id
-
         val username = data[position][InfoReviewItem.user_name.name]
         val restaurantstar = data[position][InfoReviewItem.restaurant_star.name]
         val reviewtext = data[position][InfoReviewItem.review_text.name]
 
-        // 지금은 모든 요소가 해당 함수를 거치기에 아무리 처리해도 전부뜸
         holder.binding.apply {
-            if (currid == saveid )
             userName.text = username
             restaurantStar.text = restaurantstar
             reviewText.text = reviewtext

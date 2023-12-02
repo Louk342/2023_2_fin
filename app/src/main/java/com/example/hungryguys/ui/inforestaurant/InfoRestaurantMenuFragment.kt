@@ -26,18 +26,39 @@ class InfoRestaurantMenuFragment : Fragment() {
     ): View {
         val binding = FragmentInfoRestaurantMenuBinding.inflate(inflater, container, false)
         val dbdata: MutableList<MutableMap<String, String>> = mutableListOf()
-        val data1 = mutableMapOf(
-            InfoMenuItem.food_name.name to "음식1",
-            InfoMenuItem.food_description.name to "음식설명",
-            InfoMenuItem.food_price.name to "1000"
-        )
-        val data2 = mutableMapOf(
-            InfoMenuItem.food_name.name to "음식2",
-            InfoMenuItem.food_description.name to "음식설명",
-            InfoMenuItem.food_price.name to "2000"
-        )
-        dbdata.add(data1)
-        dbdata.add(data2)
+        val selectid =  (activity as InfoRestaurantActivity).restaurantid   //현재 선택된 아이템
+
+        // 청년다방인 경우
+        if (selectid == 0) {
+            val data1 = mutableMapOf(
+                InfoMenuItem.food_name.name to "세트1",
+                InfoMenuItem.food_description.name to "고구마, 떡볶이",
+                InfoMenuItem.food_price.name to "12000",
+            )
+            val data2 = mutableMapOf(
+                InfoMenuItem.food_name.name to "세트2",
+                InfoMenuItem.food_description.name to "치즈, 떡볶이",
+                InfoMenuItem.food_price.name to "14000",
+            )
+            dbdata.add(data1)
+            dbdata.add(data2)
+        }
+
+        // 푸라닭 인경우
+        if (selectid == 1) {
+            val data1 = mutableMapOf(
+                InfoMenuItem.food_name.name to "후라이드",
+                InfoMenuItem.food_description.name to "고소한 후라이드",
+                InfoMenuItem.food_price.name to "20000",
+            )
+            val data2 = mutableMapOf(
+                InfoMenuItem.food_name.name to "양념",
+                InfoMenuItem.food_description.name to "매콤한 치킨",
+                InfoMenuItem.food_price.name to "21000",
+            )
+            dbdata.add(data1)
+            dbdata.add(data2)
+        }
 
         recyclerAdapter = InfoRestaurantMenuAdapter(dbdata)
         binding.infomenuRecycler.adapter = recyclerAdapter
