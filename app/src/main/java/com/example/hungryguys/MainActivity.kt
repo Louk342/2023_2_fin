@@ -21,7 +21,7 @@ import com.example.hungryguys.utills.ActivityUtills
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
-    private lateinit var binding: ActivityMainBinding
+    lateinit var binding: ActivityMainBinding
     lateinit var actionbarView: AppBarMainBinding
     lateinit var navController: NavController
     lateinit var drawerLayout: DrawerLayout
@@ -85,7 +85,6 @@ class MainActivity : AppCompatActivity() {
                     actionbarView.actionBarTitle.visibility = View.VISIBLE
                     actionbarView.searchIconButton.visibility = View.VISIBLE
                     actionbarView.mainTitleLayout.visibility = View.VISIBLE
-                    settingHomefragemet()
                 }
                 // 식당찾기 프래그먼트
                 R.id.nav_searchrestaurant -> {
@@ -109,14 +108,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-
-    // MainActivty 요소를 Homefragemet 에서 건들면 오류가 나므로 MainActivty에서 처리
-    private fun settingHomefragemet() {
-        // 검색버튼 클릭이벤트
-        actionbarView.searchIconButton.setOnClickListener {
-            navController.navigate(R.id.nav_searchrestaurant)
-        }
-    }
 
     // 키보드 이외에 다른요소 선택시 키보드 닫치게
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
