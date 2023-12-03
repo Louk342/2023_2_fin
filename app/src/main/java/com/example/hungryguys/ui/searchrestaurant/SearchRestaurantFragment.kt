@@ -1,14 +1,14 @@
 package com.example.hungryguys.ui.searchrestaurant
 
+import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.hungryguys.MainActivity
@@ -38,33 +38,31 @@ enum class RestaurantItemId {
 
 class SearchRestaurantFragment : Fragment() {
 
+    // 카테고리 별 아이콘 만들어 지면 여기다 등록
+    val categoryImageMap = mutableMapOf(
+        "떡볶이" to R.drawable.tteokbokki_icon
+    )
+
+    lateinit var binding: FragmentSearchRestaurantBinding
     lateinit var recyclerAdapter: SearchRestaurantAdapter
     lateinit var searchtext: TextView
     lateinit var searchIcon: ImageView
+    var dbdata: MutableList<MutableMap<String, String>> = mutableListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // 카테고리 별 아이콘 만들어 지면 여기다 등록
-        val categoryImageMap = mutableMapOf(
-            "떡볶이" to R.drawable.tteokbokki_icon
-        )
-
-        val binding = FragmentSearchRestaurantBinding.inflate(inflater, container, false)
+        binding = FragmentSearchRestaurantBinding.inflate(inflater, container, false)
 
         searchtext =  (activity as MainActivity).actionbarView.searchText
         searchIcon = (activity as MainActivity).actionbarView.searchIcon
 
-        // 완료버튼 이벤트 설정
-        searchtext.setOnEditorActionListener(addKeyOkEvent(searchIcon))
-
-        searchIcon.setOnClickListener {
-            //키보드 완료랑 검색아이콘 클릭모두 이 함수를 거침
-            searchList()
+        // 키보드 입력이벤트
+        searchtext.addTextChangedListener {
+            searchList(it.toString())
         }
 
-        val dbdata: MutableList<MutableMap<String, String>> = mutableListOf()
         val data1 = mutableMapOf(
             RestaurantItemId.restaurant_name.name to "청년다방",
             RestaurantItemId.restaurant_category.name to "떡볶이",
@@ -98,16 +96,18 @@ class SearchRestaurantFragment : Fragment() {
     }
 
     // 검색 구현
-    fun searchList() {
-        Log.d("로그", "거침")
-    }
-    fun addKeyOkEvent(view: View): TextView.OnEditorActionListener {
-        return TextView.OnEditorActionListener { _, actionId, event ->
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                view.callOnClick()
-            }
-            false
+    fun searchList(text: String) {
+        var data: MutableList<MutableMap<String, String>>
+        if (text.isEmpty()) {
+            data = dbdata
         }
+
+        data = dbdata.filter {
+            val name = it[RestaurantItemId.restaurant_name.name]!!
+            name.contains(text, true)
+        }.toMutableList()
+
+        binding.restaurantrecycler.adapter = SearchRestaurantAdapter(data, categoryImageMap)
     }
 
     override fun onDestroy() {

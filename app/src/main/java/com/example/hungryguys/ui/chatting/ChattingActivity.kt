@@ -34,6 +34,7 @@ class ChattingActivity : AppCompatActivity() {
         activityUtills.setStatusBarTransparent()
         activityUtills.setStatusBarAllPadding(binding.chatView)
         activityUtills.setStatusBarBottomPadding(binding.navView)
+        activityUtills.setStatusBarTopPadding(binding.navViewLayout.navHader)
 
         // 툴바 설정
         val toolbar = binding.toolbar

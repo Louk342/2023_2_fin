@@ -18,7 +18,7 @@ enum class InfoReviewItem {
 }
 
 class InfoRestaurantReviewFragment : Fragment() {
-    lateinit var recyclerAdapter: InfoRestaurantReviewAdapter
+    lateinit var recyclerAdapter: InfoRestaurantTabAdapter
     lateinit var recyclerView: RecyclerView
 
     override fun onCreateView(
@@ -66,7 +66,7 @@ class InfoRestaurantReviewFragment : Fragment() {
         }
 
         recyclerView = binding.inforeviewRecycler
-        recyclerAdapter = InfoRestaurantReviewAdapter(dbdata, requireActivity())
+        recyclerAdapter = InfoRestaurantTabAdapter(dbdata, "review")
         recyclerView.adapter = recyclerAdapter
 
         return binding.root

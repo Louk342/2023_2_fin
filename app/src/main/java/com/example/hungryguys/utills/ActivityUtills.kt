@@ -20,7 +20,7 @@ class ActivityUtills(private val activity: Activity) {
                 WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
             )
             // API 30 에 적용
-            if(Build.VERSION.SDK_INT >= 30) {
+            if (Build.VERSION.SDK_INT >= 30) {
                 WindowCompat.setDecorFitsSystemWindows(window, false)
             }
         }
@@ -47,7 +47,12 @@ class ActivityUtills(private val activity: Activity) {
             val navigationbarId = resources.getIdentifier("navigation_bar_height", "dimen", "android")
             val navigationHeight = resources.getDimensionPixelSize(navigationbarId)
 
-            viewGroup.setPadding(0, 0, 0, navigationHeight)
+            viewGroup.setPadding(
+                viewGroup.paddingLeft,
+                viewGroup.paddingTop,
+                viewGroup.right,
+                navigationHeight + viewGroup.paddingBottom
+            )
         }
     }
 
@@ -58,7 +63,12 @@ class ActivityUtills(private val activity: Activity) {
             val statusbarId = resources.getIdentifier("status_bar_height", "dimen", "android")
             val statusBarHeight = resources.getDimensionPixelSize(statusbarId)
 
-            viewGroup.setPadding(0, statusBarHeight, 0, 0)
+            viewGroup.setPadding(
+                viewGroup.paddingLeft,
+                statusBarHeight + viewGroup.paddingTop,
+                viewGroup.right,
+                viewGroup.paddingBottom
+            )
         }
     }
 

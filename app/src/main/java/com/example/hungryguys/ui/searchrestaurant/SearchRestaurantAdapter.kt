@@ -10,7 +10,7 @@ import com.example.hungryguys.databinding.SearchRestaurantItemBinding
 import com.example.hungryguys.ui.inforestaurant.InfoRestaurantActivity
 
 class SearchRestaurantAdapter(
-    val data: MutableList<MutableMap<String, String>>,
+    var data: MutableList<MutableMap<String, String>>,
     val categoryImageMap: MutableMap<String, Int>   // 카테고리별 이미지 id저장한 map 객체
 ) :
     RecyclerView.Adapter<SearchRestaurantAdapter.SearchRestaurantHolder>() {

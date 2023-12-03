@@ -18,7 +18,7 @@ enum class InfoMenuItem {
 }
 class InfoRestaurantMenuFragment : Fragment() {
 
-    lateinit var recyclerAdapter: InfoRestaurantMenuAdapter
+    lateinit var recyclerAdapter: InfoRestaurantTabAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,7 +60,7 @@ class InfoRestaurantMenuFragment : Fragment() {
             dbdata.add(data2)
         }
 
-        recyclerAdapter = InfoRestaurantMenuAdapter(dbdata)
+        recyclerAdapter = InfoRestaurantTabAdapter(dbdata, "menu")
         binding.infomenuRecycler.adapter = recyclerAdapter
 
         return binding.root
