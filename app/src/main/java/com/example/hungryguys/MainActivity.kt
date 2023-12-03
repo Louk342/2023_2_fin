@@ -4,15 +4,15 @@ import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.GravityCompat
-import androidx.drawerlayout.widget.DrawerLayout
-import androidx.navigation.NavController
 import com.example.hungryguys.databinding.ActivityMainBinding
 import com.example.hungryguys.databinding.AppBarMainBinding
 import com.example.hungryguys.databinding.NavHeaderMainBinding
@@ -71,15 +71,21 @@ class MainActivity : AppCompatActivity() {
     private val navControllerEvent =
         NavController.OnDestinationChangedListener { _, destination, _ ->
             // 액션바 전체요소
+            actionbarView.mainTitleLayout.visibility = View.GONE //메인화면 전용 레이아웃
             actionbarView.serchViewLayout.visibility = View.GONE //검색창
             actionbarView.actionBarTitle.visibility = View.GONE //액션바 타이틀
             actionbarView.settingButton.visibility = View.GONE // 설정 버튼 아이콘
+            actionbarView.searchIconButton.visibility = View.GONE //오른쪽 검색아이콘
 
             // 여기에 활성화 하고싶은 요소만 View.VISIBLE 로
             when (destination.id) {
                 // 홈 프래그먼트
                 R.id.nav_home -> {
-                    actionbarView.serchViewLayout.visibility = View.VISIBLE
+                    actionbarView.actionBarTitle.text = "그룹이름"
+                    actionbarView.actionBarTitle.visibility = View.VISIBLE
+                    actionbarView.searchIconButton.visibility = View.VISIBLE
+                    actionbarView.mainTitleLayout.visibility = View.VISIBLE
+                    settingHomefragemet()
                 }
                 // 식당찾기 프래그먼트
                 R.id.nav_searchrestaurant -> {
@@ -104,15 +110,19 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
-        keybordHide()
-        return super.dispatchTouchEvent(ev)
+    // MainActivty 요소를 Homefragemet 에서 건들면 오류가 나므로 MainActivty에서 처리
+    private fun settingHomefragemet() {
+        // 검색버튼 클릭이벤트
+        actionbarView.searchIconButton.setOnClickListener {
+            navController.navigate(R.id.nav_searchrestaurant)
+        }
     }
 
-    // 키보드 숨기기
-    fun keybordHide() {
-        val imm: InputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+    // 키보드 이외에 다른요소 선택시 키보드 닫치게
+    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+        val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
+        return super.dispatchTouchEvent(ev)
     }
 
     override fun onSupportNavigateUp(): Boolean {

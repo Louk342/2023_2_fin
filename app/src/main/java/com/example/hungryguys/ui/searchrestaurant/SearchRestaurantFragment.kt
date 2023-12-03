@@ -37,7 +37,6 @@ enum class RestaurantItemId {
 }
 
 class SearchRestaurantFragment : Fragment() {
-
     // 카테고리 별 아이콘 만들어 지면 여기다 등록
     val categoryImageMap = mutableMapOf(
         "떡볶이" to R.drawable.tteokbokki_icon
@@ -45,9 +44,9 @@ class SearchRestaurantFragment : Fragment() {
 
     lateinit var binding: FragmentSearchRestaurantBinding
     lateinit var recyclerAdapter: SearchRestaurantAdapter
-    lateinit var searchtext: TextView
-    lateinit var searchIcon: ImageView
-    var dbdata: MutableList<MutableMap<String, String>> = mutableListOf()
+    private lateinit var searchtext: TextView
+    private lateinit var searchIcon: ImageView
+    private lateinit var dbdata: MutableList<MutableMap<String, String>>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -63,6 +62,7 @@ class SearchRestaurantFragment : Fragment() {
             searchList(it.toString())
         }
 
+        dbdata = mutableListOf()
         val data1 = mutableMapOf(
             RestaurantItemId.restaurant_name.name to "청년다방",
             RestaurantItemId.restaurant_category.name to "떡볶이",
@@ -110,9 +110,9 @@ class SearchRestaurantFragment : Fragment() {
         binding.restaurantrecycler.adapter = SearchRestaurantAdapter(data, categoryImageMap)
     }
 
+    // 프래그 먼트에서 벗어나면 입력 초기화
     override fun onDestroy() {
         searchtext.text = null
-        searchIcon.setOnClickListener(null)
         super.onDestroy()
     }
 }
