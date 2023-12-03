@@ -39,14 +39,17 @@ class ChattingAdapter(val data: MutableList<MutableMap<String, String>>) :
     }
 
     override fun onBindViewHolder(holder: ChattingHolder, position: Int) {
+        val username = data[position][ChatItem.User_Name.name]
         val chat = data[position][ChatItem.Chat.name]
         val chattime = data[position][ChatItem.Chat_Time.name]
+
 
         if (holder.meChatBinding != null) {
             holder.meChatBinding.chatText.text = chat
             holder.meChatBinding.chatTime.text = chattime
         } else {
-            holder.userChatBinding!!.chatText.text = chat
+            holder.userChatBinding!!.userName.text = username
+            holder.userChatBinding.chatText.text = chat
             holder.userChatBinding.chatTime.text = chattime
         }
     }

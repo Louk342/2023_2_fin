@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:gravity="center_vertical"
+    android:theme="@style/Theme.HungryGuys.NoActionBar"
+    android:layout_marginTop="10dp"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/user_icon"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="15dp"
+        android:src="@drawable/user_icon"
+        app:tint="@color/image_color" />
+
+    <TextView
+        android:id="@+id/user_name"
+        android:layout_width="wrap_content"
+        android:textSize="18sp"
+        android:layout_height="wrap_content"
+        android:text="닉네임" />
+</LinearLayout>

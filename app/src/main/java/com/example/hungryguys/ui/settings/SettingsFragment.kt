@@ -23,7 +23,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val sharedpreferences= PreferenceManager.getDefaultSharedPreferences(requireContext())
         sharedpreferences.registerOnSharedPreferenceChangeListener(settingChangeEvent)
     }
-
     // 설정에 대한 처리는 ActivityUtills에서
     private val settingChangeEvent = SharedPreferences.OnSharedPreferenceChangeListener { sharedPreferences, key ->
         when (key!!) {

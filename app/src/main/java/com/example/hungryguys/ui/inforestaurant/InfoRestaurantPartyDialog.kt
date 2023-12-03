@@ -8,12 +8,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
+import com.example.hungryguys.MainActivity
 import com.example.hungryguys.databinding.DialogAddPartyBinding
 import com.example.hungryguys.ui.chatting.ChattingActivity
 
 enum class ChatRoomData {
     /** 채팅방 이름 */
-    room_name
+    room_name,
+    /** 식당이름 */
+    restaurant_name
 }
 
 class InfoRestaurantPartyDialog: DialogFragment() {
@@ -36,6 +39,7 @@ class InfoRestaurantPartyDialog: DialogFragment() {
 
         binding.buttonOk.setOnClickListener {
             val roomname = binding.inputAddparty.text.toString()
+            val restaurantname = (activity as InfoRestaurantActivity).restaurantname
             if (roomname.isEmpty()) {
                 dismiss()
                 return@setOnClickListener
@@ -43,6 +47,7 @@ class InfoRestaurantPartyDialog: DialogFragment() {
 
             val intent = Intent(context, ChattingActivity::class.java)
             intent.putExtra(ChatRoomData.room_name.name, roomname)
+            intent.putExtra(ChatRoomData.restaurant_name.name, restaurantname)
             startActivity(intent)
             dismiss()
         }

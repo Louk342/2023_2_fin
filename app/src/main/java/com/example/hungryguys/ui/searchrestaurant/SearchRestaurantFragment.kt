@@ -1,14 +1,20 @@
 package com.example.hungryguys.ui.searchrestaurant
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
+import com.example.hungryguys.MainActivity
 import com.example.hungryguys.R
 import com.example.hungryguys.databinding.FragmentSearchRestaurantBinding
+
 
 // 리사이클러 뷰에 전달되야 되는 키 값이 더있으면 여기다 추가
 enum class RestaurantItemId {
@@ -33,6 +39,9 @@ enum class RestaurantItemId {
 class SearchRestaurantFragment : Fragment() {
 
     lateinit var recyclerAdapter: SearchRestaurantAdapter
+    lateinit var searchtext: TextView
+    lateinit var searchIcon: ImageView
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -43,6 +52,17 @@ class SearchRestaurantFragment : Fragment() {
         )
 
         val binding = FragmentSearchRestaurantBinding.inflate(inflater, container, false)
+
+        searchtext =  (activity as MainActivity).actionbarView.searchText
+        searchIcon = (activity as MainActivity).actionbarView.searchIcon
+
+        // 완료버튼 이벤트 설정
+        searchtext.setOnEditorActionListener(addKeyOkEvent(searchIcon))
+
+        searchIcon.setOnClickListener {
+            //키보드 완료랑 검색아이콘 클릭모두 이 함수를 거침
+            searchList()
+        }
 
         val dbdata: MutableList<MutableMap<String, String>> = mutableListOf()
         val data1 = mutableMapOf(
@@ -75,5 +95,24 @@ class SearchRestaurantFragment : Fragment() {
         }
 
         return binding.root
+    }
+
+    // 검색 구현
+    fun searchList() {
+        Log.d("로그", "거침")
+    }
+    fun addKeyOkEvent(view: View): TextView.OnEditorActionListener {
+        return TextView.OnEditorActionListener { _, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                view.callOnClick()
+            }
+            false
+        }
+    }
+
+    override fun onDestroy() {
+        searchtext.text = null
+        searchIcon.setOnClickListener(null)
+        super.onDestroy()
     }
 }

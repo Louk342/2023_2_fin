@@ -28,7 +28,7 @@ class ActivityUtills(private val activity: Activity) {
 
     // 상태바 투명화 Padding 보정 함수
     @SuppressLint("InternalInsetResource", "DiscouragedApi")
-    fun setStatusBarPadding(viewGroup: ViewGroup) {
+    fun setStatusBarAllPadding(viewGroup: ViewGroup) {
         activity.apply {
             val statusbarId = resources.getIdentifier("status_bar_height", "dimen", "android")
             val statusBarHeight = resources.getDimensionPixelSize(statusbarId)
@@ -37,6 +37,28 @@ class ActivityUtills(private val activity: Activity) {
             val navigationHeight = resources.getDimensionPixelSize(navigationbarId)
 
             viewGroup.setPadding(0, statusBarHeight, 0, navigationHeight)
+        }
+    }
+
+    // 상태바 투명화 Padding 하단 보정 함수
+    @SuppressLint("InternalInsetResource", "DiscouragedApi")
+    fun setStatusBarBottomPadding(viewGroup: ViewGroup) {
+        activity.apply {
+            val navigationbarId = resources.getIdentifier("navigation_bar_height", "dimen", "android")
+            val navigationHeight = resources.getDimensionPixelSize(navigationbarId)
+
+            viewGroup.setPadding(0, 0, 0, navigationHeight)
+        }
+    }
+
+    // 상태바 투명화 Padding 상단 보정 함수
+    @SuppressLint("InternalInsetResource", "DiscouragedApi")
+    fun setStatusBarTopPadding(viewGroup: ViewGroup) {
+        activity.apply {
+            val statusbarId = resources.getIdentifier("status_bar_height", "dimen", "android")
+            val statusBarHeight = resources.getDimensionPixelSize(statusbarId)
+
+            viewGroup.setPadding(0, statusBarHeight, 0, 0)
         }
     }
 

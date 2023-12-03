@@ -1,7 +1,9 @@
 package com.example.hungryguys
 
 import android.os.Bundle
+import android.view.MotionEvent
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
@@ -33,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         // 상단 상테바, 하단 내비게이션 투명화 및 보정
         val activityUtills = ActivityUtills(this)
         activityUtills.setStatusBarTransparent()
-        activityUtills.setStatusBarPadding(actionbarView.root)
+        activityUtills.setStatusBarAllPadding(actionbarView.root)
 
         setSupportActionBar(actionbarView.toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
@@ -101,6 +103,17 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+
+    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+        keybordHide()
+        return super.dispatchTouchEvent(ev)
+    }
+
+    // 키보드 숨기기
+    fun keybordHide() {
+        val imm: InputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
+    }
 
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment_content_main)

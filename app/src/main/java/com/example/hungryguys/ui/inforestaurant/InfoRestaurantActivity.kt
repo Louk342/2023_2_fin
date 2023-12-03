@@ -23,6 +23,7 @@ class InfoRestaurantActivity : AppCompatActivity(), OnMapReadyCallback {
     lateinit var binding: ActivityInfoRestaurantBinding
     lateinit var menuFragment: InfoRestaurantMenuFragment
     lateinit var reviewFragment: InfoRestaurantReviewFragment
+    lateinit var restaurantname: String // 식당이름
     var restaurantid: Int = 0 //추후 DB 식별 값으로 변경
     private var mMap: GoogleMap? = null
 
@@ -34,7 +35,7 @@ class InfoRestaurantActivity : AppCompatActivity(), OnMapReadyCallback {
         // 상단 상테바, 하단 내비게이션 투명화 및 보정
         val activityUtills = ActivityUtills(this)
         activityUtills.setStatusBarTransparent()
-        activityUtills.setStatusBarPadding(binding.root)
+        activityUtills.setStatusBarAllPadding(binding.root)
 
         // 툴바 설정
         val toolbar = binding.toolbar
@@ -93,9 +94,10 @@ class InfoRestaurantActivity : AppCompatActivity(), OnMapReadyCallback {
     // 인텐트로 넘어온값 처리
      private fun setIntentData() {
         intent.apply {
+            //db 고유 식별자
             restaurantid = getIntExtra(RestaurantItemId.inforestaurant_id.name, 0)
-
-            val restaurantname = getStringExtra(RestaurantItemId.restaurant_name.name)
+            // 식당이름
+            restaurantname = getStringExtra(RestaurantItemId.restaurant_name.name)!!
             val restaurantstar = getStringExtra(RestaurantItemId.restaurant_star.name)
             val restaurantstarcount = "(${getStringExtra(RestaurantItemId.restaurant_star_count.name)})"
 
