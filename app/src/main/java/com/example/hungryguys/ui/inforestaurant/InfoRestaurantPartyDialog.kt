@@ -11,6 +11,11 @@ import androidx.fragment.app.DialogFragment
 import com.example.hungryguys.databinding.DialogAddPartyBinding
 import com.example.hungryguys.ui.chatting.ChattingActivity
 
+enum class ChatRoomData {
+    /** 채팅방 이름 */
+    room_name
+}
+
 class InfoRestaurantPartyDialog: DialogFragment() {
     lateinit var binding: DialogAddPartyBinding
 
@@ -30,7 +35,14 @@ class InfoRestaurantPartyDialog: DialogFragment() {
         }
 
         binding.buttonOk.setOnClickListener {
+            val roomname = binding.inputAddparty.text.toString()
+            if (roomname.isEmpty()) {
+                dismiss()
+                return@setOnClickListener
+            }
+
             val intent = Intent(context, ChattingActivity::class.java)
+            intent.putExtra(ChatRoomData.room_name.name, roomname)
             startActivity(intent)
             dismiss()
         }
