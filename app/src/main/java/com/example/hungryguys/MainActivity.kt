@@ -88,6 +88,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 // 식당찾기 프래그먼트
                 R.id.nav_searchrestaurant -> {
+                    actionbarView.searchText.text = null
                     actionbarView.serchViewLayout.visibility = View.VISIBLE
                 }
                 // 파티찾기 프래그먼트

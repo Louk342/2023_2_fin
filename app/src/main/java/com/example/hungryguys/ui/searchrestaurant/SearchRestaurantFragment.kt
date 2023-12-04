@@ -43,8 +43,6 @@ class SearchRestaurantFragment : Fragment() {
 
     lateinit var binding: FragmentSearchRestaurantBinding
     lateinit var recyclerAdapter: SearchRestaurantAdapter
-    private lateinit var searchtext: TextView
-    private lateinit var searchIcon: ImageView
     private lateinit var dbdata: MutableList<MutableMap<String, String>>
 
     override fun onCreateView(
@@ -53,8 +51,7 @@ class SearchRestaurantFragment : Fragment() {
     ): View {
         binding = FragmentSearchRestaurantBinding.inflate(inflater, container, false)
 
-        searchtext =  (activity as MainActivity).actionbarView.searchText
-        searchIcon = (activity as MainActivity).actionbarView.searchIcon
+        val searchtext =  (activity as MainActivity).actionbarView.searchText
 
         // 키보드 입력이벤트
         searchtext.addTextChangedListener {
@@ -107,11 +104,5 @@ class SearchRestaurantFragment : Fragment() {
         }.toMutableList()
 
         binding.restaurantrecycler.adapter = SearchRestaurantAdapter(data, categoryImageMap)
-    }
-
-    // 프래그 먼트에서 벗어나면 입력 초기화
-    override fun onStop() {
-        super.onStop()
-        searchtext.text = null
     }
 }
