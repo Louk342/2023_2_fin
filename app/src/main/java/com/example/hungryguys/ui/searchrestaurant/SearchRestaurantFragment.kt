@@ -110,8 +110,8 @@ class SearchRestaurantFragment : Fragment() {
     }
 
     // 프래그 먼트에서 벗어나면 입력 초기화
-    override fun onDestroy() {
+    override fun onStop() {
+        super.onStop()
         searchtext.text = null
-        super.onDestroy()
     }
 }
