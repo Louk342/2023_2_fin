@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import com.example.hungryguys.MainActivity
 import com.example.hungryguys.databinding.DialogAddPartyBinding
 import com.example.hungryguys.ui.chatting.ChattingActivity
 

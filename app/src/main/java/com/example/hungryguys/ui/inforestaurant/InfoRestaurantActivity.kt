@@ -82,13 +82,13 @@ class InfoRestaurantActivity : AppCompatActivity(), OnMapReadyCallback {
             .target(groupLatLng)
             .zoom(16f)
             .build()
-        googleMap?.moveCamera(CameraUpdateFactory.newCameraPosition(position))
+        googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(position))
 
         val markerOptions = MarkerOptions().run {
             position(groupLatLng)
             title("동양미래대학교")
         }
-        googleMap?.addMarker(markerOptions)
+        googleMap.addMarker(markerOptions)
     }
 
     // 인텐트로 넘어온값 처리

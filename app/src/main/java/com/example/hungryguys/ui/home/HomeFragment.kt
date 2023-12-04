@@ -77,7 +77,7 @@ class HomeFragment : Fragment() {
                 // 검색창 포커싱 및 키보드 열기
                 actionbarView.searchText.requestFocus()
                 val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.showSoftInput(actionbarView.searchText, 0);
+                imm.showSoftInput(actionbarView.searchText, 0)
             }
         }
     }

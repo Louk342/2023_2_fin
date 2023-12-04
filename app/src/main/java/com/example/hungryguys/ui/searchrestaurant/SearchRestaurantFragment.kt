@@ -35,7 +35,7 @@ enum class RestaurantItemId {
 
 class SearchRestaurantFragment : Fragment() {
     // 카테고리 별 아이콘 만들어 지면 여기다 등록
-    val categoryImageMap = mutableMapOf(
+    private val categoryImageMap = mutableMapOf(
         "떡볶이" to R.drawable.tteokbokki_icon
     )
 
@@ -49,7 +49,7 @@ class SearchRestaurantFragment : Fragment() {
     ): View {
         binding = FragmentSearchRestaurantBinding.inflate(inflater, container, false)
 
-        val searchtext =  (activity as MainActivity).actionbarView.searchText
+        val searchtext = (activity as MainActivity).actionbarView.searchText
 
         // 키보드 입력이벤트
         searchtext.addTextChangedListener {
@@ -90,16 +90,15 @@ class SearchRestaurantFragment : Fragment() {
     }
 
     // 검색 구현
-    fun searchList(text: String) {
-        var data: MutableList<MutableMap<String, String>>
-        if (text.isEmpty()) {
-            data = dbdata
+    private fun searchList(text: String) {
+        val data = if (text.isEmpty()) {
+            dbdata
+        } else {
+            dbdata.filter {
+                val name = it[RestaurantItemId.restaurant_name.name]!!
+                name.contains(text, true)
+            }.toMutableList()
         }
-
-        data = dbdata.filter {
-            val name = it[RestaurantItemId.restaurant_name.name]!!
-            name.contains(text, true)
-        }.toMutableList()
 
         binding.restaurantrecycler.adapter = SearchRestaurantAdapter(data, categoryImageMap)
     }

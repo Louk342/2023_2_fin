@@ -57,7 +57,7 @@ class SplashActivity : AppCompatActivity() {
     }
 
     // 권한 체크 이후 엑티비티 이동
-    fun chageActivity() {
+    private fun chageActivity() {
         val isFirst = localprf.getBoolean("isfirst", true)
 
         if (isFirst) {
