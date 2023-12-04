@@ -14,6 +14,7 @@ import com.example.hungryguys.MainActivity
 import com.example.hungryguys.R
 import com.example.hungryguys.databinding.FragmentHomeBinding
 import com.example.hungryguys.ui.inforestaurant.InfoRestaurantActivity
+import com.example.hungryguys.ui.searchrestaurant.RestaurantItemId
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.SphericalUtil
 import kotlin.math.roundToInt
@@ -33,7 +34,14 @@ class HomeFragment : Fragment() {
         // 식당 클릭 시 식당 정보 페이지로 이동
         homebinding.randomMenuLayout.setOnClickListener {
             val intent = Intent(context, InfoRestaurantActivity::class.java)
-            intent.putExtra("item_position", 0)
+
+            //DB 에서 랜덤으로 식당 하나 받아오기
+            intent.putExtra(RestaurantItemId.inforestaurant_id.name, 0)
+            intent.putExtra(RestaurantItemId.restaurant_name.name, "청년다방")
+            intent.putExtra(RestaurantItemId.restaurant_star.name, "4.1")
+            intent.putExtra(RestaurantItemId.restaurant_star_count.name, "120")
+            intent.putExtra(RestaurantItemId.restaurant_we.name, "200")
+            intent.putExtra(RestaurantItemId.restaurant_ky.name, "100")
             context?.startActivity(intent)
         }
 

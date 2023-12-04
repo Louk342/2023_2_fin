@@ -6,6 +6,8 @@ import android.os.Build
 import android.util.Log
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.WindowCompat
 
@@ -90,5 +92,11 @@ class ActivityUtills(private val activity: Activity) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             }
         }
+    }
+
+    // 키보드 닫는 함수
+    fun closeKeyboard() {
+        val imm = activity.getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(activity.currentFocus?.windowToken, 0)
     }
 }

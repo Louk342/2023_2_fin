@@ -3,7 +3,6 @@ package com.example.hungryguys
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
-import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -25,6 +24,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var actionbarView: AppBarMainBinding
     lateinit var navController: NavController
     lateinit var drawerLayout: DrawerLayout
+    private lateinit var activityUtills: ActivityUtills
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         // 상단 상테바, 하단 내비게이션 투명화 및 보정
-        val activityUtills = ActivityUtills(this)
+        activityUtills = ActivityUtills(this)
         activityUtills.setStatusBarTransparent()
         activityUtills.setStatusBarAllPadding(actionbarView.root)
 
@@ -111,8 +111,7 @@ class MainActivity : AppCompatActivity() {
 
     // 키보드 이외에 다른요소 선택시 키보드 닫치게
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
-        val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
+        activityUtills.closeKeyboard()
         return super.dispatchTouchEvent(ev)
     }
 

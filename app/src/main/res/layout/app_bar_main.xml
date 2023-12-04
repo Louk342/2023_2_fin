@@ -48,8 +48,10 @@
                 <ImageView
                     android:id="@+id/marker_icon"
                     android:layout_width="24dp"
+                    app:tint="@color/image_color"
                     android:layout_height="24dp"
-                    android:src="@drawable/marker_icon" />
+                    android:src="@drawable/marker_icon"
+                    android:contentDescription="marker_icon" />
             </LinearLayout>
 
             <LinearLayout

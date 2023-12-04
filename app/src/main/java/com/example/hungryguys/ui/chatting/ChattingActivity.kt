@@ -1,8 +1,13 @@
 package com.example.hungryguys.ui.chatting
 
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.MotionEvent
+import android.view.View
+import android.view.inputmethod.EditorInfo
+import android.widget.TextView
 import androidx.core.view.GravityCompat
 import com.example.hungryguys.databinding.ActivityChattingBinding
 import com.example.hungryguys.databinding.ChatInfoNavBinding
@@ -23,18 +28,12 @@ class ChattingActivity : AppCompatActivity() {
     lateinit var binding: ActivityChattingBinding
     lateinit var chatrecyclerAdapter: ChattingAdapter
     lateinit var navrecyclerAdapter: ChattingNavAdapter
+    private lateinit var activityUtills: ActivityUtills
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityChattingBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        // 상단 상테바, 하단 내비게이션 투명화 및 보정
-        val activityUtills = ActivityUtills(this)
-        activityUtills.setStatusBarTransparent()
-        activityUtills.setStatusBarAllPadding(binding.chatView)
-        activityUtills.setStatusBarBottomPadding(binding.navView)
-        activityUtills.setStatusBarTopPadding(binding.navViewLayout.navHader)
 
         // 툴바 설정
         val toolbar = binding.toolbar
@@ -45,12 +44,15 @@ class ChattingActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
+        activityUtills = ActivityUtills(this)
+
         // 드로어 레이아웃 설정
         drawerSetting(binding.navViewLayout)
 
         //채팅방 제목으로 타이틀 변경
         binding.actionBarTitle.text = intent.getStringExtra(ChatRoomData.room_name.name)
 
+        // 유저 수 설정
         binding.userCount.text = navrecyclerAdapter.data.size.toString()
 
         val dbdata: MutableList<MutableMap<String, String>> = mutableListOf()
@@ -84,15 +86,23 @@ class ChattingActivity : AppCompatActivity() {
             binding.drawerLayout.openDrawer(GravityCompat.END)
         }
 
+        // 키보드 완료 이벤트 등록
+        binding.pushMessge.setOnEditorActionListener(setKeyOkEvent(binding.pushBt))
+
         // 보내기 버튼 이벤트
         binding.pushBt.setOnClickListener {
+            // 키보드 확인버튼, 보내기버튼 둘다 여기서 처리
             val message = binding.pushMessge.text.toString()
+            if (message.isEmpty()) return@setOnClickListener
+
             val item =  mutableMapOf(
                 ChatItem.Chat_Type.name to "me",
                 ChatItem.Chat.name to message,
                 ChatItem.Chat_Time.name to "11:11",
             )
             addNewChat(item)
+
+            binding.pushMessge.text = null
         }
     }
 
@@ -126,6 +136,16 @@ class ChattingActivity : AppCompatActivity() {
         }
     }
 
+    // 키도드 완료 이벤트 설정
+    fun setKeyOkEvent(view: View): TextView.OnEditorActionListener {
+        return TextView.OnEditorActionListener { textView, actionId, keyEvent ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                view.callOnClick()
+            }
+            true
+        }
+    }
+
     // 새로운 채팅 갱신
     fun addNewChat(item: MutableMap<String, String>) {
         chatrecyclerAdapter.data.add(item)
@@ -140,5 +160,11 @@ class ChattingActivity : AppCompatActivity() {
             }
         }
         return true
+    }
+
+    // 키보드 이외에 다른요소 선택시 키보드 닫치게
+    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+        activityUtills.closeKeyboard()
+        return super.dispatchTouchEvent(ev)
     }
 }

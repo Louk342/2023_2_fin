@@ -37,6 +37,12 @@
         <item name="android:enforceStatusBarContrast" tools:targetApi="q">false</item>
     </style>
 
+    <!-- 채팅 엑티비티 테마 (키보드 문제로 전체화면 설정이 안되므로) -->
+    <style name="ChattingActivity" parent="Theme.HungryGuys.NoActionBar">
+        <item name="android:statusBarColor">@color/background</item>
+        <item name="android:navigationBarColor">@color/background</item>
+    </style>
+
     <style name="Theme.HungryGuys.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.HungryGuys.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />

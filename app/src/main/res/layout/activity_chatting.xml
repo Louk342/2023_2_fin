@@ -5,7 +5,6 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     android:theme="@style/Theme.HungryGuys.NoActionBar"
     tools:context=".ui.chatting.ChattingActivity"
     tools:openDrawer="end">
@@ -58,10 +57,10 @@
                     android:id="@+id/hamburger_button"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    app:tint="@color/image_color"
                     android:layout_gravity="end"
                     android:layout_marginEnd="16dp"
-                    android:src="@drawable/hamburger_icon" />
+                    android:src="@drawable/hamburger_icon"
+                    app:tint="@color/image_color" />
 
             </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.AppBarLayout>
@@ -82,6 +81,10 @@
             android:id="@+id/push_chat_layout"
             android:layout_width="match_parent"
             android:layout_height="40dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="10dp"
             android:background="@drawable/item_chatting_bar"
             android:gravity="center_vertical"
             android:orientation="horizontal"
@@ -123,7 +126,6 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="end"
-        android:fitsSystemWindows="true"
         android:theme="@style/menuStyle">
 
         <include

@@ -40,7 +40,8 @@
         <activity
             android:name=".ui.chatting.ChattingActivity"
             android:exported="false"
-            android:theme="@style/Theme.HungryGuys.NoActionBar" />
+            android:theme="@style/ChattingActivity"
+            android:windowSoftInputMode="adjustResize"/>
     </application>
 
 </manifest>
