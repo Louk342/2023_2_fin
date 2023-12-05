@@ -16,6 +16,7 @@ import com.example.hungryguys.databinding.ActivityMainBinding
 import com.example.hungryguys.databinding.AppBarMainBinding
 import com.example.hungryguys.databinding.NavHeaderMainBinding
 import com.example.hungryguys.utills.ActivityUtills
+import com.example.hungryguys.utills.MyApplication
 
 class MainActivity : AppCompatActivity() {
 
@@ -25,6 +26,15 @@ class MainActivity : AppCompatActivity() {
     lateinit var navController: NavController
     lateinit var drawerLayout: DrawerLayout
     private lateinit var activityUtills: ActivityUtills
+
+    override fun onStart() {
+        super.onStart()
+        if (MyApplication.checkAuth()) {
+            //로그인 상태일시
+        } else {
+            //로그아웃 상태일시
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
