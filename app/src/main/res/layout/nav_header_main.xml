@@ -23,6 +23,7 @@
         app:srcCompat="@drawable/user_icon" />
 
     <TextView
+        android:id="@+id/user_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
@@ -32,10 +33,10 @@
         android:background="@android:color/transparent" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/user_location"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="주소"
+        android:text="그룹"
         android:textSize="16sp"
         android:textColor="@color/black"
         android:background="@android:color/transparent" />

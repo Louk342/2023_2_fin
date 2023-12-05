@@ -91,7 +91,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="10"
                     android:paddingEnd="5dp"
-                    android:text="주소"
+                    android:text="그룹"
                     android:textAlignment="textEnd"
                     android:textColor="@color/hint_color"
                     android:textSize="18sp"
