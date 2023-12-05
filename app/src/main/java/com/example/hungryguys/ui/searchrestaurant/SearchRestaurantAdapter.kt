@@ -11,7 +11,7 @@ import com.example.hungryguys.ui.inforestaurant.InfoRestaurantActivity
 
 class SearchRestaurantAdapter(
     var data: MutableList<MutableMap<String, String>>,
-    val categoryImageMap: MutableMap<String, Int>   // 카테고리별 이미지 id저장한 map 객체
+    val restaurantImageMap: MutableMap<String, Int>   // 카테고리별 이미지 id저장한 map 객체
 ) :
     RecyclerView.Adapter<SearchRestaurantAdapter.SearchRestaurantHolder>() {
 
@@ -65,8 +65,8 @@ class SearchRestaurantAdapter(
             restaurantName.text = restaurantname
             restaurantDescription.text = restaurantdescription
             restaurantStar.text = restaurantstar
-            restaurantDistance.text = setdescription(restaurantky.toInt(), restaurantwe.toInt())
-            setCategoryImage(this, restaurantcategory)
+            restaurantDistance.text = "100m"
+            setrestaurantImage(this, restaurantname)
         }
 
         holder.recyclerevent(position)
@@ -78,8 +78,8 @@ class SearchRestaurantAdapter(
     }
 
     //미리 보기 화면 설정
-    private fun setCategoryImage(binding: SearchRestaurantItemBinding, key: String) {
-        val imageid = categoryImageMap[key]
+    private fun setrestaurantImage(binding: SearchRestaurantItemBinding, key: String) {
+        val imageid = restaurantImageMap[key]
         if (imageid == null) {
             binding.categoryText.text = key
             binding.categoryText.visibility = View.VISIBLE

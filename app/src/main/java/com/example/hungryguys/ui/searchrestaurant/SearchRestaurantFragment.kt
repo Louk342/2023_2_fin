@@ -34,9 +34,12 @@ enum class RestaurantItemId {
 }
 
 class SearchRestaurantFragment : Fragment() {
-    // 카테고리 별 아이콘 만들어 지면 여기다 등록
-    private val categoryImageMap = mutableMapOf(
-        "떡볶이" to R.drawable.tteokbokki_icon
+    // 음식점 별 아이콘 만들어 지면 여기다 등록
+    private val restaurantImageMap = mutableMapOf(
+        "청년다방 동양미래대점" to R.drawable.coungyear,
+        "맘스터치 동양미래대점" to R.drawable.momstouch,
+        "고척돈까스" to R.drawable.gocuckdon,
+        "홍콩반점0410 고척동양대점" to R.drawable.hongkongban,
     )
 
     lateinit var binding: FragmentSearchRestaurantBinding
@@ -58,27 +61,48 @@ class SearchRestaurantFragment : Fragment() {
 
         dbdata = mutableListOf()
         val data1 = mutableMapOf(
-            RestaurantItemId.restaurant_name.name to "청년다방",
-            RestaurantItemId.restaurant_category.name to "떡볶이",
-            RestaurantItemId.restaurant_star.name to "4.1",
-            RestaurantItemId.restaurant_star_count.name to "120",
-            RestaurantItemId.restaurant_description.name to "떡복이가 참 긴",
-            RestaurantItemId.restaurant_we.name to "200",
-            RestaurantItemId.restaurant_ky.name to "100"
+            RestaurantItemId.restaurant_name.name to "청년다방 동양미래대점",
+            RestaurantItemId.restaurant_category.name to "분식",
+            RestaurantItemId.restaurant_star.name to "4.6",
+            RestaurantItemId.restaurant_star_count.name to "5",
+            RestaurantItemId.restaurant_description.name to "떡볶이와 커피를 결합한 분식 카페",
+            RestaurantItemId.restaurant_we.name to "37.50023492723507",
+            RestaurantItemId.restaurant_ky.name to "126.86688571370166"
         )
         val data2 = mutableMapOf(
-            RestaurantItemId.restaurant_name.name to "푸라닭",
-            RestaurantItemId.restaurant_category.name to "치킨",
+            RestaurantItemId.restaurant_name.name to "맘스터치 동양미래대점",
+            RestaurantItemId.restaurant_category.name to "햄버거",
+            RestaurantItemId.restaurant_star.name to "4.4",
+            RestaurantItemId.restaurant_star_count.name to "5",
+            RestaurantItemId.restaurant_description.name to "맛있는 햄버거 치킨 브랜드",
+            RestaurantItemId.restaurant_we.name to "37.50079897353079",
+            RestaurantItemId.restaurant_ky.name to "126.86635713389877"
+        )
+
+        val data3 = mutableMapOf(
+            RestaurantItemId.restaurant_name.name to "고척돈까스",
+            RestaurantItemId.restaurant_category.name to "돈까스",
             RestaurantItemId.restaurant_star.name to "4.0",
-            RestaurantItemId.restaurant_star_count.name to "200",
-            RestaurantItemId.restaurant_description.name to "맛있는 치킨집",
-            RestaurantItemId.restaurant_we.name to "200",
-            RestaurantItemId.restaurant_ky.name to "100"
+            RestaurantItemId.restaurant_star_count.name to "5",
+            RestaurantItemId.restaurant_description.name to "맛있고 가성비 좋은 돈까스집",
+            RestaurantItemId.restaurant_we.name to "37.50205556383366",
+            RestaurantItemId.restaurant_ky.name to "126.86490388817289"
+        )
+        val data4 = mutableMapOf(
+            RestaurantItemId.restaurant_name.name to "홍콩반점0410 고척동양대점",
+            RestaurantItemId.restaurant_category.name to "중식",
+            RestaurantItemId.restaurant_star.name to "4.0",
+            RestaurantItemId.restaurant_star_count.name to "5",
+            RestaurantItemId.restaurant_description.name to "백종원의 중식 브랜드",
+            RestaurantItemId.restaurant_we.name to "37.500386294196936",
+            RestaurantItemId.restaurant_ky.name to "126.86621315398844"
         )
         dbdata.add(data1)
         dbdata.add(data2)
+        dbdata.add(data3)
+        dbdata.add(data4)
 
-        recyclerAdapter = SearchRestaurantAdapter(dbdata, categoryImageMap)
+        recyclerAdapter = SearchRestaurantAdapter(dbdata, restaurantImageMap)
         binding.restaurantrecycler.apply {
             adapter = recyclerAdapter
 
@@ -100,6 +124,6 @@ class SearchRestaurantFragment : Fragment() {
             }.toMutableList()
         }
 
-        binding.restaurantrecycler.adapter = SearchRestaurantAdapter(data, categoryImageMap)
+        binding.restaurantrecycler.adapter = SearchRestaurantAdapter(data, restaurantImageMap)
     }
 }

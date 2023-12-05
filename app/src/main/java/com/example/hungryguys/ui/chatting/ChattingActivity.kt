@@ -9,6 +9,7 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import androidx.core.view.GravityCompat
+import com.example.hungryguys.R
 import com.example.hungryguys.databinding.ActivityChattingBinding
 import com.example.hungryguys.databinding.ChatInfoNavBinding
 import com.example.hungryguys.ui.inforestaurant.ChatRoomData
@@ -58,20 +59,20 @@ class ChattingActivity : AppCompatActivity() {
         val dbdata: MutableList<MutableMap<String, String>> = mutableListOf()
         val data1 = mutableMapOf(
             ChatItem.Chat_Type.name to "user",
-            ChatItem.User_Name.name to "유저1",
+            ChatItem.User_Name.name to "클린홈케어",
             ChatItem.Chat.name to "안녕하세요",
-            ChatItem.Chat_Time.name to "11:11"
+            ChatItem.Chat_Time.name to "11:12"
         )
         val data2 = mutableMapOf(
             ChatItem.Chat_Type.name to "user",
-            ChatItem.User_Name.name to "유저2",
-            ChatItem.Chat.name to "잘되나요?",
-            ChatItem.Chat_Time.name to "11:11"
+            ChatItem.User_Name.name to "번데기",
+            ChatItem.Chat.name to "안녕하세요",
+            ChatItem.Chat_Time.name to "11:15"
         )
         val data3 = mutableMapOf(
             ChatItem.Chat_Type.name to "me",
-            ChatItem.Chat.name to "아이고난1",
-            ChatItem.Chat_Time.name to "11:11"
+            ChatItem.Chat.name to "반가워요",
+            ChatItem.Chat_Time.name to "11:17"
         )
         dbdata.add(data1)
         dbdata.add(data2)
@@ -110,17 +111,19 @@ class ChattingActivity : AppCompatActivity() {
     fun drawerSetting (navView: ChatInfoNavBinding) {
         val dbdata: MutableList<MutableMap<String, String>> = mutableListOf()
         val data1 = mutableMapOf(
-            ChatItem.User_Name.name to "유저1"
+            ChatItem.User_Name.name to "(나)"
         )
         val data2 = mutableMapOf(
-            ChatItem.User_Name.name to "유저2"
+            ChatItem.User_Name.name to "클린홈케어"
         )
         val data3 = mutableMapOf(
-            ChatItem.User_Name.name to "유저3"
+            ChatItem.User_Name.name to "번데기"
         )
         dbdata.add(data1)
         dbdata.add(data2)
         dbdata.add(data3)
+
+        navView.restaurantImage.setImageResource(R.drawable.coungyear)
 
         // 네비게이션 유저목록 어뎁터 설정
         navrecyclerAdapter = ChattingNavAdapter(dbdata)

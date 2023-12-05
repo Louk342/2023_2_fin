@@ -56,6 +56,9 @@ class MainActivity : AppCompatActivity() {
             drawerLayout.closeDrawer(GravityCompat.START)
         }
 
+        navHeaderBinding.userName.text = "석씨s"
+        navHeaderBinding.userLocation.text = "동양미래대학"
+
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.nav_home, R.id.nav_searchparty, R.id.nav_searchrestaurant
@@ -81,7 +84,7 @@ class MainActivity : AppCompatActivity() {
             when (destination.id) {
                 // 홈 프래그먼트
                 R.id.nav_home -> {
-                    actionbarView.actionBarTitle.text = "그룹이름"
+                    actionbarView.actionBarTitle.text = "동양미래대학"
                     actionbarView.actionBarTitle.visibility = View.VISIBLE
                     actionbarView.searchIconButton.visibility = View.VISIBLE
                     actionbarView.mainTitleLayout.visibility = View.VISIBLE

@@ -28,14 +28,14 @@ class SearchPartyFragment : Fragment() {
         val dbdata: MutableList<MutableMap<String, String>> = mutableListOf()
 
         val data1 = mutableMapOf(
-            SearchPartyItemId.party_name.name to "파티1",
-            SearchPartyItemId.party_location.name to "고척",
-            SearchPartyItemId.party_person.name to "10"
+            SearchPartyItemId.party_name.name to "밥먹을사람 구해요~",
+            SearchPartyItemId.party_location.name to "청년다방 동양미래대점",
+            SearchPartyItemId.party_person.name to "3"
         )
         val data2 = mutableMapOf(
-            SearchPartyItemId.party_name.name to "파티2",
-            SearchPartyItemId.party_location.name to "고척",
-            SearchPartyItemId.party_person.name to "20"
+            SearchPartyItemId.party_name.name to "간단하게 점심해결할 4명 모집",
+            SearchPartyItemId.party_location.name to "맘스터치 동양미래대점",
+            SearchPartyItemId.party_person.name to "2"
         )
         dbdata.add(data1)
         dbdata.add(data2)

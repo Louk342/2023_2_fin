@@ -39,6 +39,9 @@ class MypageFragment : Fragment() {
             Toast.makeText(requireContext(), "탈퇴", Toast.LENGTH_SHORT).show()
         }
 
+        binding.userName.text = "석씨s"
+        binding.userLocation.text = "동양미래대학"
+
         (activity as MainActivity).apply {
             // 설정 이미지 클릭하면 settingsFragment 로 이동
             actionbarView.settingButton.setOnClickListener {
@@ -49,19 +52,20 @@ class MypageFragment : Fragment() {
 
         val dbdata: MutableList<MutableMap<String, String>> = mutableListOf()
         val data1 = mutableMapOf(
-            MypageChatItemId.room_title.name to "방1",
-            MypageChatItemId.last_chat.name to "채팅",
-            MypageChatItemId.connect_people.name to "10",
-            MypageChatItemId.last_chat_time.name to "시간"
+            MypageChatItemId.room_title.name to "점심 함께 드실분 구해요~",
+            MypageChatItemId.last_chat.name to "그럼 12시 학교정문에서 봐요~",
+            MypageChatItemId.connect_people.name to "5",
+            MypageChatItemId.last_chat_time.name to "11:30"
+        )
+        val data2 = mutableMapOf(
+            MypageChatItemId.room_title.name to "술 드실분 구해요",
+            MypageChatItemId.last_chat.name to "알겠습니다!",
+            MypageChatItemId.connect_people.name to "7",
+            MypageChatItemId.last_chat_time.name to "10:23"
         )
 
         dbdata.add(data1)
-        dbdata.add(data1)
-        dbdata.add(data1)
-        dbdata.add(data1)
-        dbdata.add(data1)
-        dbdata.add(data1)
-        dbdata.add(data1)
+        dbdata.add(data2)
 
         recyclerAdapter = MypageAdapter(dbdata, binding)
         binding.myChatRecycler.adapter = recyclerAdapter

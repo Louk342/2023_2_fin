@@ -1,8 +1,10 @@
 package com.example.hungryguys.ui.inforestaurant
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.hungryguys.R
 import com.example.hungryguys.databinding.InfoRestaurantMenuItemBinding
 import com.example.hungryguys.databinding.InfoRestaurantReviewItemBinding
 
@@ -47,6 +49,13 @@ class InfoRestaurantTabAdapter (
             val foodprice = data[position][InfoMenuItem.food_price.name]!!
 
             holder.menuBinding.apply {
+                foodImg.visibility = View.VISIBLE
+                if (position == 0) {
+                    foodImg.setImageResource(R.drawable.coungyear_menu_1)
+                } else {
+                    foodImg.setImageResource(R.drawable.coungyear_menu_2)
+                }
+
                 foodName.text = foodname
                 foodDescription.text = fooddescription
                 foodPrice.text = foodprice
