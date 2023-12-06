@@ -1,17 +1,14 @@
 package com.example.hungryguys.ui.mypage
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.view.GravityCompat
 import com.example.hungryguys.MainActivity
 import com.example.hungryguys.R
 import com.example.hungryguys.databinding.FragmentMypageBinding
-import com.example.hungryguys.ui.auth.AuthActivity
 import com.example.hungryguys.utills.GoogleLoginData
 
 // 리사이클러 뷰에 전달되야 되는 키 값이 더있으면 여기다 추가
@@ -34,23 +31,14 @@ class MypageFragment : Fragment() {
     ): View {
         val binding = FragmentMypageBinding.inflate(inflater, container, false)
 
+        // 로그아웃 클릭
         binding.logoutButtonText.setOnClickListener {
-            GoogleLoginData.auth.signOut()
-            GoogleLoginData.email = null
-            GoogleLoginData.name = null
-            Toast.makeText(requireContext(), "로그아웃 되었습니다", Toast.LENGTH_SHORT).show()
-            startActivity(Intent(context, AuthActivity::class.java))
-            activity?.finish()
+            MypageDialog().show(requireActivity().supportFragmentManager, "로그아웃")
         }
 
+        // 회원탈퇴 클릭
         binding.cancelButton.setOnClickListener {
-            // TODO: db에서 회원 탈퇴 처리하는 작업필요
-            GoogleLoginData.auth.signOut()
-            GoogleLoginData.email = null
-            GoogleLoginData.name = null
-            Toast.makeText(requireContext(), "탈퇴처리 되었습니다", Toast.LENGTH_SHORT).show()
-            startActivity(Intent(context, AuthActivity::class.java))
-            activity?.finish()
+            MypageDialog().show(requireActivity().supportFragmentManager, "회원탈퇴")
         }
 
         binding.userName.text = GoogleLoginData.name

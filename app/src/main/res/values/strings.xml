@@ -22,7 +22,11 @@
     <string name="mypage_user_location">그룹</string>
     <string name="mypage_chatlist_description">내 채팅방</string>
     <string name="mypage_logout_text">로그아웃</string>
+    <string name="mypage_logout_check">로그아웃 하시겠습니까?</string>
     <string name="mypage_cancel_text">회원탈퇴</string>
+    <string name="mypage_cancel_check">회원탈퇴 하시겠습니까?</string>
+    <string name="mypage_dialog_ok">확인</string>
+    <string name="mypage_dialog_cencal">취소</string>
     <string name="mypage_nonechat_text">현재 참여중인 채팅방이 없습니다.</string>
 
     <string name="settings_messages_header">기본설정</string>
