@@ -26,7 +26,6 @@ class SplashActivity : AppCompatActivity() {
     private val PERMISSIONS_REQUEST = 1 // 권한 요청 레벨
     private lateinit var localprf: SharedPreferences
 
-    @SuppressLint("ServiceCast")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
@@ -67,9 +66,6 @@ class SplashActivity : AppCompatActivity() {
 
         if (isFirst) {
             startActivity(Intent(applicationContext, TutorialActivity::class.java))
-            val editprf = localprf.edit()
-            editprf.putBoolean("isfirst", false)
-            editprf.apply()
             finish()
         } else {
             if (GoogleLoginData.checkAuth()) {

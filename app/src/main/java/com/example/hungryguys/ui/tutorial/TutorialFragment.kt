@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.preference.PreferenceManager
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.hungryguys.MainActivity
 import com.example.hungryguys.R
@@ -46,6 +47,13 @@ class TutorialFragment : Fragment() {
         if (page == R.layout.tutorial_page3) {
             val button = view.findViewById<Button>(R.id.startBT)
             button.setOnClickListener {
+
+                // 처음시작 여부를 false로
+                val localprf = PreferenceManager.getDefaultSharedPreferences(requireContext())
+                val editprf = localprf.edit()
+                editprf.putBoolean("isfirst", false)
+                editprf.apply()
+
                 if (GoogleLoginData.checkAuth()) {
                     // 로그인 상태일시
                     startActivity(Intent(activity, MainActivity::class.java))

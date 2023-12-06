@@ -25,8 +25,6 @@ class TutorialActivity : AppCompatActivity() {
         activityUtills.setStatusBarTransparent()
         activityUtills.setStatusBarAllPadding(binding.layoutDotsView)
 
-        binding.layoutDots
-
         layouts = arrayOf(
             R.layout.tutorial_page1,
             R.layout.tutorial_page2,

@@ -43,7 +43,7 @@ class AuthActivity : AppCompatActivity() {
                             if (task.isSuccessful) {
                                 // 사용자 정보 얻어오기
                                 GoogleLoginData.email = account.email
-                                GoogleLoginData.email = account.displayName
+                                GoogleLoginData.name = account.displayName
 
                                 Log.d("로그", "${account.email}")
                                 Log.d("로그", "${account.displayName}")
