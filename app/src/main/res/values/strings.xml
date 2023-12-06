@@ -1,6 +1,11 @@
 <resources>
     <string name="app_name">HungryGuys</string>
     <string name="nav_header_desc">Navigation header</string>
+    <!-- 애러 방지-->
+    <string name="default_web_client_id">default_web_client_id</string>
+
+    <string name="login_title">점심이 고민될땐? HungryGuys!</string>
+    <string name="login_google">구글로 시작하기</string>
 
     <string name="home_search_hint">맛집을 검색하세요!</string>
 

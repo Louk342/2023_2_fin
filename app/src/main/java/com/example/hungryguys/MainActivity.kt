@@ -16,7 +16,7 @@ import com.example.hungryguys.databinding.ActivityMainBinding
 import com.example.hungryguys.databinding.AppBarMainBinding
 import com.example.hungryguys.databinding.NavHeaderMainBinding
 import com.example.hungryguys.utills.ActivityUtills
-import com.example.hungryguys.utills.MyApplication
+import com.example.hungryguys.utills.GoogleLoginData
 
 class MainActivity : AppCompatActivity() {
 
@@ -26,15 +26,6 @@ class MainActivity : AppCompatActivity() {
     lateinit var navController: NavController
     lateinit var drawerLayout: DrawerLayout
     private lateinit var activityUtills: ActivityUtills
-
-    override fun onStart() {
-        super.onStart()
-        if (MyApplication.checkAuth()) {
-            //로그인 상태일시
-        } else {
-            //로그아웃 상태일시
-        }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,6 +50,9 @@ class MainActivity : AppCompatActivity() {
 
         // 내비게이션 해더부분 바인딩
         val navHeaderBinding = NavHeaderMainBinding.bind(navView.getHeaderView(0))
+
+        // 로그인한 이름으로
+        navHeaderBinding.userName.text = GoogleLoginData.name
 
         // 프사 클릭하면 마이페이지로
         navHeaderBinding.imageView.setOnClickListener {

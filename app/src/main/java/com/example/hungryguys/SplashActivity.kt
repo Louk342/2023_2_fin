@@ -8,12 +8,15 @@ import android.content.pm.PackageManager
 import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.preference.PreferenceManager
+import com.example.hungryguys.ui.auth.AuthActivity
 import com.example.hungryguys.ui.settings.SettingsList
 import com.example.hungryguys.ui.tutorial.TutorialActivity
 import com.example.hungryguys.utills.ActivityUtills
+import com.example.hungryguys.utills.GoogleLoginData
 
 // 앱 시작시 가장 처음에 실행되는 클래스
 // 최초 실행 여부로 튜토리얼 -> 로그인, 메인으로 이동 담당, 권한설정도 여기서
@@ -22,6 +25,7 @@ class SplashActivity : AppCompatActivity() {
 
     private val PERMISSIONS_REQUEST = 1 // 권한 요청 레벨
     private lateinit var localprf: SharedPreferences
+
     @SuppressLint("ServiceCast")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,7 +35,8 @@ class SplashActivity : AppCompatActivity() {
         localprf = PreferenceManager.getDefaultSharedPreferences(this)
 
         // 설정을 안건드린 상태에서 사용자 테마가 다크모드인 경우 다크모드 옵션이 체크 안되는 문제 해결
-        val isNight = applicationContext.resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
+        val isNight =
+            applicationContext.resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
         if (isNight && !localprf.contains(SettingsList.darkmode.name)) {
             val editprf = localprf.edit()
             editprf.putBoolean(SettingsList.darkmode.name, true)
@@ -50,7 +55,7 @@ class SplashActivity : AppCompatActivity() {
         )
 
         if (!checkpermission(this, permissionlist)) {
-           requestPermissions(permissionlist.toTypedArray(), PERMISSIONS_REQUEST)
+            requestPermissions(permissionlist.toTypedArray(), PERMISSIONS_REQUEST)
         } else {
             chageActivity()
         }
@@ -67,8 +72,17 @@ class SplashActivity : AppCompatActivity() {
             editprf.apply()
             finish()
         } else {
-            startActivity(Intent(applicationContext, MainActivity::class.java))
-            finish()
+            if (GoogleLoginData.checkAuth()) {
+                // 로그인 상태일시
+                startActivity(Intent(applicationContext, MainActivity::class.java))
+                Log.d("로그", "${GoogleLoginData.email}")
+                Log.d("로그", "${GoogleLoginData.name}")
+                finish()
+            } else {
+                // 비 로그인 상태일시
+                startActivity(Intent(applicationContext, AuthActivity::class.java))
+                finish()
+            }
         }
     }
 
@@ -91,7 +105,11 @@ class SplashActivity : AppCompatActivity() {
     // 권한 확인 하는 함수
     private fun checkpermission(context: Context, list: MutableList<String>): Boolean {
         list.forEach {
-            if (ActivityCompat.checkSelfPermission(context, it) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.checkSelfPermission(
+                    context,
+                    it
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
                 return false
             }
         }

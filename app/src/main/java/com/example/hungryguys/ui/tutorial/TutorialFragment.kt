@@ -11,6 +11,8 @@ import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.hungryguys.MainActivity
 import com.example.hungryguys.R
+import com.example.hungryguys.ui.auth.AuthActivity
+import com.example.hungryguys.utills.GoogleLoginData
 
 // Tutorial 어뎁터
 class TutorialAdapter(act: FragmentActivity, private val layouts: Array<Int>): FragmentStateAdapter(act) {
@@ -23,7 +25,7 @@ class TutorialAdapter(act: FragmentActivity, private val layouts: Array<Int>): F
     }
 }
 
-/// 각각 페이지 프레그 먼트
+/// 각각 페이지 프래그먼트
 class TutorialFragment : Fragment() {
 
     fun newInstance(page: Int): TutorialFragment {
@@ -44,9 +46,15 @@ class TutorialFragment : Fragment() {
         if (page == R.layout.tutorial_page3) {
             val button = view.findViewById<Button>(R.id.startBT)
             button.setOnClickListener {
-                val intent = Intent(activity, MainActivity::class.java)
-                activity?.startActivity(intent)
-                activity?.finish()
+                if (GoogleLoginData.checkAuth()) {
+                    // 로그인 상태일시
+                    startActivity(Intent(activity, MainActivity::class.java))
+                    activity?.finish()
+                } else {
+                    // 비 로그인 상태일시
+                    startActivity(Intent(activity, AuthActivity::class.java))
+                    activity?.finish()
+                }
             }
         }
 

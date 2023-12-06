@@ -1,25 +1,22 @@
 package com.example.hungryguys.utills
 
-import android.util.Log
 import androidx.multidex.MultiDexApplication
-import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
-class MyApplication: MultiDexApplication() { // 먼저 실행
+// 구글로그인 데이터 보관 클래스
+class GoogleLoginData: MultiDexApplication() {
 
     companion object {
         lateinit var auth: FirebaseAuth
-        var email: String? = null
-        var name: String? = null
-        var uid: String? = null
+        var email: String? = null   //이메일
+        var name: String? = null    //이름
 
         fun checkAuth(): Boolean { //회원체크
-            var currentUser = auth.currentUser
+            val currentUser = auth.currentUser
             email = currentUser?.email
             name = currentUser?.displayName
-            uid = currentUser?.uid
             return currentUser?.isEmailVerified ?: false
         }
     }

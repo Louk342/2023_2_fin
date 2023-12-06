@@ -12,6 +12,7 @@ import com.example.hungryguys.MainActivity
 import com.example.hungryguys.R
 import com.example.hungryguys.databinding.FragmentMypageBinding
 import com.example.hungryguys.ui.auth.AuthActivity
+import com.example.hungryguys.utills.GoogleLoginData
 
 // 리사이클러 뷰에 전달되야 되는 키 값이 더있으면 여기다 추가
 enum class MypageChatItemId {
@@ -34,14 +35,25 @@ class MypageFragment : Fragment() {
         val binding = FragmentMypageBinding.inflate(inflater, container, false)
 
         binding.logoutButtonText.setOnClickListener {
-            //Toast.makeText(requireContext(), "로그아웃", Toast.LENGTH_SHORT).show
-            val intent = Intent(requireActivity(),AuthActivity::class.java)
-            startActivity(intent)
+            GoogleLoginData.auth.signOut()
+            GoogleLoginData.email = null
+            GoogleLoginData.name = null
+            Toast.makeText(requireContext(), "로그아웃 되었습니다", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(context, AuthActivity::class.java))
+            activity?.finish()
         }
 
         binding.cancelButton.setOnClickListener {
-            Toast.makeText(requireContext(), "탈퇴", Toast.LENGTH_SHORT).show()
+            // TODO: db에서 회원 탈퇴 처리하는 작업필요
+            GoogleLoginData.auth.signOut()
+            GoogleLoginData.email = null
+            GoogleLoginData.name = null
+            Toast.makeText(requireContext(), "탈퇴처리 되었습니다", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(context, AuthActivity::class.java))
+            activity?.finish()
         }
+
+        binding.userName.text = GoogleLoginData.name
 
         (activity as MainActivity).apply {
             // 설정 이미지 클릭하면 settingsFragment 로 이동
