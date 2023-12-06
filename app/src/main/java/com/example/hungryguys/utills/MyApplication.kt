@@ -13,11 +13,13 @@ class MyApplication: MultiDexApplication() { // 먼저 실행
         lateinit var auth: FirebaseAuth
         var email: String? = null
         var name: String? = null
-
+        var uid: String? = null
 
         fun checkAuth(): Boolean { //회원체크
             var currentUser = auth.currentUser
             email = currentUser?.email
+            name = currentUser?.displayName
+            uid = currentUser?.uid
             return currentUser?.isEmailVerified ?: false
         }
     }

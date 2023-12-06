@@ -87,6 +87,7 @@ class AuthActivity : AppCompatActivity() {
         binding.logoutBtn.setOnClickListener {
             MyApplication.auth.signOut()
             MyApplication.email = null
+            MyApplication.name = null
             changeVisibility("logout")
         }
 
