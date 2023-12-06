@@ -1,11 +1,14 @@
 package com.example.hungryguys.utills
 
+import android.util.Log
 import androidx.multidex.MultiDexApplication
+import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
 class MyApplication: MultiDexApplication() { // 먼저 실행
+
     companion object {
         lateinit var auth: FirebaseAuth
         var email: String? = null

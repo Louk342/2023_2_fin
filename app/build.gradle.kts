@@ -43,6 +43,7 @@ android {
 dependencies {
     implementation(platform("com.google.firebase:firebase-bom:32.6.0"))
     implementation("com.google.android.gms:play-services-auth:20.7.0")
+    implementation("com.google.firebase:firebase-analytics")
     implementation("androidx.multidex:multidex:2.0.1")
     implementation("com.google.firebase:firebase-auth-ktx:22.3.0")
     implementation("androidx.core:core-ktx:1.12.0")

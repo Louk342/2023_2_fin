@@ -1,4 +1,4 @@
-package com.example.hungryguys.utills
+package com.example.hungryguys.ui.auth
 
 import android.os.Bundle
 import android.util.Log
@@ -8,6 +8,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.example.hungryguys.R
 import com.example.hungryguys.databinding.ActivityAuthBinding
+import com.example.hungryguys.utills.MyApplication
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -130,22 +131,20 @@ class AuthActivity : AppCompatActivity() {
     fun changeVisibility(mode: String) {
         if (mode === "login") {
             binding.run {
-/*
-authMainTextView.text = "${MyApplication.name} 님 반갑습니다."
-logoutBtn.visibility = View.VISIBLE
-goSignInBtn.visibility = View.GONE
-googleLoginBtn.visibility = View.GONE
-authEmailEditView.visibility = View.GONE
-authPasswordEditView.visibility = View.GONE
-signBtn.visibility = View.GONE
-loginBtn.visibility = View.GONE
- */
+                authMainTextView.text = "${MyApplication.name} 님 반갑습니다."
+                logoutBtn.visibility = View.VISIBLE
+                goSignInBtn.visibility = View.GONE
+                googleLoginBtn.visibility = View.GONE
+                authEmailEditView.visibility = View.GONE
+                authPasswordEditView.visibility = View.GONE
+                signBtn.visibility = View.GONE
+                loginBtn.visibility = View.GONE
+
             }
 
         } else if (mode === "logout") {
             binding.run {
                 authMainTextView.text = "로그인 하거나 회원가입 해주세요."
-                /*
                 logoutBtn.visibility = View.GONE
                 goSignInBtn.visibility = View.VISIBLE
                 googleLoginBtn.visibility = View.VISIBLE
@@ -153,20 +152,17 @@ loginBtn.visibility = View.GONE
                 authPasswordEditView.visibility = View.VISIBLE
                 signBtn.visibility = View.GONE
                 loginBtn.visibility = View.VISIBLE
-*/
             }
 
         } else if (mode === "signin") {
             binding.run {
-/*
-logoutBtn.visibility = View.GONE
-goSignInBtn.visibility = View.GONE
-googleLoginBtn.visibility = View.GONE
-authEmailEditView.visibility = View.VISIBLE
-authPasswordEditView.visibility = View.VISIBLE
-signBtn.visibility = View.VISIBLE
-loginBtn.visibility = View.GONE
- */
+                logoutBtn.visibility = View.GONE
+                goSignInBtn.visibility = View.GONE
+                googleLoginBtn.visibility = View.GONE
+                authEmailEditView.visibility = View.VISIBLE
+                authPasswordEditView.visibility = View.VISIBLE
+                signBtn.visibility = View.VISIBLE
+                loginBtn.visibility = View.GONE
             }
         }
     }

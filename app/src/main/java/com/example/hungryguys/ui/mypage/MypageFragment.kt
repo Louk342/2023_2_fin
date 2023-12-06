@@ -1,5 +1,6 @@
 package com.example.hungryguys.ui.mypage
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,6 +11,7 @@ import androidx.core.view.GravityCompat
 import com.example.hungryguys.MainActivity
 import com.example.hungryguys.R
 import com.example.hungryguys.databinding.FragmentMypageBinding
+import com.example.hungryguys.ui.auth.AuthActivity
 
 // 리사이클러 뷰에 전달되야 되는 키 값이 더있으면 여기다 추가
 enum class MypageChatItemId {
@@ -32,7 +34,9 @@ class MypageFragment : Fragment() {
         val binding = FragmentMypageBinding.inflate(inflater, container, false)
 
         binding.logoutButtonText.setOnClickListener {
-            Toast.makeText(requireContext(), "로그아웃", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(requireContext(), "로그아웃", Toast.LENGTH_SHORT).show
+            val intent = Intent(requireActivity(),AuthActivity::class.java)
+            startActivity(intent)
         }
 
         binding.cancelButton.setOnClickListener {
