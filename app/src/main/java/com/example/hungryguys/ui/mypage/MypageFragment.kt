@@ -1,6 +1,5 @@
 package com.example.hungryguys.ui.mypage
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -16,9 +15,7 @@ import androidx.core.view.GravityCompat
 import com.example.hungryguys.MainActivity
 import com.example.hungryguys.R
 import com.example.hungryguys.databinding.FragmentMypageBinding
-import com.example.hungryguys.ui.register.GroupItem
 import com.example.hungryguys.ui.register.RegisterGroupActivity
-import com.example.hungryguys.ui.searchrestaurant.RestaurantItemId
 import com.example.hungryguys.utills.GoogleLoginData
 import com.example.hungryguys.utills.Request
 import org.json.JSONArray
@@ -50,7 +47,7 @@ class MypageFragment : Fragment() {
 
         val contract = ActivityResultContracts.StartActivityForResult()
         val callback = ActivityResultCallback<ActivityResult> { result ->
-            if (result?.resultCode == AppCompatActivity.RESULT_OK) {
+            if (result.resultCode == AppCompatActivity.RESULT_OK) {
                 loadgroup().start()
                 loadgroup().join()
             }
@@ -85,7 +82,6 @@ class MypageFragment : Fragment() {
                 drawerLayout.closeDrawer(GravityCompat.START)
             }
         }
-
 
         val userdataThread = Thread {
             val userdataJson =
