@@ -82,6 +82,10 @@ class RegisterGroupActivity : AppCompatActivity(), OnMapReadyCallback {
                             Toast.makeText(applicationContext, "${it[GroupItem.group_id.name]} 설정 완료", Toast.LENGTH_SHORT).show()
                         }
                     }
+                    if(type == "change") {
+                        val intent = Intent()
+                        setResult(RESULT_OK, intent)
+                    }
                     if(type == "register") startActivity(Intent(applicationContext, MainActivity::class.java))
                     finish()
                 }
@@ -101,11 +105,10 @@ class RegisterGroupActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap?.mapType = GoogleMap.MAP_TYPE_NORMAL
 
         val loadGroupThread = Thread {
-            val restaurantJson = Request.reqget("${Request.REQUSET_URL}/group") ?: JSONArray()
-            //추후 그룹 아이디를 db에서
+            val groupJson = Request.reqget("${Request.REQUSET_URL}/group") ?: JSONArray()
 
-            for (i in 0..< restaurantJson.length()) {
-                val json = restaurantJson.getJSONObject(i)
+            for (i in 0..< groupJson.length()) {
+                val json = groupJson.getJSONObject(i)
 
                 val data= mutableMapOf(
                     GroupItem.group_id.name to json.getString("group_id"),
