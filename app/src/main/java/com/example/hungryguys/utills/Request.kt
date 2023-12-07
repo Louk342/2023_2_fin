@@ -1,6 +1,7 @@
 package com.example.hungryguys.utills
 
 import android.util.Log
+import org.json.JSONArray
 import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -13,7 +14,7 @@ class Request {
         const val REQUSET_URL = "http://louk342.iptime.org";
 
         //get요청 메소드
-        fun reqget(url: String): JSONObject? {
+        fun reqget(url: String): JSONArray? {
             val link = URL(url)
             val huc = link.openConnection() as HttpURLConnection
             // http 연결 부분
@@ -21,8 +22,8 @@ class Request {
             return if (huc.responseCode == HttpURLConnection.HTTP_OK) { // 맞는 응답인지 확인
                 // 정상응답
                 val json = BufferedReader(InputStreamReader(huc.inputStream, "utf-8")).readLine() //json 읽기
-                Log.d("로그", "get요청 성공: $url")
-                JSONObject(json) // 정상 응답일 경우 리턴
+                Log.d("로그", "get요청 성공: $url\n${json}")
+                JSONArray(json) // 정상 응답일 경우 리턴
             } else {
                 // 비정상 응답
                 Log.d("로그", "get요청 오류: $url")
@@ -31,7 +32,7 @@ class Request {
         }
 
         //post 요청 메소드
-        fun reqpost(url: String, outputjson: JSONObject): JSONObject? {
+        fun reqpost(url: String, outputjson: JSONObject): JSONArray? {
             val link = URL(url)
             val huc = link.openConnection() as HttpURLConnection
             // http 연결 부분
@@ -48,8 +49,8 @@ class Request {
             return if (huc.responseCode == HttpURLConnection.HTTP_OK) { // 맞는 응답인지 확인
                 // 정상응답
                 val json = BufferedReader(InputStreamReader(huc.inputStream, "utf-8")).readLine() //json 파일 읽기
-                Log.d("로그", "post요청 성공: $url")
-                JSONObject(json) // 정상 응답일 경우 리턴
+                Log.d("로그", "post요청 성공: $url\n${json}")
+                JSONArray(json) // 정상 응답일 경우 리턴
             } else {
                 // 비정상 응답
                 Log.d("로그", "post요청 오류: $url")
