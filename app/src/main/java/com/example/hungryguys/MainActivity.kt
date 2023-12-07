@@ -17,6 +17,8 @@ import com.example.hungryguys.databinding.AppBarMainBinding
 import com.example.hungryguys.databinding.NavHeaderMainBinding
 import com.example.hungryguys.utills.ActivityUtills
 import com.example.hungryguys.utills.GoogleLoginData
+import com.example.hungryguys.utills.Request
+import org.json.JSONArray
 
 class MainActivity : AppCompatActivity() {
 
@@ -26,6 +28,8 @@ class MainActivity : AppCompatActivity() {
     lateinit var navController: NavController
     lateinit var drawerLayout: DrawerLayout
     private lateinit var activityUtills: ActivityUtills
+    lateinit var groupName: String
+    lateinit var navHeaderBinding: NavHeaderMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,7 +53,7 @@ class MainActivity : AppCompatActivity() {
         navController = findNavController(R.id.nav_host_fragment_content_main)
 
         // 내비게이션 해더부분 바인딩
-        val navHeaderBinding = NavHeaderMainBinding.bind(navView.getHeaderView(0))
+        navHeaderBinding = NavHeaderMainBinding.bind(navView.getHeaderView(0))
 
         // 로그인한 이름으로
         navHeaderBinding.userName.text = GoogleLoginData.name
@@ -81,11 +85,32 @@ class MainActivity : AppCompatActivity() {
             actionbarView.settingButton.visibility = View.GONE // 설정 버튼 아이콘
             actionbarView.searchIconButton.visibility = View.GONE //오른쪽 검색아이콘
 
+            // 그룹 이름 가져오기
+            val groupNameThread = Thread {
+                val userdataJson = Request.reqget("${Request.REQUSET_URL}/email/${GoogleLoginData.email}") ?: JSONArray()
+                val group_id = userdataJson.getJSONObject(0).getString("group_id")
+
+                val groupJson = Request.reqget("${Request.REQUSET_URL}/group") ?: JSONArray()
+
+                for (i in 0..< groupJson.length()) {
+                    val json = groupJson.getJSONObject(i)
+
+                    if(json.getString("group_id") == group_id) {
+                        groupName = json.getString("group_name")
+                    }
+                }
+            }
+            groupNameThread.start()
+            groupNameThread.join()
+
+            // 속한 그룹으로
+            navHeaderBinding.userLocation.text = groupName
+
             // 여기에 활성화 하고싶은 요소만 View.VISIBLE 로
             when (destination.id) {
                 // 홈 프래그먼트
                 R.id.nav_home -> {
-                    actionbarView.actionBarTitle.text = "그룹이름"
+                    actionbarView.actionBarTitle.text = groupName
                     actionbarView.actionBarTitle.visibility = View.VISIBLE
                     actionbarView.searchIconButton.visibility = View.VISIBLE
                     actionbarView.mainTitleLayout.visibility = View.VISIBLE
