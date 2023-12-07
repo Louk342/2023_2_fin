@@ -77,12 +77,27 @@ class SearchRestaurantFragment : Fragment() {
             for (i in 0..< restaurantJson.length()) {
                 val json = restaurantJson.getJSONObject(i)
 
+                val reviewJson =
+                    Request.reqget("${Request.REQUSET_URL}/review/${json.getString("store_id")}") ?: JSONArray()
+                var count = 0
+                var sum = 0.0
+                for (i in 0..<reviewJson.length()) {
+                    val json = reviewJson.getJSONObject(i)
+                    count++
+                    sum += json.getDouble("star")
+                }
+                var storeStar = String.format("%.1f", (sum / count))
+                if(count == 0) {
+                    storeStar = "0"
+                }
+                val storeStarCount = count.toString()
+
                 val data= mutableMapOf(
                     RestaurantItemId.inforestaurant_id.name to json.getString("store_id"),
                     RestaurantItemId.restaurant_name.name to json.getString("store_name"),
                     RestaurantItemId.restaurant_img.name to json.getString("img"),
-                    RestaurantItemId.restaurant_star.name to "4.0",
-                    RestaurantItemId.restaurant_star_count.name to "200",
+                    RestaurantItemId.restaurant_star.name to storeStar,
+                    RestaurantItemId.restaurant_star_count.name to storeStarCount,
                     RestaurantItemId.restaurant_description.name to json.getString("store_kind"),
                     RestaurantItemId.restaurant_we.name to json.getString("x"),
                     RestaurantItemId.restaurant_ky.name to json.getString("y")
