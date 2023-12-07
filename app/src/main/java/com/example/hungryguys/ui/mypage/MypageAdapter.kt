@@ -38,6 +38,7 @@ class MypageAdapter(
     }
 
     override fun onBindViewHolder(holder: MypageHolder, position: Int) {
+        val roomid = data[position][MypageChatItemId.room_id.name]!!
         val roomtitle = data[position][MypageChatItemId.room_title.name]!!
         val lastchat = data[position][MypageChatItemId.last_chat.name]!!
         val connectpeople = data[position][MypageChatItemId.connect_people.name]!!
@@ -50,7 +51,7 @@ class MypageAdapter(
             lastChatTime.text = lastchattime
         }
 
-        holder.recyclerevent(position)
+        holder.recyclerevent(roomid.toInt())
     }
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {

@@ -25,6 +25,8 @@ import org.json.JSONArray
 
 // 리사이클러 뷰에 전달되야 되는 키 값이 더있으면 여기다 추가
 enum class MypageChatItemId {
+    /** 채팅방 식별번호 */
+    room_id,
     /** 채팅방 이름 */
     room_title,
     /** 마지막 채팅 */
@@ -39,6 +41,7 @@ class MypageFragment : Fragment() {
     lateinit var binding:FragmentMypageBinding
     private var launcher: ActivityResultLauncher<Intent>? = null
     lateinit var recyclerAdapter: MypageAdapter
+    lateinit var groupId: String
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -83,21 +86,47 @@ class MypageFragment : Fragment() {
             }
         }
 
-        val dbdata: MutableList<MutableMap<String, String>> = mutableListOf()
-        val data1 = mutableMapOf(
-            MypageChatItemId.room_title.name to "방1",
-            MypageChatItemId.last_chat.name to "채팅",
-            MypageChatItemId.connect_people.name to "10",
-            MypageChatItemId.last_chat_time.name to "시간"
-        )
 
-        dbdata.add(data1)
-        dbdata.add(data1)
-        dbdata.add(data1)
-        dbdata.add(data1)
-        dbdata.add(data1)
-        dbdata.add(data1)
-        dbdata.add(data1)
+        val userdataThread = Thread {
+            val userdataJson =
+                Request.reqget("${Request.REQUSET_URL}/email/${GoogleLoginData.email}")
+                    ?: JSONArray()
+            groupId = userdataJson.getJSONObject(0).getString("group_id")
+        }
+        userdataThread.start()
+        userdataThread.join()
+
+        val dbdata: MutableList<MutableMap<String, String>> = mutableListOf()
+
+        val partyThread = Thread {
+            val partyJson = Request.reqget("${Request.REQUSET_URL}/party/${groupId}") ?: JSONArray()
+
+            for (i in 0..<partyJson.length()) {
+                val partyId = partyJson.getJSONObject(i).getString("party_id")
+                val partyName = partyJson.getJSONObject(i).getString("party_name")
+                val partyuserJson = Request.reqget("${Request.REQUSET_URL}/partyUser/${partyId}") ?: JSONArray()
+
+                var count = 0
+                for (i in 0..<partyuserJson.length()) {
+                    count++
+                }
+                for (i in 0..<partyuserJson.length()) {
+                    if(partyuserJson.getJSONObject(i).getString("email") == GoogleLoginData.email) {
+                        val data1 = mutableMapOf(
+                            MypageChatItemId.room_id.name to partyId,
+                            MypageChatItemId.room_title.name to partyName,
+                            MypageChatItemId.last_chat.name to "채팅",
+                            MypageChatItemId.connect_people.name to count.toString(),
+                            MypageChatItemId.last_chat_time.name to "시간"
+                        )
+
+                        dbdata.add(data1)
+                    }
+                }
+            }
+        }
+        partyThread.start()
+        partyThread.join()
 
         recyclerAdapter = MypageAdapter(dbdata, binding)
         binding.myChatRecycler.adapter = recyclerAdapter
