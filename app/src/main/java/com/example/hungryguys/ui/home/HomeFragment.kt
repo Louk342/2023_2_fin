@@ -140,6 +140,9 @@ class HomeFragment : Fragment() {
                 sum += json.getDouble("star")
             }
             storeStar = String.format("%.1f", (sum / count))
+            if(count == 0) {
+                storeStar = "0"
+            }
             storeStarCount = count.toString()
 
         }
