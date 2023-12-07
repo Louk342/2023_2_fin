@@ -28,7 +28,6 @@
                     android:layout_width="280dp"
                     android:layout_height="190dp"
                     android:background="@drawable/main_shape"
-                    android:src="@drawable/tbk"
                     android:scaleType="fitXY"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
