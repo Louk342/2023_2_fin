@@ -111,7 +111,7 @@ class InfoRestaurantActivity : AppCompatActivity(), OnMapReadyCallback {
 
         val markerOptions = MarkerOptions().run {
             position(groupLatLng)
-            title("동양미래대학교")
+            title(restaurantname)
         }
         val marker = googleMap.addMarker(markerOptions)
         marker?.showInfoWindow()
