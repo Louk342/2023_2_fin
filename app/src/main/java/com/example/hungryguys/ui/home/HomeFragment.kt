@@ -151,7 +151,7 @@ class HomeFragment : Fragment() {
             val intent = Intent(context, InfoRestaurantActivity::class.java)
 
             //DB 에서 랜덤으로 식당 하나 받아오기
-            intent.putExtra(RestaurantItemId.inforestaurant_id.name, storeId.toInt())
+            intent.putExtra(RestaurantItemId.inforestaurant_id.name, storeId)
             intent.putExtra(RestaurantItemId.restaurant_name.name, storeName)
             intent.putExtra(RestaurantItemId.restaurant_star.name, storeStar)
             intent.putExtra(RestaurantItemId.restaurant_star_count.name, storeStarCount)
