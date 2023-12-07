@@ -88,7 +88,8 @@ class InfoRestaurantActivity : AppCompatActivity(), OnMapReadyCallback {
             position(groupLatLng)
             title("동양미래대학교")
         }
-        googleMap.addMarker(markerOptions)
+        val marker = googleMap.addMarker(markerOptions)
+        marker?.showInfoWindow()
     }
 
     // 인텐트로 넘어온값 처리
