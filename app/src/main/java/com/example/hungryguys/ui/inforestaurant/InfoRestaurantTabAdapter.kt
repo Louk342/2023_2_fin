@@ -1,6 +1,6 @@
 package com.example.hungryguys.ui.inforestaurant
 
-import android.util.Log
+import android.icu.text.DecimalFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -51,8 +51,11 @@ class InfoRestaurantTabAdapter (
 
             val foodname = data[position][InfoMenuItem.food_name.name]!!
             val fooddescription = data[position][InfoMenuItem.food_description.name]!!
-            val foodprice = data[position][InfoMenuItem.food_price.name]!!
             val foodimg = data[position][InfoMenuItem.food_img.name]!!
+            var foodprice = data[position][InfoMenuItem.food_price.name]!!
+            // 숫자에 콤마찍기
+            val dateFormat = DecimalFormat("###,###")
+            foodprice = "${dateFormat.format(foodprice.toInt())}원"
 
             holder.menuBinding.apply {
                 foodName.text = foodname

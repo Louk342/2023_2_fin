@@ -121,7 +121,8 @@ class HomeFragment : Fragment() {
             homebinding.randomMenuTitle.text = menuName
             homebinding.randomMenuStore.text = storeName
             homebinding.randomMenuImg.visibility = View.VISIBLE
-            setRestaurantImg(homebinding.randomMenuImg, menuImg).start()
+
+            activityUtills.setWebImg(homebinding.randomMenuImg, menuImg).start()
             val restaurantLatLng = LatLng(storeLat.toDouble(), storeLng.toDouble())
             val distance = activityUtills.getDistance(groupLatLng, restaurantLatLng)
             homebinding.randomMenuLocation.text = distance
@@ -161,17 +162,6 @@ class HomeFragment : Fragment() {
             intent.putExtra(RestaurantItemId.restaurant_we.name, storeLat)
             intent.putExtra(RestaurantItemId.restaurant_ky.name, storeLng)
             context?.startActivity(intent)
-        }
-    }
-
-    // 웹 이미지 설정 함수 (비동기)
-    private fun setRestaurantImg(imageView: ImageView, url: String): Thread {
-        return  Thread {
-            val connection = URL(url).openConnection() as HttpURLConnection
-            val bitmap = BitmapFactory.decodeStream(connection.inputStream)
-            activity?.runOnUiThread {
-                imageView.setImageBitmap(bitmap)
-            }
         }
     }
 }

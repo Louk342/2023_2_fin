@@ -106,7 +106,6 @@ class MypageFragment : Fragment() {
     }
 
     // DB에서 그룹 이름 가져오기
-    @SuppressLint("NotifyDataSetChanged")
     private fun loadgroup(): Thread {
         return Thread {
             val userdataJson = Request.reqget("${Request.REQUSET_URL}/email/${GoogleLoginData.email}") ?: JSONArray()
