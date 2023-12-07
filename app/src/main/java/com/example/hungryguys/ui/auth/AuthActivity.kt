@@ -6,11 +6,13 @@ import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import com.example.hungryguys.MainActivity
 import com.example.hungryguys.R
 import com.example.hungryguys.databinding.ActivityAuthBinding
 import com.example.hungryguys.ui.register.RegisterGroupActivity
 import com.example.hungryguys.utills.ActivityUtills
 import com.example.hungryguys.utills.GoogleLoginData
+import com.example.hungryguys.utills.Request
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -19,6 +21,7 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.GoogleAuthProvider
+import org.json.JSONArray
 
 class AuthActivity : AppCompatActivity() {
     lateinit var binding: ActivityAuthBinding
@@ -49,11 +52,41 @@ class AuthActivity : AppCompatActivity() {
                                 Log.d("로그", "${account.displayName}")
 
                                 // 구글 로그인 성공시
-                                // TODO: DB에 해당 회원 조회해서 실제 회원인지 판단해서 회원가입 시킬지 말지결정해야함
-                                val intent = Intent(applicationContext, RegisterGroupActivity::class.java)
-                                intent.putExtra("type", "register")
-                                startActivity(intent)
-                                //startActivity(Intent(applicationContext, MainActivity::class.java))
+                                var action = "login"
+                                val userdataThread = Thread {
+                                    val userdataJson =
+                                        Request.reqget("${Request.REQUSET_URL}/email/${GoogleLoginData.email}")
+                                            ?: JSONArray()
+                                    if(userdataJson.toString() == "[]") {
+                                        action = "join"
+                                    }
+                                }
+                                userdataThread.start()
+                                userdataThread.join()
+
+                                if(action == "join") {
+                                    // TODO: 회원가입 api 작성
+                                    Log.d("회원가입 유무", "회원가입 해야해요")
+                                }
+
+                                val groupThread = Thread {
+                                    val groupJson =
+                                        Request.reqget("${Request.REQUSET_URL}/email/${GoogleLoginData.email}")
+                                            ?: JSONArray()
+                                    if(groupJson.getJSONObject(0).getString("group_id") == "null") {
+                                        action = "register"
+                                    }
+                                }
+                                groupThread.start()
+                                groupThread.join()
+
+                                if(action == "register") {
+                                    val intent = Intent(applicationContext, RegisterGroupActivity::class.java)
+                                    intent.putExtra("type", "register")
+                                    startActivity(intent)
+                                } else {
+                                    startActivity(Intent(applicationContext, MainActivity::class.java))
+                                }
                                 finish()
                             } else {
                                 Toast.makeText(this, "구글 계정과 연동에 실패하였습니다.", Toast.LENGTH_SHORT).show()

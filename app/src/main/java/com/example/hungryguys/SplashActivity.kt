@@ -13,10 +13,13 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.preference.PreferenceManager
 import com.example.hungryguys.ui.auth.AuthActivity
+import com.example.hungryguys.ui.register.RegisterGroupActivity
 import com.example.hungryguys.ui.settings.SettingsList
 import com.example.hungryguys.ui.tutorial.TutorialActivity
 import com.example.hungryguys.utills.ActivityUtills
 import com.example.hungryguys.utills.GoogleLoginData
+import com.example.hungryguys.utills.Request
+import org.json.JSONArray
 
 // 앱 시작시 가장 처음에 실행되는 클래스
 // 최초 실행 여부로 튜토리얼 -> 로그인, 메인으로 이동 담당, 권한설정도 여기서
@@ -70,11 +73,30 @@ class SplashActivity : AppCompatActivity() {
             finish()
         } else {
             if (GoogleLoginData.checkAuth()) {
-                // 로그인 상태일시
-                startActivity(Intent(applicationContext, MainActivity::class.java))
-                Log.d("로그", "${GoogleLoginData.email}")
-                Log.d("로그", "${GoogleLoginData.name}")
-                finish()
+                var action = ""
+                val groupThread = Thread {
+                    val groupJson =
+                        Request.reqget("${Request.REQUSET_URL}/email/${GoogleLoginData.email}")
+                            ?: JSONArray()
+                    if(groupJson.getJSONObject(0).getString("group_id") == "null") {
+                        action = "register"
+                    }
+                }
+                groupThread.start()
+                groupThread.join()
+
+                if(action == "register") {
+                    val intent = Intent(applicationContext, RegisterGroupActivity::class.java)
+                    intent.putExtra("type", "register")
+                    startActivity(intent)
+                    finish()
+                } else {
+                    // 로그인 상태일시
+                    startActivity(Intent(applicationContext, MainActivity::class.java))
+                    Log.d("로그", "${GoogleLoginData.email}")
+                    Log.d("로그", "${GoogleLoginData.name}")
+                    finish()
+                }
             } else {
                 // 비 로그인 상태일시
                 startActivity(Intent(applicationContext, AuthActivity::class.java))
