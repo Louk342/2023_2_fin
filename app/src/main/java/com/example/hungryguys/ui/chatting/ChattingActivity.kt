@@ -1,6 +1,6 @@
 package com.example.hungryguys.ui.chatting
 
-import android.os.Build
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
@@ -11,8 +11,11 @@ import android.widget.TextView
 import androidx.core.view.GravityCompat
 import com.example.hungryguys.databinding.ActivityChattingBinding
 import com.example.hungryguys.databinding.ChatInfoNavBinding
-import com.example.hungryguys.ui.inforestaurant.ChatRoomData
+import com.example.hungryguys.ui.searchparty.SearchPartyItemId
 import com.example.hungryguys.utills.ActivityUtills
+import com.example.hungryguys.utills.GoogleLoginData
+import com.example.hungryguys.utills.Request
+
 enum class ChatItem {
     /** 채팅타입 (내 채팅 = me 상대방 = user 로 표기) */
     Chat_Type,
@@ -29,6 +32,10 @@ class ChattingActivity : AppCompatActivity() {
     lateinit var chatrecyclerAdapter: ChattingAdapter
     lateinit var navrecyclerAdapter: ChattingNavAdapter
     private lateinit var activityUtills: ActivityUtills
+    lateinit var partylocation: String // 파티 장소
+    lateinit var partylocationid: String // 파티 장소id
+    lateinit var partyid: String // 파티 id
+    lateinit var navuserdb: MutableList<MutableMap<String, String>>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,14 +53,11 @@ class ChattingActivity : AppCompatActivity() {
 
         activityUtills = ActivityUtills(this)
 
+        //인텐트 처리
+        setIntentData()
+
         // 드로어 레이아웃 설정
         drawerSetting(binding.navViewLayout)
-
-        //채팅방 제목으로 타이틀 변경
-        binding.actionBarTitle.text = intent.getStringExtra(ChatRoomData.room_name.name)
-
-        // 유저 수 설정
-        binding.userCount.text = navrecyclerAdapter.data.size.toString()
 
         val dbdata: MutableList<MutableMap<String, String>> = mutableListOf()
         val data1 = mutableMapOf(
@@ -70,7 +74,7 @@ class ChattingActivity : AppCompatActivity() {
         )
         val data3 = mutableMapOf(
             ChatItem.Chat_Type.name to "me",
-            ChatItem.Chat.name to "아이고난1",
+            ChatItem.Chat.name to "안녕하세요",
             ChatItem.Chat_Time.name to "11:11"
         )
         dbdata.add(data1)
@@ -106,29 +110,73 @@ class ChattingActivity : AppCompatActivity() {
         }
     }
 
+    // 인텐트로 넘어온값 처리
+    private fun setIntentData() {
+        val partyname = intent.getStringExtra(SearchPartyItemId.party_name.name)
+        partylocation = intent.getStringExtra(SearchPartyItemId.party_location.name)!!
+        partylocationid = intent.getStringExtra(SearchPartyItemId.party_location_id.name)!!
+        partyid = intent.getStringExtra(SearchPartyItemId.party_id.name)!!
+
+        if (partyid == "first") {
+            partyid = "1"
+            val thread = Thread {
+                // TODO: 아니 이거 생성하고 파티 id 값을 못 얻는데 어케하라는거
+                val userjson = Request.reqget("${Request.REQUSET_URL}/email/${GoogleLoginData.email}")?.getJSONObject(0)!!
+                val userid = userjson.getString("user_id")
+                val groupid = userjson.getString("group_id")
+
+                Request.reqget("${Request.REQUSET_URL}/addParty/${userid}/${partylocationid}/${groupid}/${partyname}")
+            }
+            thread.start()
+        } else {
+            Thread {
+                val userjson = Request.reqget("${Request.REQUSET_URL}/email/${GoogleLoginData.email}")?.getJSONObject(0)!!
+                val userid = userjson.getString("user_id")
+
+                Request.reqget("${Request.REQUSET_URL}/joinParty/${partyid}/${userid}")
+            }.start()
+        }
+
+        // 채팅방 이름 변경
+        binding.actionBarTitle.text = partyname
+    }
+
     // 네비게이션 뷰 셋팅
-    fun drawerSetting (navView: ChatInfoNavBinding) {
-        val dbdata: MutableList<MutableMap<String, String>> = mutableListOf()
-        val data1 = mutableMapOf(
-            ChatItem.User_Name.name to "유저1"
-        )
-        val data2 = mutableMapOf(
-            ChatItem.User_Name.name to "유저2"
-        )
-        val data3 = mutableMapOf(
-            ChatItem.User_Name.name to "유저3"
-        )
-        dbdata.add(data1)
-        dbdata.add(data2)
-        dbdata.add(data3)
+    @SuppressLint("NotifyDataSetChanged")
+    private fun drawerSetting (navView: ChatInfoNavBinding) {
+        navuserdb = mutableListOf()
 
         // 네비게이션 유저목록 어뎁터 설정
-        navrecyclerAdapter = ChattingNavAdapter(dbdata)
+        navrecyclerAdapter = ChattingNavAdapter(navuserdb)
         navView.chatNavRecycler.adapter = navrecyclerAdapter
 
-        // 인텐트로 넘겨온 식당 이름 적용
-        val restaurantname = intent.getStringExtra(ChatRoomData.restaurant_name.name)
-        navView.restaurantName.text = restaurantname
+        navView.restaurantName.text = partylocation
+
+        Thread {
+            val userJson = Request.reqget("${Request.REQUSET_URL}/partyUser/${partyid}")!!
+            val restaurantdata = Request.reqget("${Request.REQUSET_URL}/getStore/${partylocationid}")!!
+            for (i in 0..<userJson.length()) {
+                var user = userJson.getJSONObject(i).getString("user_name")
+
+                if (user == GoogleLoginData.name) user = "$user (나)"
+
+                val data = mutableMapOf(
+                    ChatItem.User_Name.name to user
+                )
+                navuserdb.add(data)
+            }
+
+            runOnUiThread {
+                // 유저 수 설정
+                binding.userCount.text = navrecyclerAdapter.data.size.toString()
+
+                // 드로어 식당 이미지 설정
+                val imageurl = restaurantdata.getJSONObject(0).getString("img")
+                activityUtills.setWebImg(binding.navViewLayout.restaurantImage, imageurl).start()
+
+                navrecyclerAdapter.notifyDataSetChanged()
+            }
+        }.start()
 
         // 채팅방 나가기 이벤트
         navView.exitButton.setOnClickListener {

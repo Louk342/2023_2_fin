@@ -10,13 +10,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.example.hungryguys.databinding.DialogAddPartyBinding
 import com.example.hungryguys.ui.chatting.ChattingActivity
-
-enum class ChatRoomData {
-    /** 채팅방 이름 */
-    room_name,
-    /** 식당이름 */
-    restaurant_name
-}
+import com.example.hungryguys.ui.searchparty.SearchPartyItemId
 
 class InfoRestaurantPartyDialog: DialogFragment() {
     lateinit var binding: DialogAddPartyBinding
@@ -39,14 +33,17 @@ class InfoRestaurantPartyDialog: DialogFragment() {
         binding.buttonOk.setOnClickListener {
             val roomname = binding.inputAddparty.text.toString()
             val restaurantname = (activity as InfoRestaurantActivity).restaurantname
+            val restaurantid = (activity as InfoRestaurantActivity).restaurantid
             if (roomname.isEmpty()) {
                 dismiss()
                 return@setOnClickListener
             }
 
             val intent = Intent(context, ChattingActivity::class.java)
-            intent.putExtra(ChatRoomData.room_name.name, roomname)
-            intent.putExtra(ChatRoomData.restaurant_name.name, restaurantname)
+            intent.putExtra(SearchPartyItemId.party_name.name, roomname)
+            intent.putExtra(SearchPartyItemId.party_location.name, restaurantname)
+            intent.putExtra(SearchPartyItemId.party_location_id.name, restaurantid)
+            intent.putExtra(SearchPartyItemId.party_id.name, "first")
             startActivity(intent)
             dismiss()
         }

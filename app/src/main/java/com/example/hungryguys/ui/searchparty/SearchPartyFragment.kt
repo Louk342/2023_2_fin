@@ -19,6 +19,8 @@ enum class SearchPartyItemId {
     party_name,
     /** 파티장소 */
     party_location,
+    /** 파티 장소 아이디*/
+    party_location_id,
     /** 접속인원 */
     party_person,
 }
@@ -56,16 +58,21 @@ class SearchPartyFragment : Fragment() {
             val partyJson = Request.reqget("${Request.REQUSET_URL}/party/${groupId}")
             for (i in 0..<partyJson?.length()!!) {
                 val thisparty = partyJson.getJSONObject(i)
+
                 val partylistjson = Request.reqget("${Request.REQUSET_URL}/partyUser/${thisparty.getString("party_id")}")
+                val restaurantinfo = Request.reqget("${Request.REQUSET_URL}/getStore/${thisparty.getString("store_id")}")?.getJSONObject(0)!!
 
                 val partyid = thisparty.getString("party_id")
                 val partyname = thisparty.getString("party_name")
+                val partylocation = restaurantinfo.getString("store_name")
+                val partylocationid = restaurantinfo.getString("store_id")
                 val partyperson = partylistjson?.length()?.toString()!!
 
                 val data = mutableMapOf(
                     SearchPartyItemId.party_id.name to partyid,
                     SearchPartyItemId.party_name.name to partyname,
-                    SearchPartyItemId.party_location.name to "식당이름",
+                    SearchPartyItemId.party_location.name to partylocation,
+                    SearchPartyItemId.party_location_id.name to partylocationid,
                     SearchPartyItemId.party_person.name to partyperson
                 )
 
