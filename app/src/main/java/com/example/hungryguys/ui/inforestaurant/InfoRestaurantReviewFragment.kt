@@ -7,6 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hungryguys.databinding.FragmentInfoRestaurantReviewBinding
+import com.example.hungryguys.utills.Request
+import com.google.android.gms.maps.model.LatLng
+import org.json.JSONArray
 
 enum class InfoReviewItem {
     /** 유저 이름 */
@@ -29,37 +32,22 @@ class InfoRestaurantReviewFragment : Fragment() {
         val selectid =  (activity as InfoRestaurantActivity).restaurantid   //현재 선택된 아이템
         val dbdata: MutableList<MutableMap<String, String>> = mutableListOf()
 
-        // 청년다방인 경우
-        if (selectid == "1") {
-            val data1 = mutableMapOf(
-                InfoReviewItem.review_text.name to "청년다방은 역시 맛있네요",
-                InfoReviewItem.restaurant_star.name to "5.0",
-                InfoReviewItem.user_name.name to "유저1"
-            )
-            val data2 = mutableMapOf(
-                InfoReviewItem.review_text.name to "떡이 좀 길어요",
-                InfoReviewItem.restaurant_star.name to "4.0",
-                InfoReviewItem.user_name.name to "유저2"
-            )
-            dbdata.add(data1)
-            dbdata.add(data2)
-        }
+        val reviewThread = Thread {
+            val reivewJson = Request.reqget("${Request.REQUSET_URL}/review/${selectid}") ?: JSONArray()
 
-        // 푸라닭 인경우
-        if (selectid == "2") {
-            val data1 = mutableMapOf(
-                InfoReviewItem.review_text.name to "맛있어용~",
-                InfoReviewItem.restaurant_star.name to "5.0",
-                InfoReviewItem.user_name.name to "유저1"
-            )
-            val data2 = mutableMapOf(
-                InfoReviewItem.review_text.name to "나름 가성비 있네요",
-                InfoReviewItem.restaurant_star.name to "5.0",
-                InfoReviewItem.user_name.name to "유저2"
-            )
-            dbdata.add(data1)
-            dbdata.add(data2)
+            for (i in 0..<reivewJson.length()) {
+                val json = reivewJson.getJSONObject(i)
+                val usernameJson = Request.reqget("${Request.REQUSET_URL}/user/${json.getString("user_id")}") ?: JSONArray()
+                val data = mutableMapOf(
+                    InfoReviewItem.review_text.name to json.getString("reivew_context"),
+                    InfoReviewItem.restaurant_star.name to json.getString("star"),
+                    InfoReviewItem.user_name.name to usernameJson.getJSONObject(0).getString("user_name")
+                )
+                dbdata.add(data)
+            }
         }
+        reviewThread.start()
+        reviewThread.join()
 
         binding.fab.setOnClickListener {
             InfoRestaurantReviewDialog().show(requireActivity().supportFragmentManager, "리뷰작성")
