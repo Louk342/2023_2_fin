@@ -1,10 +1,12 @@
 package com.example.hungryguys.ui.register
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Looper
 import android.widget.Toast
+import com.example.hungryguys.MainActivity
 import com.example.hungryguys.databinding.ActivityRegisterGroupBinding
 import com.example.hungryguys.utills.ActivityUtills
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -60,7 +62,11 @@ class RegisterGroupActivity : AppCompatActivity(), OnMapReadyCallback {
             when (currentPlace) {
                 "" -> Toast.makeText(applicationContext, "그룹을 선택해주세요", Toast.LENGTH_SHORT).show()
                 "현재 위치" ->Toast.makeText(applicationContext, "설정할 수 없는 그룹입니다.", Toast.LENGTH_SHORT).show()
-                else -> Toast.makeText(applicationContext, "그룹 설정 완료", Toast.LENGTH_SHORT).show()
+                else -> {
+                    Toast.makeText(applicationContext, "그룹 설정 완료", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(applicationContext, MainActivity::class.java))
+                    finish()
+                }
             }
         }
     }
@@ -121,6 +127,7 @@ class RegisterGroupActivity : AppCompatActivity(), OnMapReadyCallback {
                 var list = p0.locations
                 var location = list[0]
                 var latLng = LatLng(location.latitude, location.longitude)
+                currentPosition = latLng
                 val position = CameraPosition.Builder().target(latLng).zoom(16.0f).build()
                 googleMap?.moveCamera(CameraUpdateFactory.newCameraPosition(position))
 
@@ -130,6 +137,7 @@ class RegisterGroupActivity : AppCompatActivity(), OnMapReadyCallback {
                 options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW))
                 val marker = googleMap?.addMarker(options)
                 marker?.showInfoWindow()
+                fLC?.removeLocationUpdates(callback!!)
             }
         }
 

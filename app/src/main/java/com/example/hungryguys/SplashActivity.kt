@@ -50,7 +50,8 @@ class SplashActivity : AppCompatActivity() {
 
         // 권한체크
         val permissionlist = mutableListOf(
-            android.Manifest.permission.ACCESS_COARSE_LOCATION
+            android.Manifest.permission.ACCESS_COARSE_LOCATION,
+            android.Manifest.permission.ACCESS_FINE_LOCATION
         )
 
         if (!checkpermission(this, permissionlist)) {
