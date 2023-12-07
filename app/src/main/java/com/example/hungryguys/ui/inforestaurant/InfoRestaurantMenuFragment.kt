@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.hungryguys.databinding.FragmentInfoRestaurantMenuBinding
+import com.example.hungryguys.utills.Request
+import org.json.JSONArray
 
 
 enum class InfoMenuItem {
@@ -14,55 +16,53 @@ enum class InfoMenuItem {
     /** 음식 설명 */
     food_description,
     /** 음식가격 */
-    food_price
+    food_price,
+    /** 음식사진 경로 */
+    food_img
 }
 class InfoRestaurantMenuFragment : Fragment() {
 
     lateinit var recyclerAdapter: InfoRestaurantTabAdapter
+    lateinit var binding: FragmentInfoRestaurantMenuBinding
+    lateinit var dbdata: MutableList<MutableMap<String, String>>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val binding = FragmentInfoRestaurantMenuBinding.inflate(inflater, container, false)
-        val dbdata: MutableList<MutableMap<String, String>> = mutableListOf()
-        val selectid =  (activity as InfoRestaurantActivity).restaurantid   //현재 선택된 아이템
+        binding = FragmentInfoRestaurantMenuBinding.inflate(inflater, container, false)
+        dbdata = mutableListOf()
 
-        // 청년다방인 경우
-        if (selectid == 0) {
-            val data1 = mutableMapOf(
-                InfoMenuItem.food_name.name to "세트1",
-                InfoMenuItem.food_description.name to "고구마, 떡볶이",
-                InfoMenuItem.food_price.name to "12000",
-            )
-            val data2 = mutableMapOf(
-                InfoMenuItem.food_name.name to "세트2",
-                InfoMenuItem.food_description.name to "치즈, 떡볶이",
-                InfoMenuItem.food_price.name to "14000",
-            )
-            dbdata.add(data1)
-            dbdata.add(data2)
-        }
-
-        // 푸라닭 인경우
-        if (selectid == 1) {
-            val data1 = mutableMapOf(
-                InfoMenuItem.food_name.name to "후라이드",
-                InfoMenuItem.food_description.name to "고소한 후라이드",
-                InfoMenuItem.food_price.name to "20000",
-            )
-            val data2 = mutableMapOf(
-                InfoMenuItem.food_name.name to "양념",
-                InfoMenuItem.food_description.name to "매콤한 치킨",
-                InfoMenuItem.food_price.name to "21000",
-            )
-            dbdata.add(data1)
-            dbdata.add(data2)
-        }
-
-        recyclerAdapter = InfoRestaurantTabAdapter(dbdata, "menu")
-        binding.infomenuRecycler.adapter = recyclerAdapter
+        //DB 데이터 가져오기
+        addData().start()
 
         return binding.root
+    }
+
+    // DB에서 데이터 가져오기
+    private fun addData(): Thread {
+        val selectid =  (activity as InfoRestaurantActivity).restaurantid   //현재 선택된 아이템
+
+        return Thread {
+            val restaurantJson = Request.reqget("${Request.REQUSET_URL}/menu/${selectid}") ?: JSONArray()
+            //추후 그룹 아이디를 db에서
+
+            for (i in 0..< restaurantJson.length()) {
+                val json = restaurantJson.getJSONObject(i)
+
+                val data= mutableMapOf(
+                    InfoMenuItem.food_name.name to json.getString("name"),
+                    InfoMenuItem.food_description.name to json.getString("des"),
+                    InfoMenuItem.food_price.name to json.getString("price"),
+                    InfoMenuItem.food_img.name to json.getString("img"),
+                )
+                dbdata.add(data)
+            }
+
+            activity?.runOnUiThread {
+                recyclerAdapter = InfoRestaurantTabAdapter(dbdata, "menu", requireActivity())
+                binding.infomenuRecycler.adapter = recyclerAdapter
+            }
+        }
     }
 }

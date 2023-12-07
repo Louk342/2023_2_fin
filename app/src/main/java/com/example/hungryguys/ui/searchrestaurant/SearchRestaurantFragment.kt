@@ -1,15 +1,11 @@
 package com.example.hungryguys.ui.searchrestaurant
 
-import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.hungryguys.MainActivity
 import com.example.hungryguys.databinding.FragmentSearchRestaurantBinding
@@ -60,7 +56,6 @@ class SearchRestaurantFragment : Fragment() {
     }
 
     // DB에서 데이터 가져오기
-    @SuppressLint("NotifyDataSetChanged")
     private fun addData(): Thread {
         return Thread {
             val restaurantJson = Request.reqget("${Request.REQUSET_URL}/store/1") ?: JSONArray()

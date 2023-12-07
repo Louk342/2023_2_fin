@@ -2,16 +2,20 @@ package com.example.hungryguys.utills
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.graphics.BitmapFactory
 import android.os.Build
 import android.util.Log
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.WindowCompat
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.SphericalUtil
+import java.net.HttpURLConnection
+import java.net.URL
 import kotlin.math.roundToInt
 
 // Activity와 종속적인 것들
@@ -105,6 +109,17 @@ class ActivityUtills(private val activity: Activity) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             } else {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            }
+        }
+    }
+
+    // 웹 이미지 설정 함수 (비동기)
+    fun setWebImg(imageView: ImageView, url: String): Thread {
+        return  Thread {
+            val connection = URL(url).openConnection() as HttpURLConnection
+            val bitmap = BitmapFactory.decodeStream(connection.inputStream)
+            activity.runOnUiThread {
+                imageView.setImageBitmap(bitmap)
             }
         }
     }

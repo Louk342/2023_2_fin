@@ -30,7 +30,7 @@ class InfoRestaurantReviewFragment : Fragment() {
         val dbdata: MutableList<MutableMap<String, String>> = mutableListOf()
 
         // 청년다방인 경우
-        if (selectid == 0) {
+        if (selectid == "1") {
             val data1 = mutableMapOf(
                 InfoReviewItem.review_text.name to "청년다방은 역시 맛있네요",
                 InfoReviewItem.restaurant_star.name to "5.0",
@@ -46,7 +46,7 @@ class InfoRestaurantReviewFragment : Fragment() {
         }
 
         // 푸라닭 인경우
-        if (selectid == 1) {
+        if (selectid == "2") {
             val data1 = mutableMapOf(
                 InfoReviewItem.review_text.name to "맛있어용~",
                 InfoReviewItem.restaurant_star.name to "5.0",
@@ -66,7 +66,7 @@ class InfoRestaurantReviewFragment : Fragment() {
         }
 
         recyclerView = binding.inforeviewRecycler
-        recyclerAdapter = InfoRestaurantTabAdapter(dbdata, "review")
+        recyclerAdapter = InfoRestaurantTabAdapter(dbdata, "review", requireActivity())
         recyclerView.adapter = recyclerAdapter
 
         return binding.root

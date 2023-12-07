@@ -26,8 +26,7 @@ class InfoRestaurantActivity : AppCompatActivity(), OnMapReadyCallback {
     lateinit var restaurantname: String // 식당이름
     private var restaurantwe: Double ?= null //식당 위도
     private var restaurantky: Double ?= null //식당 경도
-    var restaurantid: Int = 0 //식당 DB 식별용 값
-
+    var restaurantid: String ?= null //식당 DB 식별용 값
 
     private var mMap: GoogleMap? = null
 
@@ -75,6 +74,28 @@ class InfoRestaurantActivity : AppCompatActivity(), OnMapReadyCallback {
         mapFragment!!.getMapAsync(this)
     }
 
+    // 인텐트로 넘어온값 처리
+    private fun setIntentData() {
+        intent.apply {
+            //db 고유 식별자
+            restaurantid = getStringExtra(RestaurantItemId.inforestaurant_id.name)
+            // 식당이름
+            restaurantname = getStringExtra(RestaurantItemId.restaurant_name.name)!!
+            // 위도
+            restaurantwe = getStringExtra(RestaurantItemId.restaurant_we.name)?.toDouble()
+            // 경도
+            restaurantky = getStringExtra(RestaurantItemId.restaurant_ky.name)?.toDouble()
+
+            val restaurantstar = getStringExtra(RestaurantItemId.restaurant_star.name)
+            val restaurantstarcount = "(${getStringExtra(RestaurantItemId.restaurant_star_count.name)})"
+
+            binding.restaurantName.text = restaurantname
+            binding.restaurantStar.text = restaurantstar
+            binding.restaurantStarCount.text = restaurantstarcount
+            binding.restaurantName.text = restaurantname
+        }
+    }
+
     // NULL이 아닌 GoogleMap 객체를 파라미터로 제공해 줄 수 있을 때 호출
     @SuppressLint("MissingPermission")
     override fun onMapReady(googleMap: GoogleMap) {
@@ -94,28 +115,6 @@ class InfoRestaurantActivity : AppCompatActivity(), OnMapReadyCallback {
         }
         val marker = googleMap.addMarker(markerOptions)
         marker?.showInfoWindow()
-    }
-
-    // 인텐트로 넘어온값 처리
-     private fun setIntentData() {
-        intent.apply {
-            //db 고유 식별자
-            restaurantid = getIntExtra(RestaurantItemId.inforestaurant_id.name, 0)
-            // 식당이름
-            restaurantname = getStringExtra(RestaurantItemId.restaurant_name.name)!!
-            // 위도
-            restaurantwe = getStringExtra(RestaurantItemId.restaurant_we.name)?.toDouble()
-            // 경도
-            restaurantky = getStringExtra(RestaurantItemId.restaurant_ky.name)?.toDouble()
-
-            val restaurantstar = getStringExtra(RestaurantItemId.restaurant_star.name)
-            val restaurantstarcount = "(${getStringExtra(RestaurantItemId.restaurant_star_count.name)})"
-
-            binding.restaurantName.text = restaurantname
-            binding.restaurantStar.text = restaurantstar
-            binding.restaurantStarCount.text = restaurantstarcount
-            binding.restaurantName.text = restaurantname
-        }
     }
 
     // 리뷰추가 리사이클러 갱신

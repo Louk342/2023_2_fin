@@ -1,15 +1,20 @@
 package com.example.hungryguys.ui.inforestaurant
 
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hungryguys.databinding.InfoRestaurantMenuItemBinding
 import com.example.hungryguys.databinding.InfoRestaurantReviewItemBinding
+import com.example.hungryguys.utills.ActivityUtills
 
 // 메뉴, 리뷰 리사이클러 처리
 class InfoRestaurantTabAdapter (
     val data: MutableList<MutableMap<String, String>>,
-    val recyclertype: String
+    val recyclertype: String,
+    val activity: FragmentActivity
 ) :
     RecyclerView.Adapter<InfoRestaurantTabAdapter.InfoRestaurantHolder>() {
     class InfoRestaurantHolder(
@@ -42,15 +47,21 @@ class InfoRestaurantTabAdapter (
     override fun onBindViewHolder(holder: InfoRestaurantHolder, position: Int) {
         if (holder.menuBinding != null) {
             /* 메뉴 아이템 */
+            val activityUtills = ActivityUtills(activity)
+
             val foodname = data[position][InfoMenuItem.food_name.name]!!
             val fooddescription = data[position][InfoMenuItem.food_description.name]!!
             val foodprice = data[position][InfoMenuItem.food_price.name]!!
+            val foodimg = data[position][InfoMenuItem.food_img.name]!!
 
             holder.menuBinding.apply {
                 foodName.text = foodname
                 foodDescription.text = fooddescription
                 foodPrice.text = foodprice
+                foodImg.visibility = View.VISIBLE
+                activityUtills.setWebImg(foodImg, foodimg).start()
             }
+
         } else {
             /* 리뷰 아이템 */
             val username = data[position][InfoReviewItem.user_name.name]

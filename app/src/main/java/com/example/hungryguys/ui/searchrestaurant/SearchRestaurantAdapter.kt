@@ -2,19 +2,15 @@ package com.example.hungryguys.ui.searchrestaurant
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hungryguys.databinding.SearchRestaurantItemBinding
 import com.example.hungryguys.ui.inforestaurant.InfoRestaurantActivity
 import com.example.hungryguys.utills.ActivityUtills
 import com.google.android.gms.maps.model.LatLng
-import java.net.HttpURLConnection
-import java.net.URL
 
 class SearchRestaurantAdapter(
     var data: MutableList<MutableMap<String, String>>,
@@ -83,20 +79,9 @@ class SearchRestaurantAdapter(
             restaurantStar.text = restaurantstar
             restaurantDistance.text = distance
             restaurantImg.visibility = View.VISIBLE
-            setRestaurantImg(restaurantImg, restaurantimg).start()
+            activityUtills.setWebImg(restaurantImg, restaurantimg).start()
         }
 
         holder.recyclerevent(position)
-    }
-
-    // 웹 이미지 설정 함수 (비동기)
-    private fun setRestaurantImg(imageView: ImageView, url: String): Thread {
-        return  Thread {
-            val connection = URL(url).openConnection() as HttpURLConnection
-            val bitmap = BitmapFactory.decodeStream(connection.inputStream)
-            activity.runOnUiThread {
-                imageView.setImageBitmap(bitmap)
-            }
-        }
     }
 }
