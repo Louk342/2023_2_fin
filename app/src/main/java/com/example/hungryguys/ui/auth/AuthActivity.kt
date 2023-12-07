@@ -50,7 +50,9 @@ class AuthActivity : AppCompatActivity() {
 
                                 // 구글 로그인 성공시
                                 // TODO: DB에 해당 회원 조회해서 실제 회원인지 판단해서 회원가입 시킬지 말지결정해야함
-                                startActivity(Intent(applicationContext, RegisterGroupActivity::class.java))
+                                val intent = Intent(applicationContext, RegisterGroupActivity::class.java)
+                                intent.putExtra("type", "register")
+                                startActivity(intent)
                                 //startActivity(Intent(applicationContext, MainActivity::class.java))
                                 finish()
                             } else {
