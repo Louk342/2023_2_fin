@@ -6,7 +6,6 @@ import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import com.example.hungryguys.MainActivity
 import com.example.hungryguys.R
 import com.example.hungryguys.databinding.ActivityAuthBinding
 import com.example.hungryguys.ui.register.RegisterGroupActivity

@@ -1,5 +1,6 @@
 package com.example.hungryguys.ui.searchrestaurant
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,8 +10,9 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.hungryguys.MainActivity
-import com.example.hungryguys.R
 import com.example.hungryguys.databinding.FragmentSearchRestaurantBinding
+import com.example.hungryguys.utills.Request
+import org.json.JSONArray
 
 
 // 리사이클러 뷰에 전달되야 되는 키 값이 더있으면 여기다 추가
@@ -19,8 +21,6 @@ enum class RestaurantItemId {
     inforestaurant_id,
     /** 식당이름*/
     restaurant_name,
-    /** 식당 카테고리 */
-    restaurant_category,
     /** 식당 별점 */
     restaurant_star,
     /** 식당 리뷰 개수 */
@@ -34,14 +34,9 @@ enum class RestaurantItemId {
 }
 
 class SearchRestaurantFragment : Fragment() {
-    // 카테고리 별 아이콘 만들어 지면 여기다 등록
-    private val categoryImageMap = mutableMapOf(
-        "떡볶이" to R.drawable.tteokbokki_icon
-    )
-
     lateinit var binding: FragmentSearchRestaurantBinding
     lateinit var recyclerAdapter: SearchRestaurantAdapter
-    private lateinit var dbdata: MutableList<MutableMap<String, String>>
+    private val dbdata: MutableList<MutableMap<String, String>> = mutableListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,37 +51,46 @@ class SearchRestaurantFragment : Fragment() {
             searchList(it.toString())
         }
 
-        dbdata = mutableListOf()
-        val data1 = mutableMapOf(
-            RestaurantItemId.restaurant_name.name to "청년다방",
-            RestaurantItemId.restaurant_category.name to "떡볶이",
-            RestaurantItemId.restaurant_star.name to "4.1",
-            RestaurantItemId.restaurant_star_count.name to "120",
-            RestaurantItemId.restaurant_description.name to "떡복이가 참 긴",
-            RestaurantItemId.restaurant_we.name to "200",
-            RestaurantItemId.restaurant_ky.name to "100"
-        )
-        val data2 = mutableMapOf(
-            RestaurantItemId.restaurant_name.name to "푸라닭",
-            RestaurantItemId.restaurant_category.name to "치킨",
-            RestaurantItemId.restaurant_star.name to "4.0",
-            RestaurantItemId.restaurant_star_count.name to "200",
-            RestaurantItemId.restaurant_description.name to "맛있는 치킨집",
-            RestaurantItemId.restaurant_we.name to "200",
-            RestaurantItemId.restaurant_ky.name to "100"
-        )
-        dbdata.add(data1)
-        dbdata.add(data2)
-
-        recyclerAdapter = SearchRestaurantAdapter(dbdata, categoryImageMap)
         binding.restaurantrecycler.apply {
+            recyclerAdapter = SearchRestaurantAdapter(dbdata, requireActivity())
             adapter = recyclerAdapter
 
             // 하단 구분선 추가
             addItemDecoration(DividerItemDecoration(context, LinearLayout.VERTICAL))
         }
 
+        // DB 데이터 불러오기
+        addData().start()
         return binding.root
+    }
+
+    // DB에서 데이터 가져오기
+    @SuppressLint("NotifyDataSetChanged")
+    private fun addData(): Thread {
+        return Thread {
+            val restaurantJson = Request.reqget("${Request.REQUSET_URL}/store/1") ?: JSONArray()
+            //추후 그룹 아이디를 db에서
+
+            for (i in 0..< restaurantJson.length()) {
+                val json = restaurantJson.getJSONObject(i)
+
+                val data= mutableMapOf(
+                    RestaurantItemId.inforestaurant_id.name to json.getString("store_id"),
+                    RestaurantItemId.restaurant_name.name to json.getString("store_name"),
+                    RestaurantItemId.restaurant_star.name to "4.0",
+                    RestaurantItemId.restaurant_star_count.name to "200",
+                    RestaurantItemId.restaurant_description.name to json.getString("store_kind"),
+                    RestaurantItemId.restaurant_we.name to json.getString("x"),
+                    RestaurantItemId.restaurant_ky.name to json.getString("y")
+                )
+                dbdata.add(data)
+                recyclerAdapter.data.add(data)
+            }
+
+            activity?.runOnUiThread {
+                recyclerAdapter.notifyDataSetChanged()
+            }
+        }
     }
 
     // 검색 구현
@@ -100,6 +104,6 @@ class SearchRestaurantFragment : Fragment() {
             }.toMutableList()
         }
 
-        binding.restaurantrecycler.adapter = SearchRestaurantAdapter(data, categoryImageMap)
+        binding.restaurantrecycler.adapter = SearchRestaurantAdapter(data, requireActivity())
     }
 }

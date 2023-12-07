@@ -24,7 +24,11 @@ class InfoRestaurantActivity : AppCompatActivity(), OnMapReadyCallback {
     lateinit var menuFragment: InfoRestaurantMenuFragment
     lateinit var reviewFragment: InfoRestaurantReviewFragment
     lateinit var restaurantname: String // 식당이름
-    var restaurantid: Int = 0 //추후 DB 식별 값으로 변경
+    private var restaurantwe: Double ?= null //식당 위도
+    private var restaurantky: Double ?= null //식당 경도
+    var restaurantid: Int = 0 //식당 DB 식별용 값
+
+
     private var mMap: GoogleMap? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -77,7 +81,7 @@ class InfoRestaurantActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap = googleMap
         mMap?.mapType = GoogleMap.MAP_TYPE_NORMAL
 
-        val groupLatLng = LatLng(37.500049, 126.868003)
+        val groupLatLng = LatLng(restaurantwe!!, restaurantky!!)
         val position = CameraPosition.Builder()
             .target(groupLatLng)
             .zoom(16f)
@@ -99,12 +103,13 @@ class InfoRestaurantActivity : AppCompatActivity(), OnMapReadyCallback {
             restaurantid = getIntExtra(RestaurantItemId.inforestaurant_id.name, 0)
             // 식당이름
             restaurantname = getStringExtra(RestaurantItemId.restaurant_name.name)!!
+            // 위도
+            restaurantwe = getStringExtra(RestaurantItemId.restaurant_we.name)?.toDouble()
+            // 경도
+            restaurantky = getStringExtra(RestaurantItemId.restaurant_ky.name)?.toDouble()
+
             val restaurantstar = getStringExtra(RestaurantItemId.restaurant_star.name)
             val restaurantstarcount = "(${getStringExtra(RestaurantItemId.restaurant_star_count.name)})"
-
-            // 위도 경도값은 지도랑 연결해서 사용할것
-            val restaurantwe = getStringExtra(RestaurantItemId.restaurant_we.name)
-            val restaurantky = getStringExtra(RestaurantItemId.restaurant_ky.name)
 
             binding.restaurantName.text = restaurantname
             binding.restaurantStar.text = restaurantstar

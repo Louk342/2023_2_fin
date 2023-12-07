@@ -10,6 +10,9 @@ import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.WindowCompat
+import com.google.android.gms.maps.model.LatLng
+import com.google.maps.android.SphericalUtil
+import kotlin.math.roundToInt
 
 // Activity와 종속적인 것들
 class ActivityUtills(private val activity: Activity) {
@@ -80,6 +83,18 @@ class ActivityUtills(private val activity: Activity) {
             Log.d("설정", "알림 활성화")
         } else {
             Log.d("설정", "알림 비활성화")
+        }
+    }
+
+    // 두 지점간 거리 구하는 함수
+    fun getDistance(LatLng1: LatLng, LatLng2: LatLng): String {
+        val distance = SphericalUtil.computeDistanceBetween(LatLng1, LatLng2).roundToInt()
+
+        // 거리가 1000m가 넘는다면 km로 변경
+        return if (distance >= 1000) {
+            String.format("%.2f", (distance.toDouble() / 1000)) + "km"
+        } else {
+            distance.toString() + "m"
         }
     }
 
