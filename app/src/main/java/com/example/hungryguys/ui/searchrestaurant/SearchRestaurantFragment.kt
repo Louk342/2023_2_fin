@@ -1,10 +1,13 @@
 package com.example.hungryguys.ui.searchrestaurant
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.hungryguys.MainActivity
@@ -42,20 +45,30 @@ class SearchRestaurantFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentSearchRestaurantBinding.inflate(inflater, container, false)
-        dbdata = mutableListOf()
+        val searchtext = (activity as MainActivity).actionbarView.searchText
 
         binding.restaurantrecycler.apply {
             // 하단 구분선 추가
             addItemDecoration(DividerItemDecoration(context, LinearLayout.VERTICAL))
         }
 
+        dbdata = mutableListOf()
+        recyclerAdapter = SearchRestaurantAdapter(dbdata, requireActivity())
+        binding.restaurantrecycler.adapter = recyclerAdapter
+
         // DB 데이터 불러오기
         addData().start()
+
+        // 키보드 입력이벤트
+        searchtext.addTextChangedListener {
+            /*searchList(it.toString())*/
+        }
 
         return binding.root
     }
 
     // DB에서 데이터 가져오기
+    @SuppressLint("NotifyDataSetChanged")
     private fun addData(): Thread {
         return Thread {
             val restaurantJson = Request.reqget("${Request.REQUSET_URL}/store/1") ?: JSONArray()
@@ -76,22 +89,15 @@ class SearchRestaurantFragment : Fragment() {
                 )
                 dbdata.add(data)
             }
-
             activity?.runOnUiThread {
-                val searchtext = (requireActivity() as MainActivity).actionbarView.searchText
-
-                // 키보드 입력이벤트
-/*                searchtext.addTextChangedListener {
-                    searchList(it.toString())
-                }*/
-
-                binding.restaurantrecycler.adapter = SearchRestaurantAdapter(dbdata, requireActivity())
+                recyclerAdapter.notifyDataSetChanged()
             }
         }
     }
 
     // 검색 구현
-/*    private fun searchList(text: String) {
+/*    @SuppressLint("NotifyDataSetChanged")
+    private fun searchList(text: String) {
         val data = if (text.isEmpty()) {
             dbdata
         } else {
@@ -101,6 +107,6 @@ class SearchRestaurantFragment : Fragment() {
             }.toMutableList()
         }
 
-        binding.restaurantrecycler.adapter = SearchRestaurantAdapter(data, requireActivity())
+        recyclerAdapter.notifyDataSetChanged()
     }*/
 }
