@@ -7,7 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.hungryguys.databinding.FragmentSearchPartyBinding
+import com.example.hungryguys.utills.GoogleLoginData
 import com.example.hungryguys.utills.Request
+import org.json.JSONArray
 
 // 리사이클러 뷰에 전달되야 되는 키 값이 더있으면 여기다 추가
 enum class SearchPartyItemId {
@@ -45,8 +47,13 @@ class SearchPartyFragment : Fragment() {
     @SuppressLint("NotifyDataSetChanged")
     fun addData(): Thread {
         return Thread {
+            val userdataJson =
+                Request.reqget("${Request.REQUSET_URL}/email/${GoogleLoginData.email}")
+                    ?: JSONArray()
+            val groupId = userdataJson.getJSONObject(0).getString("group_id")
+
             // 해당 그룹에 활성 파티
-            val partyJson = Request.reqget("${Request.REQUSET_URL}/party/1")
+            val partyJson = Request.reqget("${Request.REQUSET_URL}/party/${groupId}")
             for (i in 0..<partyJson?.length()!!) {
                 val thisparty = partyJson.getJSONObject(i)
                 val partylistjson = Request.reqget("${Request.REQUSET_URL}/partyUser/${thisparty.getString("party_id")}")

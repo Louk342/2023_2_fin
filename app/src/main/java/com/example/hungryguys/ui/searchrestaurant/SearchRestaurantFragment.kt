@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.hungryguys.MainActivity
 import com.example.hungryguys.databinding.FragmentSearchRestaurantBinding
+import com.example.hungryguys.utills.GoogleLoginData
 import com.example.hungryguys.utills.Request
 import org.json.JSONArray
 
@@ -71,8 +72,12 @@ class SearchRestaurantFragment : Fragment() {
     @SuppressLint("NotifyDataSetChanged")
     private fun addData(): Thread {
         return Thread {
-            val restaurantJson = Request.reqget("${Request.REQUSET_URL}/store/1") ?: JSONArray()
-            //추후 그룹 아이디를 db에서
+            val userdataJson =
+                Request.reqget("${Request.REQUSET_URL}/email/${GoogleLoginData.email}")
+                    ?: JSONArray()
+            val groupId = userdataJson.getJSONObject(0).getString("group_id")
+
+            val restaurantJson = Request.reqget("${Request.REQUSET_URL}/store/${groupId}") ?: JSONArray()
 
             for (i in 0..< restaurantJson.length()) {
                 val json = restaurantJson.getJSONObject(i)
