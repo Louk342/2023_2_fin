@@ -61,8 +61,6 @@ class RegisterGroupActivity : AppCompatActivity(), OnMapReadyCallback {
 
         if (type == "change") {
             supportActionBar?.setDisplayHomeAsUpEnabled(true) // 뒤로가기 버튼 활성화
-            // TODO: DB에서 그룹 이름 가져와서 넣어줘야함
-            binding.groupTitle.text = "받아온 그룹 이름"
         }
 
         doLocation()
@@ -131,50 +129,31 @@ class RegisterGroupActivity : AppCompatActivity(), OnMapReadyCallback {
             true
         }
 
-        if (type == "register") {
-            fLC = LocationServices.getFusedLocationProviderClient(this)
-            callback = object : LocationCallback() {
-                override fun onLocationResult(p0: LocationResult) {
-                    super.onLocationResult(p0)
+        fLC = LocationServices.getFusedLocationProviderClient(this)
+        callback = object : LocationCallback() {
+            override fun onLocationResult(p0: LocationResult) {
+                super.onLocationResult(p0)
 
-                    var list = p0.locations
-                    var location = list[0]
-                    var latLng = LatLng(location.latitude, location.longitude)
-                    currentPosition = latLng
-                    val position = CameraPosition.Builder().target(latLng).zoom(16.0f).build()
-                    googleMap?.moveCamera(CameraUpdateFactory.newCameraPosition(position))
+                var list = p0.locations
+                var location = list[0]
+                var latLng = LatLng(location.latitude, location.longitude)
+                currentPosition = latLng
+                val position = CameraPosition.Builder().target(latLng).zoom(16.0f).build()
+                googleMap?.moveCamera(CameraUpdateFactory.newCameraPosition(position))
 
-                    val options = MarkerOptions()
-                    options.position(latLng)
-                    options.title("현재 위치")
-                    options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW))
-                    val marker = googleMap?.addMarker(options)
-                    marker?.showInfoWindow()
-                    fLC?.removeLocationUpdates(callback!!)
-                }
+                val options = MarkerOptions()
+                options.position(latLng)
+                options.title("현재 위치")
+                options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW))
+                val marker = googleMap?.addMarker(options)
+                marker?.showInfoWindow()
+                fLC?.removeLocationUpdates(callback!!)
             }
-
-            val locationRequest =
-                LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 1000).build()
-            fLC?.requestLocationUpdates(locationRequest, callback!!, Looper.getMainLooper())
-        } else {
-            // TODO: 그룹 이름, 위도, 경도 받아와서 바꿔줘야함
-            currentPlace = "받아온 그룹 이름"
-            val groupLatLng = LatLng(37.500049, 126.868003)
-            val position = CameraPosition.Builder()
-                .target(groupLatLng)
-                .zoom(16f)
-                .build()
-            googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(position))
-
-            val markerOptions = MarkerOptions().run {
-                position(groupLatLng)
-                title("현재 위치")
-                icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW))
-            }
-            val marker = googleMap.addMarker(markerOptions)
-            marker?.showInfoWindow()
         }
+
+        val locationRequest =
+            LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 1000).build()
+        fLC?.requestLocationUpdates(locationRequest, callback!!, Looper.getMainLooper())
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
