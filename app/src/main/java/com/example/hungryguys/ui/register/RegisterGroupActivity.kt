@@ -11,6 +11,7 @@ import com.example.hungryguys.MainActivity
 import com.example.hungryguys.databinding.ActivityRegisterGroupBinding
 import com.example.hungryguys.ui.searchrestaurant.RestaurantItemId
 import com.example.hungryguys.utills.ActivityUtills
+import com.example.hungryguys.utills.GoogleLoginData
 import com.example.hungryguys.utills.Request
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
@@ -27,6 +28,7 @@ import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import org.json.JSONArray
+import org.json.JSONObject
 
 enum class GroupItem {
     /** 그룹 아이디 */
@@ -78,8 +80,26 @@ class RegisterGroupActivity : AppCompatActivity(), OnMapReadyCallback {
                 else -> {
                     dbdata.forEach{
                         if (it[GroupItem.group_name.name] == binding.groupTitle.text.toString()) {
-                            // TODO: DB에 그룹id 저장하는 것으로 수정해야함
-                            Toast.makeText(applicationContext, "${it[GroupItem.group_id.name]} 설정 완료", Toast.LENGTH_SHORT).show()
+                            var userId = ""
+                            val userdataThread = Thread {
+                                val userdataJson =
+                                    Request.reqget("${Request.REQUSET_URL}/email/${GoogleLoginData.email}")
+                                        ?: JSONArray()
+                                userId = userdataJson.getJSONObject(0).getString("user_id")
+                            }
+                            userdataThread.start()
+                            userdataThread.join()
+
+                            val registerThread = Thread {
+                                val outputjson = JSONObject() // JSON 생성
+                                outputjson.put("user_id", userId)
+                                outputjson.put("group_id", it[GroupItem.group_id.name])
+
+                                Request.reqpost("${Request.REQUSET_URL}/setGroup", outputjson)
+                                //val registerJson = Request.reqget("${Request.REQUSET_URL}/setGroup/${userId}/${it[GroupItem.group_id.name]}") ?: JSONArray()
+                            }
+                            registerThread.start()
+                            registerThread.join()
                         }
                     }
                     if(type == "change") {
