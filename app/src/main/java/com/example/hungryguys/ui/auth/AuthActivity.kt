@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.hungryguys.MainActivity
 import com.example.hungryguys.R
 import com.example.hungryguys.databinding.ActivityAuthBinding
+import com.example.hungryguys.ui.register.RegisterGroupActivity
 import com.example.hungryguys.utills.ActivityUtills
 import com.example.hungryguys.utills.GoogleLoginData
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -50,7 +51,8 @@ class AuthActivity : AppCompatActivity() {
 
                                 // 구글 로그인 성공시
                                 // TODO: DB에 해당 회원 조회해서 실제 회원인지 판단해서 회원가입 시킬지 말지결정해야함
-                                startActivity(Intent(applicationContext, MainActivity::class.java))
+                                startActivity(Intent(applicationContext, RegisterGroupActivity::class.java))
+                                //startActivity(Intent(applicationContext, MainActivity::class.java))
                                 finish()
                             } else {
                                 Toast.makeText(this, "구글 계정과 연동에 실패하였습니다.", Toast.LENGTH_SHORT).show()
