@@ -9,7 +9,9 @@ import android.view.MenuItem
 import android.widget.Toast
 import com.example.hungryguys.MainActivity
 import com.example.hungryguys.databinding.ActivityRegisterGroupBinding
+import com.example.hungryguys.ui.searchrestaurant.RestaurantItemId
 import com.example.hungryguys.utills.ActivityUtills
+import com.example.hungryguys.utills.Request
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
@@ -24,8 +26,11 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import org.json.JSONArray
 
 enum class GroupItem {
+    /** 그룹 아이디 */
+    group_id,
     /** 그룹 이름 */
     group_name,
     /** 그룹 위도 */
@@ -41,6 +46,7 @@ class RegisterGroupActivity : AppCompatActivity(), OnMapReadyCallback {
     var currentPlace: String = ""
     lateinit var currentPosition: LatLng
     lateinit var type: String
+    val dbdata: MutableList<MutableMap<String, String>> = mutableListOf()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRegisterGroupBinding.inflate(layoutInflater)
@@ -70,8 +76,12 @@ class RegisterGroupActivity : AppCompatActivity(), OnMapReadyCallback {
                 "" -> Toast.makeText(applicationContext, "그룹을 선택해주세요", Toast.LENGTH_SHORT).show()
                 "현재 위치" ->Toast.makeText(applicationContext, "설정할 수 없는 그룹입니다.", Toast.LENGTH_SHORT).show()
                 else -> {
-                    // TODO: DB에 그룹 저장하는 것 추가해야함
-                    Toast.makeText(applicationContext, "그룹 설정 완료", Toast.LENGTH_SHORT).show()
+                    dbdata.forEach{
+                        if (it[GroupItem.group_name.name] == binding.groupTitle.text.toString()) {
+                            // TODO: DB에 그룹id 저장하는 것으로 수정해야함
+                            Toast.makeText(applicationContext, "${it[GroupItem.group_id.name]} 설정 완료", Toast.LENGTH_SHORT).show()
+                        }
+                    }
                     if(type == "register") startActivity(Intent(applicationContext, MainActivity::class.java))
                     finish()
                 }
@@ -90,25 +100,24 @@ class RegisterGroupActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap = googleMap
         mMap?.mapType = GoogleMap.MAP_TYPE_NORMAL
 
-        val dbdata: MutableList<MutableMap<String, String>> = mutableListOf()
-        val data1 = mutableMapOf(
-            GroupItem.group_name.name to "동양미래대학교",
-            GroupItem.group_lat.name to "37.500049",
-            GroupItem.group_lng.name to "126.868003",
-        )
-        val data2 = mutableMapOf(
-            GroupItem.group_name.name to "구로성심병원",
-            GroupItem.group_lat.name to "37.499632",
-            GroupItem.group_lng.name to "126.866363",
-        )
-        val data3 = mutableMapOf(
-            GroupItem.group_name.name to "고척스카이돔",
-            GroupItem.group_lat.name to "37.498230",
-            GroupItem.group_lng.name to "126.867020",
-        )
-        dbdata.add(data1)
-        dbdata.add(data2)
-        dbdata.add(data3)
+        val loadGroupThread = Thread {
+            val restaurantJson = Request.reqget("${Request.REQUSET_URL}/group") ?: JSONArray()
+            //추후 그룹 아이디를 db에서
+
+            for (i in 0..< restaurantJson.length()) {
+                val json = restaurantJson.getJSONObject(i)
+
+                val data= mutableMapOf(
+                    GroupItem.group_id.name to json.getString("group_id"),
+                    GroupItem.group_name.name to json.getString("group_name"),
+                    GroupItem.group_lat.name to json.getString("x"),
+                    GroupItem.group_lng.name to json.getString("y"),
+                )
+                dbdata.add(data)
+            }
+        }
+        loadGroupThread.start()
+        loadGroupThread.join()
 
         dbdata.forEach{
             val groupLatLng = LatLng(it[GroupItem.group_lat.name]!!.toDouble(), it[GroupItem.group_lng.name]!!.toDouble())
