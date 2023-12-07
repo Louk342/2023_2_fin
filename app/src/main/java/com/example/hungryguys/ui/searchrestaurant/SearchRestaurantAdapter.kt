@@ -2,15 +2,19 @@ package com.example.hungryguys.ui.searchrestaurant
 
 import android.content.Context
 import android.content.Intent
-import android.location.Location
+import android.graphics.BitmapFactory
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hungryguys.databinding.SearchRestaurantItemBinding
 import com.example.hungryguys.ui.inforestaurant.InfoRestaurantActivity
 import com.example.hungryguys.utills.ActivityUtills
 import com.google.android.gms.maps.model.LatLng
+import java.net.HttpURLConnection
+import java.net.URL
 
 class SearchRestaurantAdapter(
     var data: MutableList<MutableMap<String, String>>,
@@ -60,6 +64,7 @@ class SearchRestaurantAdapter(
     override fun onBindViewHolder(holder: SearchRestaurantHolder, position: Int) {
         val restaurantname = data[position][RestaurantItemId.restaurant_name.name]!!
         val restaurantdescription = data[position][RestaurantItemId.restaurant_description.name]!!
+        val restaurantimg = data[position][RestaurantItemId.restaurant_img.name]!!
         val restaurantstar = data[position][RestaurantItemId.restaurant_star.name]!!
         val restaurantwe = data[position][RestaurantItemId.restaurant_we.name]!!
         val restaurantky = data[position][RestaurantItemId.restaurant_ky.name]!!
@@ -69,7 +74,7 @@ class SearchRestaurantAdapter(
         val groupLatLng = LatLng(37.500049, 126.868003)
         // 식당 위치 정보
         val restaurantLatLng = LatLng(restaurantwe.toDouble(), restaurantky.toDouble())
-
+        // 위치 구하기
         val distance = activityUtills.getDistance(groupLatLng, restaurantLatLng)
 
         holder.binding.apply {
@@ -77,8 +82,21 @@ class SearchRestaurantAdapter(
             restaurantDescription.text = restaurantdescription
             restaurantStar.text = restaurantstar
             restaurantDistance.text = distance
+            restaurantImg.visibility = View.VISIBLE
+            setRestaurantImg(restaurantImg, restaurantimg).start()
         }
 
         holder.recyclerevent(position)
+    }
+
+    // 웹 이미지 설정 함수 (비동기)
+    private fun setRestaurantImg(imageView: ImageView, url: String): Thread {
+        return  Thread {
+            val connection = URL(url).openConnection() as HttpURLConnection
+            val bitmap = BitmapFactory.decodeStream(connection.inputStream)
+            activity.runOnUiThread {
+                imageView.setImageBitmap(bitmap)
+            }
+        }
     }
 }
