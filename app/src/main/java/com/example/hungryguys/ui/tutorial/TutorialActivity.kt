@@ -23,7 +23,7 @@ class TutorialActivity : AppCompatActivity() {
         // 상단 상테바, 하단 내비게이션 투명화
         val activityUtills = ActivityUtills(this)
         activityUtills.setStatusBarTransparent()
-        activityUtills.setStatusBarAllPadding(binding.layoutDotsView)
+        activityUtills.setStatusBarAllPadding(binding.root)
 
         layouts = arrayOf(
             R.layout.tutorial_page1,
@@ -58,7 +58,7 @@ class TutorialActivity : AppCompatActivity() {
             dotLayout.addView(dots[i])
         }
 
-        dots[0]?.setTextColor(Color.parseColor("#4200FF"))
+        dots[0]?.setTextColor(getColor(R.color.pink))
     }
 
     // 하단 점 바꾸기
@@ -67,6 +67,6 @@ class TutorialActivity : AppCompatActivity() {
             it?.setTextColor(Color.parseColor("#FFFFFF"))
         }
 
-        dots[position]?.setTextColor(Color.parseColor("#4200FF"))
+        dots[position]?.setTextColor(getColor(R.color.pink))
     }
 }
