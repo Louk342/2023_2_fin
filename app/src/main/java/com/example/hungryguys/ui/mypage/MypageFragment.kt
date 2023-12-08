@@ -51,6 +51,8 @@ class MypageFragment : Fragment() {
         val contract = ActivityResultContracts.StartActivityForResult()
         val callback = ActivityResultCallback<ActivityResult> { result ->
             if (result.resultCode == AppCompatActivity.RESULT_OK) {
+                val groupName = result.data?.getStringExtra("group_name").toString()
+                (activity as MainActivity).navHeaderBinding.userLocation.text = groupName
                 dbdata.clear()
                 addData().start()
             }

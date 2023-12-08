@@ -79,6 +79,7 @@ class RegisterGroupActivity : AppCompatActivity(), OnMapReadyCallback {
                 "" -> Toast.makeText(applicationContext, "그룹을 선택해주세요", Toast.LENGTH_SHORT).show()
                 "현재 위치" ->Toast.makeText(applicationContext, "설정할 수 없는 그룹입니다.", Toast.LENGTH_SHORT).show()
                 else -> {
+                    var groupName = ""
                     dbdata.forEach{
                         if (it[GroupItem.group_name.name] == binding.groupTitle.text.toString()) {
                             var userId = ""
@@ -90,6 +91,7 @@ class RegisterGroupActivity : AppCompatActivity(), OnMapReadyCallback {
                             }
                             userdataThread.start()
                             userdataThread.join()
+                            groupName = it[GroupItem.group_name.name].toString()
 
                             Log.d("그룹아이디 확인", it[GroupItem.group_id.name].toString())
 
@@ -100,6 +102,7 @@ class RegisterGroupActivity : AppCompatActivity(), OnMapReadyCallback {
                     }
                     if(type == "change") {
                         val intent = Intent()
+                        intent.putExtra("group_name", groupName)
                         setResult(RESULT_OK, intent)
                         finish()
                     }
