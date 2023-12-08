@@ -135,6 +135,7 @@ class MainActivity : AppCompatActivity() {
                     groupName = json.getString("group_name")
 
                     runOnUiThread {
+                        navHeaderBinding.userLocation.text = groupName
                         textView.text = groupName
                     }
                     return@Thread
