@@ -15,6 +15,10 @@ import androidx.core.view.indices
 import androidx.fragment.app.DialogFragment
 import com.example.hungryguys.R
 import com.example.hungryguys.databinding.DialogAddReviewBinding
+import com.example.hungryguys.ui.register.GroupItem
+import com.example.hungryguys.utills.GoogleLoginData
+import com.example.hungryguys.utills.Request
+import org.json.JSONArray
 
 class InfoRestaurantReviewDialog : DialogFragment() {
 
@@ -46,10 +50,28 @@ class InfoRestaurantReviewDialog : DialogFragment() {
             val selectid =  (activity as InfoRestaurantActivity).restaurantid   //현재 선택된 아이템
             val reviewText = binding.inputAddreveiw.text.toString().trim()
 
+            var userId = ""
+            var userName = ""
+            val userdataThread = Thread {
+                val userdataJson =
+                    Request.reqget("${Request.REQUSET_URL}/email/${GoogleLoginData.email}")
+                        ?: JSONArray()
+                userId = userdataJson.getJSONObject(0).getString("user_id")
+                userName = userdataJson.getJSONObject(0).getString("user_name")
+            }
+            userdataThread.start()
+            userdataThread.join()
+
+            val addReviewThread = Thread {
+                Request.reqget("${Request.REQUSET_URL}/addReview/${reviewText}/${selectid}/${userId}/${reviewStar}")
+            }
+            addReviewThread.start()
+            addReviewThread.join()
+
             val addReveiw =  mutableMapOf (
                 InfoReviewItem.review_text.name to reviewText,
                 InfoReviewItem.restaurant_star.name to "$reviewStar.0",
-                InfoReviewItem.user_name.name to "유저1"
+                InfoReviewItem.user_name.name to userName
             )
 
             (activity as InfoRestaurantActivity).addReview(addReveiw)
