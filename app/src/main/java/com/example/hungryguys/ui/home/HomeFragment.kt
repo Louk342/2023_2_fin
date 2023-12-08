@@ -89,15 +89,12 @@ class HomeFragment : Fragment() {
         userdataThread.join()
 
         val groupThread = Thread {
-            val groupJson = Request.reqget("${Request.REQUSET_URL}/group") ?: JSONArray()
+            val groupJson = Request.reqget("${Request.REQUSET_URL}/getGroup/${groupId}") ?: JSONArray()
+            val getGroupX = groupJson.getJSONObject(0).getString("x").toDouble()
+            val getGroupY = groupJson.getJSONObject(0).getString("y").toDouble()
 
-            for (i in 0..<groupJson.length()) {
-                val json = groupJson.getJSONObject(i)
-
-                if (json.getString("group_id") == groupId) {
-                    groupLatLng = LatLng(json.getDouble("x"), json.getDouble("y"))
-                }
-            }
+            //그룹위치
+            groupLatLng = LatLng(getGroupX, getGroupY)
         }
         groupThread.start()
         groupThread.join()
