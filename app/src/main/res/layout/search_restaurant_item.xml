@@ -9,31 +9,31 @@
     android:gravity="center_vertical"
     android:orientation="horizontal">
 
+    <ImageView
+        android:id="@+id/restaurant_img"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginEnd="10dp"
+        android:visibility="gone"
+        android:contentDescription="restaurant_img" />
+
     <LinearLayout
         android:id="@+id/category_image_layout"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:padding="5dp"
         android:layout_marginEnd="10dp"
         android:background="@drawable/item_restaurant_shape"
         android:gravity="center"
+        android:visibility="gone"
         android:orientation="horizontal"
         android:theme="@style/Theme.HungryGuys.NoActionBar">
-
-        <ImageView
-            android:id="@+id/restaurant_img"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:visibility="gone" />
 
         <TextView
             android:id="@+id/category_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="식당이미지"
-            android:textSize="16sp"
-            android:visibility="gone" />
+            android:textSize="16sp" />
 
     </LinearLayout>
 
