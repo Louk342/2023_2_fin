@@ -51,7 +51,7 @@ class MypageFragment : Fragment() {
         val contract = ActivityResultContracts.StartActivityForResult()
         val callback = ActivityResultCallback<ActivityResult> { result ->
             if (result.resultCode == AppCompatActivity.RESULT_OK) {
-                addData()
+                addData().start()
             }
         }
         launcher = registerForActivityResult(contract, callback)
