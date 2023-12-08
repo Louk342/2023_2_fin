@@ -12,8 +12,10 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.hungryguys.MainActivity
 import com.example.hungryguys.databinding.FragmentSearchRestaurantBinding
+import com.example.hungryguys.utills.ActivityUtills
 import com.example.hungryguys.utills.GoogleLoginData
 import com.example.hungryguys.utills.Request
+import com.google.android.gms.maps.model.LatLng
 import org.json.JSONArray
 
 // 리사이클러 뷰에 전달되야 되는 키 값이 더있으면 여기다 추가
@@ -34,11 +36,14 @@ enum class RestaurantItemId {
     restaurant_we,
     /** 식당 경도값 */
     restaurant_ky,
+    /** 식당과 그룹사이에 거리*/
+    restaurant_distance
 }
 
 class SearchRestaurantFragment : Fragment() {
     lateinit var binding: FragmentSearchRestaurantBinding
     private lateinit var recyclerAdapter: SearchRestaurantAdapter
+    private lateinit var activityUtills: ActivityUtills
     private lateinit var dbdata: MutableList<MutableMap<String, String>>
 
     override fun onCreateView(
@@ -47,6 +52,8 @@ class SearchRestaurantFragment : Fragment() {
     ): View {
         binding = FragmentSearchRestaurantBinding.inflate(inflater, container, false)
         val searchtext = (activity as MainActivity).actionbarView.searchText
+
+        activityUtills = ActivityUtills(requireActivity())
 
         binding.restaurantrecycler.apply {
             // 하단 구분선 추가
@@ -72,11 +79,15 @@ class SearchRestaurantFragment : Fragment() {
     @SuppressLint("NotifyDataSetChanged")
     private fun addData(): Thread {
         return Thread {
-            val userdataJson =
-                Request.reqget("${Request.REQUSET_URL}/email/${GoogleLoginData.email}")
-                    ?: JSONArray()
+            val userdataJson = Request.reqget("${Request.REQUSET_URL}/email/${GoogleLoginData.email}") ?: JSONArray()
             val groupId = userdataJson.getJSONObject(0).getString("group_id")
 
+            val groupJson = Request.reqget("${Request.REQUSET_URL}/getGroup/${groupId}") ?: JSONArray()
+            val getGroupX = groupJson.getJSONObject(0).getString("x").toDouble()
+            val getGroupY = groupJson.getJSONObject(0).getString("y").toDouble()
+
+            //그룹위치
+            val grouploc = LatLng(getGroupX, getGroupY)
             val restaurantJson = Request.reqget("${Request.REQUSET_URL}/store/${groupId}") ?: JSONArray()
 
             for (i in 0..< restaurantJson.length()) {
@@ -97,6 +108,10 @@ class SearchRestaurantFragment : Fragment() {
                 }
                 val storeStarCount = count.toString()
 
+                // 식당 위치
+                val Restaurantloc = LatLng(json.getString("x").toDouble(), json.getString("y").toDouble())
+                val distance =activityUtills.getDistance(grouploc, Restaurantloc)
+
                 val data= mutableMapOf(
                     RestaurantItemId.inforestaurant_id.name to json.getString("store_id"),
                     RestaurantItemId.restaurant_name.name to json.getString("store_name"),
@@ -105,7 +120,8 @@ class SearchRestaurantFragment : Fragment() {
                     RestaurantItemId.restaurant_star_count.name to storeStarCount,
                     RestaurantItemId.restaurant_description.name to json.getString("store_kind"),
                     RestaurantItemId.restaurant_we.name to json.getString("x"),
-                    RestaurantItemId.restaurant_ky.name to json.getString("y")
+                    RestaurantItemId.restaurant_ky.name to json.getString("y"),
+                    RestaurantItemId.restaurant_distance.name to distance
                 )
                 dbdata.add(data)
             }

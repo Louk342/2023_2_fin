@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.hungryguys.databinding.SearchRestaurantItemBinding
 import com.example.hungryguys.ui.inforestaurant.InfoRestaurantActivity
 import com.example.hungryguys.utills.ActivityUtills
-import com.google.android.gms.maps.model.LatLng
 
 class SearchRestaurantAdapter(
     var data: MutableList<MutableMap<String, String>>,
@@ -62,16 +61,9 @@ class SearchRestaurantAdapter(
         val restaurantdescription = data[position][RestaurantItemId.restaurant_description.name]!!
         val restaurantimg = data[position][RestaurantItemId.restaurant_img.name]!!
         val restaurantstar = data[position][RestaurantItemId.restaurant_star.name]!!
-        val restaurantwe = data[position][RestaurantItemId.restaurant_we.name]!!
-        val restaurantky = data[position][RestaurantItemId.restaurant_ky.name]!!
+        val distance = data[position][RestaurantItemId.restaurant_distance.name]!!
 
         val activityUtills = ActivityUtills(activity)
-        // 그룹 위치 정보
-        val groupLatLng = LatLng(37.500049, 126.868003)
-        // 식당 위치 정보
-        val restaurantLatLng = LatLng(restaurantwe.toDouble(), restaurantky.toDouble())
-        // 위치 구하기
-        val distance = activityUtills.getDistance(groupLatLng, restaurantLatLng)
 
         holder.binding.apply {
             restaurantName.text = restaurantname
