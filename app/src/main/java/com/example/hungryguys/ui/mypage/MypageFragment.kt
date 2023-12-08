@@ -1,5 +1,6 @@
 package com.example.hungryguys.ui.mypage
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -40,7 +41,7 @@ class MypageFragment : Fragment() {
     lateinit var binding:FragmentMypageBinding
     private var launcher: ActivityResultLauncher<Intent>? = null
     lateinit var recyclerAdapter: MypageAdapter
-    lateinit var groupId: String
+    lateinit var dbdata: MutableList<MutableMap<String, String>>
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -50,8 +51,7 @@ class MypageFragment : Fragment() {
         val contract = ActivityResultContracts.StartActivityForResult()
         val callback = ActivityResultCallback<ActivityResult> { result ->
             if (result.resultCode == AppCompatActivity.RESULT_OK) {
-                loadgroup().start()
-                loadgroup().join()
+                addData()
             }
         }
         launcher = registerForActivityResult(contract, callback)
@@ -68,9 +68,6 @@ class MypageFragment : Fragment() {
 
         binding.userName.text = GoogleLoginData.name
 
-        loadgroup().start()
-        loadgroup().join()
-
         binding.userLocationLayout.setOnClickListener{
             val intent = Intent(context, RegisterGroupActivity::class.java)
             intent.putExtra("type", "change")
@@ -85,19 +82,29 @@ class MypageFragment : Fragment() {
             }
         }
 
-        val userdataThread = Thread {
-            val userdataJson =
-                Request.reqget("${Request.REQUSET_URL}/email/${GoogleLoginData.email}")
-                    ?: JSONArray()
-            groupId = userdataJson.getJSONObject(0).getString("group_id")
-        }
-        userdataThread.start()
-        userdataThread.join()
+        dbdata = mutableListOf()
 
-        val dbdata: MutableList<MutableMap<String, String>> = mutableListOf()
+        addData().start()
 
-        val partyThread = Thread {
-            val partyJson = Request.reqget("${Request.REQUSET_URL}/party/${groupId}") ?: JSONArray()
+        return binding.root
+    }
+
+    // DB에서 값 가져와서 처리
+    private fun addData(): Thread {
+        return Thread {
+            val userdataJson = Request.reqget("${Request.REQUSET_URL}/email/${GoogleLoginData.email}") ?: JSONArray()
+            val groupid = userdataJson.getJSONObject(0).getString("group_id")
+            val groupJson = Request.reqget("${Request.REQUSET_URL}/group") ?: JSONArray()
+
+            for (i in 0..< groupJson.length()) {
+                val json = groupJson.getJSONObject(i)
+
+                if(json.getString("group_id") == groupid) {
+                    binding.userLocation.text = json.getString("group_name")
+                }
+            }
+
+            val partyJson = Request.reqget("${Request.REQUSET_URL}/party/${groupid}") ?: JSONArray()
 
             for (i in 0..<partyJson.length()) {
                 val partyId = partyJson.getJSONObject(i).getString("party_id")
@@ -126,30 +133,10 @@ class MypageFragment : Fragment() {
                     }
                 }
             }
-        }
-        partyThread.start()
-        partyThread.join()
 
-        recyclerAdapter = MypageAdapter(dbdata, binding)
-        binding.myChatRecycler.adapter = recyclerAdapter
-
-        return binding.root
-    }
-
-    // DB에서 그룹 이름 가져오기
-    private fun loadgroup(): Thread {
-        return Thread {
-            val userdataJson = Request.reqget("${Request.REQUSET_URL}/email/${GoogleLoginData.email}") ?: JSONArray()
-            val group_id = userdataJson.getJSONObject(0).getString("group_id")
-
-            val groupJson = Request.reqget("${Request.REQUSET_URL}/group") ?: JSONArray()
-
-            for (i in 0..< groupJson.length()) {
-                val json = groupJson.getJSONObject(i)
-
-                if(json.getString("group_id") == group_id) {
-                    binding.userLocation.text = json.getString("group_name")
-                }
+            activity?.runOnUiThread {
+                recyclerAdapter = MypageAdapter(dbdata, binding)
+                binding.myChatRecycler.adapter = recyclerAdapter
             }
         }
     }
