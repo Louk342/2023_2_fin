@@ -3,6 +3,7 @@ package com.example.hungryguys
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -85,32 +86,12 @@ class MainActivity : AppCompatActivity() {
             actionbarView.settingButton.visibility = View.GONE // 설정 버튼 아이콘
             actionbarView.searchIconButton.visibility = View.GONE //오른쪽 검색아이콘
 
-            // 그룹 이름 가져오기
-            val groupNameThread = Thread {
-                val userdataJson = Request.reqget("${Request.REQUSET_URL}/email/${GoogleLoginData.email}") ?: JSONArray()
-                val group_id = userdataJson.getJSONObject(0).getString("group_id")
-
-                val groupJson = Request.reqget("${Request.REQUSET_URL}/group") ?: JSONArray()
-
-                for (i in 0..< groupJson.length()) {
-                    val json = groupJson.getJSONObject(i)
-
-                    if(json.getString("group_id") == group_id) {
-                        groupName = json.getString("group_name")
-                    }
-                }
-            }
-            groupNameThread.start()
-            groupNameThread.join()
-
-            // 속한 그룹으로
-            navHeaderBinding.userLocation.text = groupName
-
             // 여기에 활성화 하고싶은 요소만 View.VISIBLE 로
             when (destination.id) {
                 // 홈 프래그먼트
                 R.id.nav_home -> {
-                    actionbarView.actionBarTitle.text = groupName
+                    // 그룹 이름 변경
+                    setGroupName(actionbarView.actionBarTitle).start()
                     actionbarView.actionBarTitle.visibility = View.VISIBLE
                     actionbarView.searchIconButton.visibility = View.VISIBLE
                     actionbarView.mainTitleLayout.visibility = View.VISIBLE
@@ -138,6 +119,29 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+
+    // 유저 아이디로 그룹이름 가져오기
+    fun setGroupName(textView: TextView): Thread  {
+        return Thread {
+            val userdataJson = Request.reqget("${Request.REQUSET_URL}/email/${GoogleLoginData.email}") ?: JSONArray()
+            val group_id = userdataJson.getJSONObject(0).getString("group_id")
+
+            val groupJson = Request.reqget("${Request.REQUSET_URL}/group") ?: JSONArray()
+
+            for (i in 0..< groupJson.length()) {
+                val json = groupJson.getJSONObject(i)
+
+                if(json.getString("group_id") == group_id) {
+                    groupName = json.getString("group_name")
+
+                    runOnUiThread {
+                        textView.text = groupName
+                    }
+                    return@Thread
+                }
+            }
+        }
+    }
 
     // 키보드 이외에 다른요소 선택시 키보드 닫치게
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
