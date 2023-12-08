@@ -32,6 +32,7 @@ class SearchPartyAdapter(val data: MutableList<MutableMap<String, String>>) :
                 intent.putExtra(SearchPartyItemId.party_location.name, partylocation)
                 intent.putExtra(SearchPartyItemId.party_location_id.name, partylocationid)
                 intent.putExtra(SearchPartyItemId.party_id.name, partyid)
+                intent.putExtra("join", true)
                 context.startActivity(intent)
             }
 

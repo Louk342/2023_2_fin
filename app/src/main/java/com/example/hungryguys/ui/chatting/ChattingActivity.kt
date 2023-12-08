@@ -177,14 +177,15 @@ class ChattingActivity : AppCompatActivity() {
                 val userJson = Request.reqget("${Request.REQUSET_URL}/partyUser/${partyid}")!!
                 val restaurantdata = Request.reqget("${Request.REQUSET_URL}/getStore/${partylocationid}")!!
 
-                if (userJson.length() == 0) {
+                if (userJson.length() == 0 || intent.getBooleanExtra("join", false)) {
                     val user = "${GoogleLoginData.name} (나)"
                     val data = mutableMapOf(
                         ChatItem.User_Name.name to user
                     )
                     navuserdb.add(data)
+                }
 
-                } else {
+                if (userJson.length() != 0) {
                     for (i in 0..<userJson.length()) {
                         var user = userJson.getJSONObject(i).getString("user_name")
 
