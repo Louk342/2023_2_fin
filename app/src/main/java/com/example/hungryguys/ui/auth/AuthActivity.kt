@@ -22,6 +22,7 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.GoogleAuthProvider
 import org.json.JSONArray
+import org.json.JSONObject
 
 class AuthActivity : AppCompatActivity() {
     lateinit var binding: ActivityAuthBinding
@@ -64,21 +65,29 @@ class AuthActivity : AppCompatActivity() {
                                 userdataThread.start()
                                 userdataThread.join()
 
-                                if(action == "join") {
-                                    // TODO: 회원가입 api 작성
-                                    Log.d("회원가입 유무", "회원가입 해야해요")
-                                }
+                                val registerThread = Thread {
+                                    if(action == "join") {
+                                        // TODO: 회원가입 api 작성
+                                        val outputjson = JSONObject()
+                                        outputjson.put("user_name", GoogleLoginData.name.toString())
+                                        outputjson.put("email", GoogleLoginData.email.toString())
 
-                                val groupThread = Thread {
-                                    val groupJson =
-                                        Request.reqget("${Request.REQUSET_URL}/email/${GoogleLoginData.email}")
-                                            ?: JSONArray()
-                                    if(groupJson.getJSONObject(0).getString("group_id") == "null") {
-                                        action = "register"
+                                        Log.d("데이터들", outputjson.toString())
+
+                                        Request.reqpost(
+                                            "${Request.REQUSET_URL}/register",
+                                            outputjson
+                                        )
                                     }
+                                        val groupJson =
+                                            Request.reqget("${Request.REQUSET_URL}/email/${GoogleLoginData.email}")
+                                                ?: JSONArray()
+                                        if(groupJson.getJSONObject(0).getString("group_id") == "null") {
+                                            action = "register"
+                                        }
                                 }
-                                groupThread.start()
-                                groupThread.join()
+                                registerThread.start()
+                                registerThread.join()
 
                                 if(action == "register") {
                                     val intent = Intent(applicationContext, RegisterGroupActivity::class.java)

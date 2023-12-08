@@ -13,6 +13,8 @@ import com.example.hungryguys.databinding.DialogCencalBinding
 import com.example.hungryguys.databinding.DialogLogoutBinding
 import com.example.hungryguys.ui.auth.AuthActivity
 import com.example.hungryguys.utills.GoogleLoginData
+import com.example.hungryguys.utills.Request
+import org.json.JSONArray
 
 // 로그아웃, 회원탈퇴 다이얼로그
 class MypageDialog : DialogFragment() {
@@ -51,6 +53,21 @@ class MypageDialog : DialogFragment() {
 
             binding.buttonOk.setOnClickListener {
                 // TODO: db에서 회원 탈퇴 처리하는 작업필요
+                var userId = ""
+                val userdataThread = Thread {
+                    val userdataJson =
+                        Request.reqget("${Request.REQUSET_URL}/email/${GoogleLoginData.email}")
+                            ?: JSONArray()
+                    userId = userdataJson.getJSONObject(0).getString("user_id")
+                }
+                userdataThread.start()
+                userdataThread.join()
+
+                val deleteuserThread = Thread {
+                    Request.reqget("${Request.REQUSET_URL}/deleteUser/${userId}")
+                }
+                deleteuserThread.start()
+                deleteuserThread.join()
 
                 GoogleLoginData.auth.signOut()
                 GoogleLoginData.email = null
