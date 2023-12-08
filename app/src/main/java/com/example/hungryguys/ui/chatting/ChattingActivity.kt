@@ -119,7 +119,6 @@ class ChattingActivity : AppCompatActivity() {
 
         if (partyid == "first") {
             val thread = Thread {
-                // TODO: 아니 이거 생성하고 파티 id 값을 못 얻는데 어케하라는거
                 val userjson = Request.reqget("${Request.REQUSET_URL}/email/${GoogleLoginData.email}")?.getJSONObject(0)!!
                 val userid = userjson.getString("user_id")
                 val groupid = userjson.getString("group_id")
@@ -175,7 +174,6 @@ class ChattingActivity : AppCompatActivity() {
 
                 // 파티 접속시
             } else {
-
                 val userJson = Request.reqget("${Request.REQUSET_URL}/partyUser/${partyid}")!!
                 val restaurantdata = Request.reqget("${Request.REQUSET_URL}/getStore/${partylocationid}")!!
                 for (i in 0..<userJson.length()) {
@@ -191,7 +189,9 @@ class ChattingActivity : AppCompatActivity() {
 
                 runOnUiThread {
                     // 유저 수 설정
-                    binding.userCount.text = navrecyclerAdapter.data.size.toString()
+                    val usercount =  navrecyclerAdapter.data.size+1
+
+                    binding.userCount.text = usercount.toString()
 
                     // 드로어 식당 이미지 설정
                     val imageurl = restaurantdata.getJSONObject(0).getString("img")

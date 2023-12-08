@@ -26,8 +26,10 @@ enum class MypageChatItemId {
     room_id,
     /** 채팅방 이름 */
     room_title,
-    /** 마지막 채팅 */
-    last_chat,
+    /** 식당이름 */
+    restaurant_name,
+    /** 식당아이디  */
+    restaurant_id,
     /** 접속자 수 */
     connect_people,
     /** 마지막 채팅 시간 */
@@ -99,8 +101,11 @@ class MypageFragment : Fragment() {
 
             for (i in 0..<partyJson.length()) {
                 val partyId = partyJson.getJSONObject(i).getString("party_id")
+                val storeid = partyJson.getJSONObject(i).getString("store_id")
+
                 val partyName = partyJson.getJSONObject(i).getString("party_name")
                 val partyuserJson = Request.reqget("${Request.REQUSET_URL}/partyUser/${partyId}") ?: JSONArray()
+                val storename = Request.reqget("${Request.REQUSET_URL}/getStore/${storeid}")?.getJSONObject(0)?.getString("store_name")!!
 
                 var count = 0
                 for (i in 0..<partyuserJson.length()) {
@@ -111,7 +116,8 @@ class MypageFragment : Fragment() {
                         val data1 = mutableMapOf(
                             MypageChatItemId.room_id.name to partyId,
                             MypageChatItemId.room_title.name to partyName,
-                            MypageChatItemId.last_chat.name to "채팅",
+                            MypageChatItemId.restaurant_name.name to storename,
+                            MypageChatItemId.restaurant_id.name to storeid,
                             MypageChatItemId.connect_people.name to count.toString(),
                             MypageChatItemId.last_chat_time.name to "시간"
                         )

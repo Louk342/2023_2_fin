@@ -1,13 +1,15 @@
 package com.example.hungryguys.ui.mypage
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hungryguys.databinding.FragmentMypageBinding
 import com.example.hungryguys.databinding.MypageChatItemBinding
+import com.example.hungryguys.ui.chatting.ChattingActivity
+import com.example.hungryguys.ui.searchparty.SearchPartyItemId
 
 class MypageAdapter(
     val data: MutableList<MutableMap<String, String>>,
@@ -15,13 +17,27 @@ class MypageAdapter(
 ) :
     RecyclerView.Adapter<MypageAdapter.MypageHolder>() {
 
-    class MypageHolder(val binding: MypageChatItemBinding, private val context: Context) :
+    class MypageHolder(
+        val binding: MypageChatItemBinding,
+        private val context: Context,
+        val data: MutableList<MutableMap<String, String>>
+    ) :
         RecyclerView.ViewHolder(binding.root) {
 
         // 리사이클러뷰 이벤트 처리
         fun recyclerevent(position: Int) {
+            val roomid = data[position][MypageChatItemId.room_id.name]!!
+            val roomtitle = data[position][MypageChatItemId.room_title.name]!!
+            val restaurantname = data[position][MypageChatItemId.restaurant_name.name]!!
+            val restaurantid = data[position][MypageChatItemId.restaurant_id.name]!!
+
             binding.root.setOnClickListener {
-                Toast.makeText(context, "채팅방 $position 클릭", Toast.LENGTH_SHORT).show()
+                val intent = Intent(context, ChattingActivity::class.java)
+                intent.putExtra(SearchPartyItemId.party_name.name, roomtitle)
+                intent.putExtra(SearchPartyItemId.party_location.name, restaurantname)
+                intent.putExtra(SearchPartyItemId.party_location_id.name, restaurantid)
+                intent.putExtra(SearchPartyItemId.party_id.name, roomid)
+                context.startActivity(intent)
             }
         }
     }
@@ -30,7 +46,7 @@ class MypageAdapter(
         val binding =
             MypageChatItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 
-        return MypageHolder(binding, parent.context)
+        return MypageHolder(binding, parent.context, data)
     }
 
     override fun getItemCount(): Int {
@@ -38,20 +54,19 @@ class MypageAdapter(
     }
 
     override fun onBindViewHolder(holder: MypageHolder, position: Int) {
-        val roomid = data[position][MypageChatItemId.room_id.name]!!
         val roomtitle = data[position][MypageChatItemId.room_title.name]!!
-        val lastchat = data[position][MypageChatItemId.last_chat.name]!!
+        val restaurantname = data[position][MypageChatItemId.restaurant_name.name]!!
         val connectpeople = data[position][MypageChatItemId.connect_people.name]!!
         val lastchattime = data[position][MypageChatItemId.last_chat_time.name]!!
 
         holder.binding.apply {
             roomTitle.text = roomtitle
-            lastChat.text = lastchat
+            restaurantName.text = restaurantname
             connectPeople.text = connectpeople
             lastChatTime.text = lastchattime
         }
 
-        holder.recyclerevent(roomid.toInt())
+        holder.recyclerevent(position)
     }
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
