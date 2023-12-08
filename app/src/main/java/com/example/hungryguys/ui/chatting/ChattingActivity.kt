@@ -176,22 +176,31 @@ class ChattingActivity : AppCompatActivity() {
             } else {
                 val userJson = Request.reqget("${Request.REQUSET_URL}/partyUser/${partyid}")!!
                 val restaurantdata = Request.reqget("${Request.REQUSET_URL}/getStore/${partylocationid}")!!
-                for (i in 0..<userJson.length()) {
-                    var user = userJson.getJSONObject(i).getString("user_name")
 
-                    if (user == GoogleLoginData.name) user = "$user (나)"
-
+                if (userJson.length() == 0) {
+                    val user = "${GoogleLoginData.name} (나)"
                     val data = mutableMapOf(
                         ChatItem.User_Name.name to user
                     )
                     navuserdb.add(data)
+
+                } else {
+                    for (i in 0..<userJson.length()) {
+                        var user = userJson.getJSONObject(i).getString("user_name")
+
+                        if (user == GoogleLoginData.name) user = "$user (나)"
+
+                        val data = mutableMapOf(
+                            ChatItem.User_Name.name to user
+                        )
+                        navuserdb.add(data)
+                    }
                 }
 
                 runOnUiThread {
                     // 유저 수 설정
-                    val usercount =  navrecyclerAdapter.data.size+1
-
-                    binding.userCount.text = usercount.toString()
+                    val usercount =  navrecyclerAdapter.data.size.toString()
+                    binding.userCount.text = usercount
 
                     // 드로어 식당 이미지 설정
                     val imageurl = restaurantdata.getJSONObject(0).getString("img")
