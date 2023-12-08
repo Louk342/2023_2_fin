@@ -118,7 +118,6 @@ class ChattingActivity : AppCompatActivity() {
         partyid = intent.getStringExtra(SearchPartyItemId.party_id.name)!!
 
         if (partyid == "first") {
-            partyid = "1"
             val thread = Thread {
                 // TODO: 아니 이거 생성하고 파티 id 값을 못 얻는데 어케하라는거
                 val userjson = Request.reqget("${Request.REQUSET_URL}/email/${GoogleLoginData.email}")?.getJSONObject(0)!!
@@ -153,28 +152,53 @@ class ChattingActivity : AppCompatActivity() {
         navView.restaurantName.text = partylocation
 
         Thread {
-            val userJson = Request.reqget("${Request.REQUSET_URL}/partyUser/${partyid}")!!
-            val restaurantdata = Request.reqget("${Request.REQUSET_URL}/getStore/${partylocationid}")!!
-            for (i in 0..<userJson.length()) {
-                var user = userJson.getJSONObject(i).getString("user_name")
-
-                if (user == GoogleLoginData.name) user = "$user (나)"
+            // 파티 생성시
+            if (partyid == "first") {
+                val restaurantdata = Request.reqget("${Request.REQUSET_URL}/getStore/${partylocationid}")!!
+                val username = "${GoogleLoginData.name} (나)"
 
                 val data = mutableMapOf(
-                    ChatItem.User_Name.name to user
+                    ChatItem.User_Name.name to username
                 )
                 navuserdb.add(data)
-            }
 
-            runOnUiThread {
-                // 유저 수 설정
-                binding.userCount.text = navrecyclerAdapter.data.size.toString()
+                runOnUiThread {
+                    // 유저 수 설정
+                    binding.userCount.text = navrecyclerAdapter.data.size.toString()
 
-                // 드로어 식당 이미지 설정
-                val imageurl = restaurantdata.getJSONObject(0).getString("img")
-                activityUtills.setWebImg(binding.navViewLayout.restaurantImage, imageurl).start()
+                    // 드로어 식당 이미지 설정
+                    val imageurl = restaurantdata.getJSONObject(0).getString("img")
+                    activityUtills.setWebImg(binding.navViewLayout.restaurantImage, imageurl).start()
 
-                navrecyclerAdapter.notifyDataSetChanged()
+                    navrecyclerAdapter.notifyDataSetChanged()
+                }
+
+                // 파티 접속시
+            } else {
+
+                val userJson = Request.reqget("${Request.REQUSET_URL}/partyUser/${partyid}")!!
+                val restaurantdata = Request.reqget("${Request.REQUSET_URL}/getStore/${partylocationid}")!!
+                for (i in 0..<userJson.length()) {
+                    var user = userJson.getJSONObject(i).getString("user_name")
+
+                    if (user == GoogleLoginData.name) user = "$user (나)"
+
+                    val data = mutableMapOf(
+                        ChatItem.User_Name.name to user
+                    )
+                    navuserdb.add(data)
+                }
+
+                runOnUiThread {
+                    // 유저 수 설정
+                    binding.userCount.text = navrecyclerAdapter.data.size.toString()
+
+                    // 드로어 식당 이미지 설정
+                    val imageurl = restaurantdata.getJSONObject(0).getString("img")
+                    activityUtills.setWebImg(binding.navViewLayout.restaurantImage, imageurl).start()
+
+                    navrecyclerAdapter.notifyDataSetChanged()
+                }
             }
         }.start()
 
