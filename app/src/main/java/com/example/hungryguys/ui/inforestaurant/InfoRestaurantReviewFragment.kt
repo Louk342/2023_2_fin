@@ -1,5 +1,6 @@
 package com.example.hungryguys.ui.inforestaurant
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,7 +9,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hungryguys.databinding.FragmentInfoRestaurantReviewBinding
 import com.example.hungryguys.utills.Request
-import com.google.android.gms.maps.model.LatLng
 import org.json.JSONArray
 
 enum class InfoReviewItem {
@@ -23,16 +23,27 @@ enum class InfoReviewItem {
 class InfoRestaurantReviewFragment : Fragment() {
     lateinit var recyclerAdapter: InfoRestaurantTabAdapter
     lateinit var recyclerView: RecyclerView
+    lateinit var dbdata: MutableList<MutableMap<String, String>>
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         val binding = FragmentInfoRestaurantReviewBinding.inflate(inflater, container, false)
         val selectid =  (activity as InfoRestaurantActivity).restaurantid   //현재 선택된 아이템
-        val dbdata: MutableList<MutableMap<String, String>> = mutableListOf()
+        dbdata = mutableListOf()
 
-        val reviewThread = Thread {
+        recyclerView = binding.inforeviewRecycler
+        recyclerAdapter = InfoRestaurantTabAdapter(dbdata, "review", requireActivity())
+        recyclerView.adapter = recyclerAdapter
+
+        binding.fab.setOnClickListener {
+            InfoRestaurantReviewDialog().show(requireActivity().supportFragmentManager, "리뷰작성")
+        }
+
+        // 리뷰 데이터 불러오기
+        Thread {
             val reivewJson = Request.reqget("${Request.REQUSET_URL}/review/${selectid}") ?: JSONArray()
 
             for (i in 0..<reivewJson.length()) {
@@ -45,17 +56,11 @@ class InfoRestaurantReviewFragment : Fragment() {
                 )
                 dbdata.add(data)
             }
-        }
-        reviewThread.start()
-        reviewThread.join()
 
-        binding.fab.setOnClickListener {
-            InfoRestaurantReviewDialog().show(requireActivity().supportFragmentManager, "리뷰작성")
-        }
-
-        recyclerView = binding.inforeviewRecycler
-        recyclerAdapter = InfoRestaurantTabAdapter(dbdata, "review", requireActivity())
-        recyclerView.adapter = recyclerAdapter
+            activity?.runOnUiThread {
+                recyclerAdapter.notifyDataSetChanged()
+            }
+        }.start()
 
         return binding.root
     }
