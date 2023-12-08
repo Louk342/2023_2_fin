@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Looper
+import android.util.Log
 import android.view.MenuItem
 import android.widget.Toast
 import com.example.hungryguys.MainActivity
@@ -90,24 +91,22 @@ class RegisterGroupActivity : AppCompatActivity(), OnMapReadyCallback {
                             userdataThread.start()
                             userdataThread.join()
 
-                            val registerThread = Thread {
-                                val outputjson = JSONObject() // JSON 생성
-                                outputjson.put("user_id", userId)
-                                outputjson.put("group_id", it[GroupItem.group_id.name])
+                            Log.d("그룹아이디 확인", it[GroupItem.group_id.name].toString())
 
-                                Request.reqpost("${Request.REQUSET_URL}/setGroup", outputjson)
-                                //val registerJson = Request.reqget("${Request.REQUSET_URL}/setGroup/${userId}/${it[GroupItem.group_id.name]}") ?: JSONArray()
-                            }
-                            registerThread.start()
-                            registerThread.join()
+                            Thread {
+                                Request.reqget("${Request.REQUSET_URL}/setGroup/${userId}/${it[GroupItem.group_id.name].toString()}")
+                            }.start()
                         }
                     }
                     if(type == "change") {
                         val intent = Intent()
                         setResult(RESULT_OK, intent)
+                        finish()
                     }
-                    if(type == "register") startActivity(Intent(applicationContext, MainActivity::class.java))
-                    finish()
+                    if(type == "register") {
+                        startActivity(Intent(applicationContext, MainActivity::class.java))
+                        finish()
+                    }
                 }
             }
         }
